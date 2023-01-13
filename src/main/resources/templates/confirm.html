@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>BTO</title>
+</head>
+<body>
+	<h3>以下の内容で登録します。</h3>
+	氏名：[[${user.name}]]<br>
+	E-Mail：[[${user.email}]]<br>
+	パスワード：[[${user.password}]]<br>
+	
+	<form th:action="@{/}" method="get">
+		<button>
+    		決定
+		</button>
+	</form>
+	
+	<br>
+	
+	<form th:action="@{/register}" method="get">
+		<button>
+    		戻る
+		</button>
+	</form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>BTO</title>
+</head>
+<body>
+	<h3>新規登録</h3>
+	
+	<form th:action="@{/confirm}" th:object="${user}" method="post">
+		<label for="name">名前：</label>
+		<input type="text" th:field="*{name}"><br>
+		
+		<label for="email">E-Mail：</label>
+		<input type="email" th:field="*{email}"><br>
+		
+		<label for="password">パスワード：</label>
+		<input type="password" th:field="*{password}"><br>
+		
+		<button>
+    		送信
+		</button>
+	</form>
+</body>
+</html>

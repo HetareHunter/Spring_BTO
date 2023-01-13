@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>check</title>
+<title>BTO</title>
 </head>
 <body>
 	<table>
@@ -21,5 +21,11 @@
 			<td th:text="${list.state}"></td>
 		</tr>
 	</table>
+	
+	<form th:action="@{/register}" method="get">
+		<button>
+    		新規登録
+		</button>
+	</form>
 </body>
 </html>

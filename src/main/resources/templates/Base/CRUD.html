@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+    {% extends 'crud/base.html' %}
+
+    {% block content %}
+
+    <h1>商品一覧</h1>
+
+    <a href="{% url 'crud:new' %}">新規登録</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <td>商品名</td>
+                <td>価格</td>
+                <td></td>
+            </tr>
+        </thead>
+        {% for product in object_list %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} 円</td>
+            <td>
+                <a href="{% url 'crud:edit' pk=product.pk %}">編集</a>
+                <a href="{% url 'crud:delete' pk=product.pk %}">削除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {# ページの表示 #}
+    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} ページ<br>
+
+    {# 前へ #}
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; 先頭</a>
+    <a href="?page={{ page_obj.previous_page_number }}">前へ</a>
+    {% endif %}
+
+    {# 次へ #}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">次へ</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">最後 &raquo;</a>
+    {% endif %}
+
+    {% endblock %}
+</body>
+
+</html>
