@@ -8,15 +8,21 @@
 	<h3>新規登録</h3>
 	
 	<form th:action="@{/confirm}" th:object="${user}" method="post">
+		<input type="hidden" th:field="*{id}">
+	
 		<label for="name">名前：</label>
 		<input type="text" th:field="*{name}"><br>
 		
 		<label for="email">E-Mail：</label>
 		<input type="email" th:field="*{email}"><br>
 		
+		<label for="state">ステータス：</label>
+		<input type="text" th:field="*{state}"><br>
+		
 		<label for="password">パスワード：</label>
 		<input type="password" th:field="*{password}"><br>
 		
+		<!--  <a th:href="@{/confirm/{id}{id=*{id}}}"></a> -->
 		<button>
     		送信
 		</button>

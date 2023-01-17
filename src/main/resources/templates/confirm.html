@@ -8,9 +8,10 @@
 	<h3>以下の内容で登録します。</h3>
 	氏名：[[${user.name}]]<br>
 	E-Mail：[[${user.email}]]<br>
+	ステータス：[[${user.state}]]<br>
 	パスワード：[[${user.password}]]<br>
 	
-	<form th:action="@{/}" method="get">
+	<form th:action="@{/index}" method="post">
 		<button>
     		決定
 		</button>
