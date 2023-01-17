@@ -24,7 +24,13 @@
 					<button>
 						編集
 					</button>
-			</form>
+				</form>
+				
+				<form th:action="@{/delete/{id}(id=*{id})}" method="get">
+					<button>
+						削除
+					</button>
+				</form>
 			</td>
 			
 		</tr>

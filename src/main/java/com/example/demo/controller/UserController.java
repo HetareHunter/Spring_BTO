@@ -55,6 +55,13 @@ public class UserController
 		return "register";
 	}
 
+	@GetMapping("/delete/{id}")
+	public String DeleteUser(@PathVariable Long id)
+	{
+		userMngRepository.deleteById(id);
+		return "redirect:/";
+	}
+
 	@PostMapping("/confirm")
 	public String confirm(@Validated @ModelAttribute User user, Model model, BindingResult result)
 	{
