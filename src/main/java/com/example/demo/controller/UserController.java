@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.User;
@@ -43,7 +44,14 @@ public class UserController
 	@GetMapping("/register")
 	public String register(@ModelAttribute User user, Model model)
 	{
-		//model.addAttribute("id", userMngRepository.findById(id));
+		// model.addAttribute("id", userMngRepository.findById(id));
+		return "register";
+	}
+
+	@GetMapping("/register/{id}")
+	public String editUser(@PathVariable Long id, Model model)
+	{
+		model.addAttribute("user", userMngRepository.findById(id));
 		return "register";
 	}
 
@@ -54,9 +62,7 @@ public class UserController
 		{
 			return "register";
 		}
-		System.out.println("新たなユーザーは・・・"+user.getId() +" " +user.getName());
 		userMngRepository.save(user);
-		System.out.println("新たなユーザーが登録された");
 		return "confirm";
 	}
 
