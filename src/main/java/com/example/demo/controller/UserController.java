@@ -69,7 +69,7 @@ public class UserController
 		{
 			return "register";
 		}
-		userMngRepository.save(user);
+		userMngRepository.save(user);//現状の問題点。ここで更新するとその回数分同じデータが登録されてしまっている。このページを開いた時点でデータベースに書き込まれてしまっている
 		return "confirm";
 	}
 
