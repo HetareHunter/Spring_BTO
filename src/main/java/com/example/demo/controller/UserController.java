@@ -63,7 +63,7 @@ public class UserController
 	}
 
 	@PostMapping("/confirm")
-	public String confirm(@Validated @ModelAttribute User user, Model model, BindingResult result)
+	public String confirm(@Validated @ModelAttribute User user, BindingResult result)
 	{
 		if (result.hasErrors())
 		{

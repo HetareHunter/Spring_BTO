@@ -25,10 +25,12 @@ public class User
 	@Column(name = "ID")
 	private Long id;
 	
+	@NotBlank
 	@Size(min = 2, max = 20)
 	@Column(name = "NAME")
 	private String name;
 	
+	@NotBlank
 	@Size(min = 4, max = 255)
 	@Column(name = "PASSWORD")
 	private String password;
@@ -38,6 +40,7 @@ public class User
 	@Column(name = "EMAIL")
 	private String email;
 	
+	@NotBlank
 	@Column(name = "STATE")
 	private String state;
 }
