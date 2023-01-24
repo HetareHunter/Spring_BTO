@@ -34,13 +34,13 @@
 					<table class="table">
 						<tr>
 							<td>
-								<form th:action="@{/index}" method="post">
+								<form th:action="@{/complete}" th:object="${user}" method="post">
 									<button class="btn btn-primary btn-wide" type="submit" th:text="登録"></button>
 								</form>
 							</td>
 							
 							<td>
-								<form th:action="@{/register}" method="get">
+								<form th:action="@{/register}" th:object="${user}" method="get">
 									<button class="btn btn-secondary btn-wide" type="submit" th:text="戻る"></button>
 								</form>
 							</td>

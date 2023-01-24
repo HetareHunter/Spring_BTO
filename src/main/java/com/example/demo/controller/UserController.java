@@ -20,6 +20,9 @@ public class UserController
 	@Autowired
 	private UserMngRepository userMngRepository;
 
+	private String editHeadline = "";
+	private User conUser = new User();
+
 	public UserController(UserMngRepository repository)
 	{
 		this.userMngRepository = repository;
@@ -35,7 +38,9 @@ public class UserController
 	@GetMapping("/register")
 	public String register(@ModelAttribute User user, Model model)
 	{
-		model.addAttribute("headline", "新規登録");
+		editHeadline = "新規登録";
+		model.addAttribute("headline", editHeadline);
+		conUser.setName(user.getName());
 		return "register";
 	}
 
@@ -43,7 +48,8 @@ public class UserController
 	public String editUser(@PathVariable Long id, Model model)
 	{
 		model.addAttribute("user", userMngRepository.findById(id));
-		model.addAttribute("headline", "ユーザー情報編集");
+		editHeadline = "ユーザー情報編集";
+		model.addAttribute("headline", editHeadline);
 		return "register";
 	}
 
@@ -51,22 +57,42 @@ public class UserController
 	public String DeleteUser(@PathVariable Long id)
 	{
 		userMngRepository.deleteById(id);
-		return "redirect:/";
+		return "redirect:/index";
 	}
 
 	@PostMapping("/confirm")
-	public String confirm(@Validated @ModelAttribute User user, BindingResult result)
+	public String confirm(@Validated @ModelAttribute User user, BindingResult result, Model model)
 	{
+		conUser = user;
+		System.out.println(conUser.getName());
+
 		if (result.hasErrors())
 		{
+			model.addAttribute("headline", editHeadline);
 			return "register";
 		}
-		userMngRepository.save(user);//現状の問題点。ここで更新するとその回数分同じデータが登録されてしまっている。このページを開いた時点でデータベースに書き込まれてしまっている
+		// userMngRepository.save(user);//現状の問題点。ここで更新するとその回数分同じデータが登録されてしまっている。このページを開いた時点でデータベースに書き込まれてしまっている
 		return "confirm";
 	}
 
+	@PostMapping("/complete")
+	public String complete()
+	{
+		System.out.println(conUser.getName() + " を登録する");
+		userMngRepository.save(conUser);
+		System.out.println("データに登録された");
+		return "redirect:/index";
+	}
+
+	@GetMapping("/index")
+	public String getindex(@ModelAttribute User user, Model model)
+	{
+		model.addAttribute("userList", userMngRepository.findAll());
+		return "index";
+	}
+
 	@PostMapping("/index")
-	public String index(Model model)
+	public String postindex(@ModelAttribute User user, Model model)
 	{
 		model.addAttribute("userList", userMngRepository.findAll());
 		return "index";
