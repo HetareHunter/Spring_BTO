@@ -17,17 +17,8 @@ import com.example.demo.repository.UserMngRepository;
 //@RequiredArgsConstructor
 public class UserController
 {
-	// private final UserRepository userRepository;
 	@Autowired
 	private UserMngRepository userMngRepository;
-
-//	@GetMapping("/")
-//	public String write1(Model model)
-//	{
-//		List<User> list = userRepository.getAll();
-//		model.addAttribute("userList", list);
-//		return "index";
-//	}
 
 	public UserController(UserMngRepository repository)
 	{
@@ -44,7 +35,7 @@ public class UserController
 	@GetMapping("/register")
 	public String register(@ModelAttribute User user, Model model)
 	{
-		// model.addAttribute("id", userMngRepository.findById(id));
+		model.addAttribute("headline", "新規登録");
 		return "register";
 	}
 
@@ -52,6 +43,7 @@ public class UserController
 	public String editUser(@PathVariable Long id, Model model)
 	{
 		model.addAttribute("user", userMngRepository.findById(id));
+		model.addAttribute("headline", "ユーザー情報編集");
 		return "register";
 	}
 

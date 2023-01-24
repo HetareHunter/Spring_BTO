@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
-				<h3 class="border-bottom my-3" th:text="新規登録"></h3>
+				<h3 class="border-bottom my-3" th:text="${headline}"></h3>
 				<div class="mb-3">
 					<form th:action="@{/confirm}" th:object="${user}" method="post">
 						<input type="hidden" th:field="*{id}">
