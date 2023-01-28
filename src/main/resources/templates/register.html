@@ -17,22 +17,30 @@
 					
 						<div class="mb-3">
 							<label for="name">名前：</label>
-							<input type="text" th:field="*{name}" class="form-control"><br>
+							<input type="text" th:field="*{name}" class="form-control" th:errorclass="is-invalid"><br>
+							<div class="invalid-feedback" th:errors="*{name}">
+							</div>
 						</div>
 						
 						<div class="mb-3">
 							<label for="email">E-Mail：</label>
-							<input type="email" th:field="*{email}" class="form-control"><br>
+							<input type="email" th:field="*{email}" class="form-control" th:errorclass="is-invalid"><br>
+							<div class="invalid-feedback" th:errors="*{email}">
+							</div>
 						</div>
 						
 						<div class="mb-3">
 							<label for="state">ステータス：</label>
-							<input type="text" th:field="*{state}" class="form-control"><br>
+							<input type="text" th:field="*{state}" class="form-control" th:errorclass="is-invalid"><br>
+							<div class="invalid-feedback" th:errors="*{state}">
+							</div>
 						</div>
 						
 						<div class="mb-3">
 							<label for="password">パスワード：</label>
-							<input type="password" th:field="*{password}" class="form-control"><br>
+							<input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid"><br>
+							<div class="invalid-feedback" th:errors="*{state}">
+							</div>
 						</div>
 						<button class="w-25 btn btn-primary" type="submit" th:text="送信"></button>
 					</form>
