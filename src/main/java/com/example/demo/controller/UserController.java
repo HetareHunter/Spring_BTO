@@ -28,11 +28,17 @@ public class UserController
 	}
 
 	@GetMapping("/")
-	public String getAllUsers(Model model)
-	{
-		model.addAttribute("userList", userMngRepository.findAll());
-		return "index";
-	}
+	public String mainSite(Model model)
+ 	{;
+		return "Auth/success";
+ 	}
+	
+//	@GetMapping("/")
+//	public String getAllUsers(Model model)
+//	{
+//		model.addAttribute("userList", userMngRepository.findAll());
+//		return "index";
+//	}
 
 	@GetMapping("/register")
 	public String register(@ModelAttribute User user, Model model)
