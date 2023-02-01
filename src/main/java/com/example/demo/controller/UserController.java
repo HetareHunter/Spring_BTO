@@ -83,14 +83,14 @@ public class UserController
 	}
 
 	@GetMapping("/index")
-	public String getindex(@ModelAttribute User user, Model model)
+	public String getindex(Model model)
 	{
 		model.addAttribute("userList", userMngRepository.findAll());
 		return "index";
 	}
 
 	@PostMapping("/index")
-	public String postindex(@ModelAttribute User user, Model model)
+	public String postindex(Model model)
 	{
 		model.addAttribute("userList", userMngRepository.findAll());
 		return "index";
