@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.validator.UniqueLogin;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,11 +33,6 @@ public class User
 	private String name;
 	
 	@NotBlank
-	@Size(min = 4, max = 255)
-	@Column(name = "PASSWORD")
-	private String password;
-	
-	@NotBlank
 	@Email
 	@Column(name = "EMAIL")
 	private String email;
@@ -43,4 +40,15 @@ public class User
 	@NotBlank
 	@Column(name = "STATE")
 	private String state;
+	
+	@NotBlank
+	@Size(min = 4, max = 255)
+	@UniqueLogin
+	@Column(name="USERID")
+	private String userID;
+	
+	@NotBlank
+	@Size(min = 4, max = 255)
+	@Column(name = "PASSWORD")
+	private String password;
 }

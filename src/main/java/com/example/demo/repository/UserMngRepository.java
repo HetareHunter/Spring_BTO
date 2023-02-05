@@ -9,4 +9,5 @@ import com.example.demo.model.User;
 public interface UserMngRepository extends JpaRepository<User, Long>
 {
 	Optional<User> findByName(String name);
+	Optional<User> findByUserID(String userID);
 }

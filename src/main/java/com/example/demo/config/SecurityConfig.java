@@ -57,12 +57,12 @@ public class SecurityConfig
 //				//権限を設定
 //				.authorities("USER").build();
 
-		return username -> {
+		return userID -> {
 			// ユーザー名を検索し、存在しない場合は例外を投げる
-			var user = userRepository.findByName(username)
-					.orElseThrow(() -> new UsernameNotFoundException(username + "not Found"));
+			var user = userRepository.findByUserID(userID)
+					.orElseThrow(() -> new UsernameNotFoundException(userID + "not Found"));
 
-			return new User(user.getName(), user.getPassword(), AuthorityUtils.createAuthorityList("ADMIN"));
+			return new User(user.getUserID(), user.getPassword(), AuthorityUtils.createAuthorityList("ADMIN"));
 		};
 		// メモリ内認証を使用
 		// return new InMemoryUserDetailsManager(user);

@@ -21,10 +21,11 @@ public class DataLoader implements ApplicationRunner
 	public void run(ApplicationArguments args) throws Exception
 	{
 		var user = new User();
-		user.setName("admin");
+		user.setName("管理者");
 		user.setEmail("admin@example");
-		user.setPassword(passwordEncoder.encode("password"));
 		user.setState("ADMIN");
+		user.setPassword(passwordEncoder.encode("password"));
+		user.setUserID("admin");
 
 		System.out.println(user.getName());
 		System.out.println(userMngRepository.findByName(user.getName()));

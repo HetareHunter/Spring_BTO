@@ -34,6 +34,12 @@
 						</div>
 						
 						<div class="mb-3">
+							<label for="userID" th:text="#{userID}"></label>
+							<input type="text" th:field="*{userID}" class="form-control" th:errorclass="is-invalid"><br>
+							<div class="invalid-feedback" th:errors="*{userID}"></div>
+						</div>
+						
+						<div class="mb-3">
 							<label for="password" th:text="#{password}"></label>
 							<input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid"><br>
 							<div class="invalid-feedback" th:errors="*{password}"></div>
