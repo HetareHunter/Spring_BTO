@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +29,19 @@ public class UserController
 	}
 
 	@GetMapping("/")
-	public String mainSite(Model model)
- 	{;
-		return "Auth/success";
+	public String mainSite(Authentication loginUser, Model model)
+ 	{
+		//System.out.println("メインサイト");
+//		model.addAttribute("username",loginUser.getName());
+//		model.addAttribute("authority",loginUser.getAuthorities());
+		model.addAttribute("userList", userMngRepository.findAll());
+		return "index";
  	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "Auth/login";
+	}
 	
 //	@GetMapping("/")
 //	public String getAllUsers(Model model)

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" th:remove="tag">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<title>BTO</title>
+	<title>Rental</title>
 </head>
 <body class="bg-light">
 	<div class="container">
@@ -38,6 +38,10 @@
 					
 					<form th:action="@{/register}" method="get">
 						<button class="w-25 btn btn-primary" type="submit" th:text="新規登録"></button>
+					</form>
+					<hr>
+					<form th:action="@{/logout}" method="post">
+						<button class="w-25 btn btn-secondary" type="submit" th:text="ログアウト"></button>
 					</form>
 				</div>
 			</div>
