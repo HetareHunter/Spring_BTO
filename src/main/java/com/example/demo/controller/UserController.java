@@ -35,7 +35,10 @@ public class UserController
 		// System.out.println("メインサイト");
 		model.addAttribute("username", loginUser.getName());
 		model.addAttribute("authority", loginUser.getAuthorities());
-		// model.addAttribute("userList", userRepository.findAll());
+//		if(loginUser.getAuthorities()==Authority.ADMIN) {
+//			
+//		}
+		model.addAttribute("userList", userRepository.findAll());
 		return "index";
 	}
 

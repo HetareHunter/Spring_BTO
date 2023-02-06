@@ -13,7 +13,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = UniqueLoginValidator.class)
 public @interface UniqueLogin
 {
-	String message() default"このユーザー名は既に登録されています。";
+	String message() default"このユーザーIDは既に登録されています。";
 	Class<?>[]groups()default{};
 	Class<? extends Payload>[] payload() default{};
 }

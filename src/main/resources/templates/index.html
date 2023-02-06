@@ -13,6 +13,7 @@
 				<h4 class="border-bottom my-3" th:text="ユーザー情報一覧"></h4>
 				<div class="mb-3">
 					<table class="table">
+						<p th:text="*{username}+でログインしています"></p>
 						<tr>
 							<th>名前</th>
 							<th>E-mail</th>
@@ -36,9 +37,9 @@
 						</tr>
 					</table>
 					
-					<form th:action="@{/register}" method="get">
+					<!-- <form th:action="@{/register}" method="get">
 						<button class="w-25 btn btn-primary" type="submit" th:text="新規登録"></button>
-					</form>
+					</form> -->
 					<hr>
 					<form th:action="@{/logout}" method="post">
 						<button class="w-25 btn btn-secondary" type="submit" th:text="ログアウト"></button>
