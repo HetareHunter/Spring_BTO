@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,40 +14,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserMngRepository;
+import com.example.demo.util.Authority;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class UserController
 {
 	@Autowired
-	private UserMngRepository userMngRepository;
+	private UserMngRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	private String editHeadline = "";
 	private User conUser = new User();
 
-	public UserController(UserMngRepository repository)
-	{
-		this.userMngRepository = repository;
-	}
-
 	@GetMapping("/")
 	public String mainSite(Authentication loginUser, Model model)
- 	{
-		//System.out.println("メインサイト");
-//		model.addAttribute("username",loginUser.getName());
-//		model.addAttribute("authority",loginUser.getAuthorities());
-		model.addAttribute("userList", userMngRepository.findAll());
+	{
+		// System.out.println("メインサイト");
+		model.addAttribute("username", loginUser.getName());
+		model.addAttribute("authority", loginUser.getAuthorities());
+		// model.addAttribute("userList", userRepository.findAll());
 		return "index";
- 	}
-	
+	}
+
+	@GetMapping("/admin/list")
+	public String showAdminList(Model model)
+	{
+		model.addAttribute("users", userRepository.findAll());
+		return "list";
+	}
+
 	@GetMapping("/login")
-	public String login() {
+	public String login()
+	{
 		return "Auth/login";
 	}
-	
+
 //	@GetMapping("/")
 //	public String getAllUsers(Model model)
 //	{
-//		model.addAttribute("userList", userMngRepository.findAll());
+//		model.addAttribute("userList", userRepository.findAll());
 //		return "index";
 //	}
 
@@ -62,16 +71,17 @@ public class UserController
 	@GetMapping("/register/{id}")
 	public String editUser(@PathVariable Long id, Model model)
 	{
-		model.addAttribute("user", userMngRepository.findById(id));
+		model.addAttribute("user", userRepository.findById(id));
 		editHeadline = "ユーザー情報編集";
 		model.addAttribute("headline", editHeadline);
 		return "register";
 	}
+	
 
 	@GetMapping("/delete/{id}")
 	public String DeleteUser(@PathVariable Long id)
 	{
-		userMngRepository.deleteById(id);
+		userRepository.deleteById(id);
 		return "redirect:/index";
 	}
 
@@ -86,6 +96,16 @@ public class UserController
 			model.addAttribute("headline", editHeadline);
 			return "register";
 		}
+
+		conUser.setPassword(passwordEncoder.encode(conUser.getPassword()));
+		if (conUser.isAdmin())
+		{
+			user.setAuthority(Authority.ADMIN);
+		} else
+		{
+			user.setAuthority(Authority.USER);
+		}
+
 		return "confirm";
 	}
 
@@ -93,22 +113,22 @@ public class UserController
 	public String complete()
 	{
 		System.out.println(conUser.getName() + " を登録する");
-		userMngRepository.save(conUser);
+		userRepository.save(conUser);
 		System.out.println("データに登録された");
-		return "redirect:/index";
+		return "redirect:Auth/login";
 	}
 
 	@GetMapping("/index")
 	public String getindex(Model model)
 	{
-		model.addAttribute("userList", userMngRepository.findAll());
+		model.addAttribute("userList", userRepository.findAll());
 		return "index";
 	}
 
 	@PostMapping("/index")
 	public String postindex(Model model)
 	{
-		model.addAttribute("userList", userMngRepository.findAll());
+		model.addAttribute("userList", userRepository.findAll());
 		return "index";
 	}
 }

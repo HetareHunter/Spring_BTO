@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.util.Authority;
 import com.example.demo.validator.UniqueLogin;
 
 import jakarta.persistence.Column;
@@ -37,9 +38,8 @@ public class User
 	@Column(name = "EMAIL")
 	private String email;
 	
-	@NotBlank
-	@Column(name = "STATE")
-	private String state;
+	@Column(name = "AUTHORITY")
+	private Authority authority;
 	
 	@NotBlank
 	@Size(min = 4, max = 255)
@@ -51,4 +51,6 @@ public class User
 	@Size(min = 4, max = 255)
 	@Column(name = "PASSWORD")
 	private String password;
+	
+	private boolean admin;
 }

@@ -4,16 +4,12 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.demo.repository.UserMngRepository;
+import com.example.demo.util.Authority;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class SecurityConfig
 {
-	private final UserMngRepository userRepository;
-
 	@Bean
 	public PasswordEncoder passwordEncoder()
 	{
@@ -36,35 +30,16 @@ public class SecurityConfig
 		// 認証リクエストの設定
 		http.authorizeHttpRequests(auth -> auth
 				// 認証の必要があるように設定
-				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().anyRequest()
-				.authenticated())
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+				.requestMatchers("/register","/login","/confirm","/complete").permitAll()
+				.requestMatchers("/admin.**").hasAuthority(Authority.ADMIN.name())
+				.anyRequest().authenticated())
 				// フォームベースの認証
 				.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
 				// ログアウトの設定
 				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
 				// Remember-Meの認証を許可する
-				.rememberMe();
+				.rememberMe().key("katsu");
 		return http.build();		
-	}
-
-	@Bean
-	public UserDetailsService userDetailsService()
-	{
-//		//"user"を作成
-//		UserDetails user = User.withUsername("user")
-//				//"password"をBCryptで暗号化
-//				.password(passwordEncoder().encode("password"))
-//				//権限を設定
-//				.authorities("USER").build();
-
-		return userID -> {
-			// ユーザー名を検索し、存在しない場合は例外を投げる
-			var user = userRepository.findByUserID(userID)
-					.orElseThrow(() -> new UsernameNotFoundException(userID + "not Found"));
-
-			return new User(user.getUserID(), user.getPassword(), AuthorityUtils.createAuthorityList("ADMIN"));
-		};
-		// メモリ内認証を使用
-		// return new InMemoryUserDetailsManager(user);
 	}
 }
