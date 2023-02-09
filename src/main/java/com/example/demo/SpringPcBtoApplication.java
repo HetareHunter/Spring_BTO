@@ -4,17 +4,15 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+//@Slf4j
 @RequiredArgsConstructor
 @SpringBootApplication
 public class SpringPcBtoApplication implements ApplicationRunner {
 
-	private final ApplicationContext appContext;
+	//private final ApplicationContext appContext;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringPcBtoApplication.class, args);
