@@ -33,6 +33,13 @@
 									<td>
 										<form th:action="@{/complete}" th:object="${user}"
 											method="post">
+											<input type="hidden" th:field="*{id}">
+											<input type="hidden" th:field="*{name}">
+											<input type="hidden" th:field="*{email}">
+											<input type="hidden" th:field="*{authority}">
+											<input type="hidden" th:field="*{userID}">
+											<input type="hidden" th:field="*{password}">
+											<input type="hidden" th:field="*{admin}">
 											<button class="btn btn-primary btn-wide" type="submit"
 												th:text="登録"></button>
 										</form>

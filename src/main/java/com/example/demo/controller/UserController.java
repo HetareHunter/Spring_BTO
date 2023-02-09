@@ -28,7 +28,6 @@ public class UserController
 	private final PasswordEncoder passwordEncoder;
 
 	private String editHeadline = "";
-	private User conUser = new User();
 	private ErrorUtil errorUtil = new ErrorUtil();
 
 	@GetMapping("/")
@@ -70,7 +69,7 @@ public class UserController
 	{
 		editHeadline = "新規登録";
 		model.addAttribute("headline", editHeadline);
-		conUser.setName(user.getName());
+		// conUser.setName(user.getName());
 		return "register";
 	}
 
@@ -94,17 +93,14 @@ public class UserController
 	@PostMapping("/confirm")
 	public String confirm(@Validated @ModelAttribute User user, BindingResult result, Model model)
 	{
-		conUser = user;
-		System.out.println(conUser.getName());
-
 		if (result.hasErrors())
 		{
 			model.addAttribute("headline", editHeadline);
 			return "register";
 		}
 
-		conUser.setPassword(passwordEncoder.encode(conUser.getPassword()));
-		if (conUser.isAdmin())
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if (user.isAdmin())
 		{
 			user.setAuthority(Authority.ADMIN);
 		} else
@@ -117,12 +113,9 @@ public class UserController
 	@PostMapping("/alterConfirm")
 	public String alterConfirm(@Validated @ModelAttribute User user, BindingResult result, Model model)
 	{
-		conUser = user;
-		System.out.println(conUser.getName());
 
 		if (result.hasErrors() && !errorUtil.isOnlyUserIDError(result))
 		{
-			//System.out.println(errorUtil.addAllErrors(result));
 			model.addAttribute("headline", editHeadline);
 			return "/Auth/Alter/alterUserInfo";
 		}
@@ -130,19 +123,19 @@ public class UserController
 	}
 
 	@PostMapping("/complete")
-	public String complete()
+	public String complete(@ModelAttribute User user)
 	{
-		System.out.println(conUser.getName() + " を登録する");
-		userRepository.save(conUser);
+		System.out.println(user.getName() + " を登録する");
+		userRepository.save(user);
 		System.out.println("データに登録された");
 		return "redirect:Auth/login";
 	}
-	
+
 	@PostMapping("/alterComplete")
-	public String alterComplete(Authentication loginUser, Model model)
+	public String alterComplete(@ModelAttribute User user, Authentication loginUser, Model model)
 	{
-		System.out.println(conUser.getName() + " を登録する");
-		userRepository.save(conUser);
+		System.out.println(user.getName() + " を登録する");
+		userRepository.save(user);
 		System.out.println("データに登録された");
 		model.addAttribute("username", loginUser.getName());
 		model.addAttribute("userList", userRepository.findAll());
