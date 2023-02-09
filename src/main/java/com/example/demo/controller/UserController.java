@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserMngRepository;
+import com.example.demo.service.ErrorUtil;
 import com.example.demo.util.Authority;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class UserController
 
 	private String editHeadline = "";
 	private User conUser = new User();
+	private ErrorUtil errorUtil = new ErrorUtil();
 
 	@GetMapping("/")
 	public String mainSite(Authentication loginUser, Model model)
@@ -62,6 +64,7 @@ public class UserController
 //		return "index";
 //	}
 
+	// ユーザーの新規登録
 	@GetMapping("/register")
 	public String register(@ModelAttribute User user, Model model)
 	{
@@ -71,15 +74,15 @@ public class UserController
 		return "register";
 	}
 
+	// ユーザー情報の変更
 	@GetMapping("/register/{id}")
 	public String editUser(@PathVariable Long id, Model model)
 	{
 		model.addAttribute("user", userRepository.findById(id));
 		editHeadline = "ユーザー情報編集";
 		model.addAttribute("headline", editHeadline);
-		return "register";
+		return "/Auth/Alter/alterUserInfo";
 	}
-	
 
 	@GetMapping("/delete/{id}")
 	public String DeleteUser(@PathVariable Long id)
@@ -108,8 +111,22 @@ public class UserController
 		{
 			user.setAuthority(Authority.USER);
 		}
-
 		return "confirm";
+	}
+
+	@PostMapping("/alterConfirm")
+	public String alterConfirm(@Validated @ModelAttribute User user, BindingResult result, Model model)
+	{
+		conUser = user;
+		System.out.println(conUser.getName());
+
+		if (result.hasErrors() && !errorUtil.isOnlyUserIDError(result))
+		{
+			//System.out.println(errorUtil.addAllErrors(result));
+			model.addAttribute("headline", editHeadline);
+			return "/Auth/Alter/alterUserInfo";
+		}
+		return "/Auth/Alter/alterConfirm";
 	}
 
 	@PostMapping("/complete")
@@ -119,6 +136,17 @@ public class UserController
 		userRepository.save(conUser);
 		System.out.println("データに登録された");
 		return "redirect:Auth/login";
+	}
+	
+	@PostMapping("/alterComplete")
+	public String alterComplete(Authentication loginUser, Model model)
+	{
+		System.out.println(conUser.getName() + " を登録する");
+		userRepository.save(conUser);
+		System.out.println("データに登録された");
+		model.addAttribute("username", loginUser.getName());
+		model.addAttribute("userList", userRepository.findAll());
+		return "index";
 	}
 
 	@GetMapping("/index")
