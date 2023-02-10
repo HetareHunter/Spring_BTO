@@ -9,9 +9,7 @@ public class ErrorUtil
 	public String addAllErrors(BindingResult result)
 	{
 		String errorMessages = "";
-		for (
-			ObjectError error : result.getAllErrors()
-		)
+		for (ObjectError error : result.getAllErrors())
 		{
 			// ここでメッセージを取得する。
 			errorMessages += error.getDefaultMessage();
@@ -19,23 +17,21 @@ public class ErrorUtil
 		return errorMessages;
 	}
 
-	public boolean isOnlyUserIDError(BindingResult result)
+	public boolean isOnlyEmailError(BindingResult result)
 	{
 		String field = "";
-		for (
-			FieldError error : result.getFieldErrors()
-		)
+		for (FieldError error : result.getFieldErrors())
 		{
 			field = error.getField();
 			System.out.println(field);
-			if (field.equals("userID"))
+			if (field.equals("email"))
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public void printErrorLog(BindingResult result)
 	{
 		String field = "";

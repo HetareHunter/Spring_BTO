@@ -85,9 +85,10 @@ public class UserController
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteUser(@PathVariable int id)
+	public String deleteUser(@PathVariable int id,Authentication loginUser, Model model)
 	{
 		userRepository.deleteById(id);
+		model.addAttribute("username", loginUser.getName());
 		return "redirect:/index";
 	}
 
@@ -120,11 +121,14 @@ public class UserController
 	public String alterConfirm(@Validated @ModelAttribute User user, BindingResult result, Model model)
 	{
 
-		if (result.hasErrors() && !errorUtil.isOnlyUserIDError(result))
+		if (result.hasErrors() && !errorUtil.isOnlyEmailError(result))
 		{
 			model.addAttribute("headline", editHeadline);
 			return "/Auth/Alter/alterUserInfo";
 		}
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		user.setUpdated_at(timestamp);
 		return "/Auth/Alter/alterConfirm";
 	}
 
@@ -145,6 +149,7 @@ public class UserController
 		System.out.println("データに登録された");
 		model.addAttribute("username", loginUser.getName());
 		model.addAttribute("userList", userRepository.findAll());
+		
 		return "index";
 	}
 
