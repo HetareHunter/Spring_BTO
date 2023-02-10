@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.sql.Timestamp;
+
 import com.example.demo.util.Authority;
 import com.example.demo.validator.UniqueLogin;
 
@@ -11,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,37 +22,46 @@ import lombok.Setter;
 @Setter
 @Entity
 @SequenceGenerator(name = "USER_GENERATOR", sequenceName = "testSeq", allocationSize = 1)
-@Table(name = "USERACCOUNT")
+@Table(name = "USERS")
 public class User
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USER_GENERATOR")	
-	@Column(name = "ID")
-	private Long id;
+	@Column(name = "id")
+	private int id;
 	
-	@NotBlank
-	@Size(min = 2, max = 20)
-	@Column(name = "NAME")
-	private String name;
+	@NotNull
+	@Size(max = 128)
+	@Column(name = "last_name")
+	private String last_name;
 	
-	@NotBlank
+	@NotNull
+	@Size(max = 128)
+	@Column(name = "first_name")
+	private String first_name;
+	
+	@NotNull
 	@Email
-	@Column(name = "EMAIL")
+	@UniqueLogin
+	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "AUTHORITY")
-	private Authority authority;
-	
-	@NotBlank
-	@Size(min = 4, max = 255)
-	@UniqueLogin
-	@Column(name="USERID")
-	private String userID;
-	
-	@NotBlank
-	@Size(min = 4, max = 255)
-	@Column(name = "PASSWORD")
+	@NotNull
+	@Size(max = 255)
+	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "role")
+	private Authority role;
+	
+	@NotNull
+	@Column(name = "created_at")
+	private Timestamp created_at;
+	
+	@NotNull
+	@Column(name = "updated_at")
+	private Timestamp updated_at;
+	
 	
 	private boolean admin;
 }

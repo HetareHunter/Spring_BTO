@@ -75,7 +75,7 @@ public class UserController
 
 	// ユーザー情報の変更
 	@GetMapping("/register/{id}")
-	public String editUser(@PathVariable Long id, Model model)
+	public String editUser(@PathVariable int id, Model model)
 	{
 		model.addAttribute("user", userRepository.findById(id));
 		editHeadline = "ユーザー情報編集";
@@ -84,7 +84,7 @@ public class UserController
 	}
 
 	@GetMapping("/delete/{id}")
-	public String DeleteUser(@PathVariable Long id)
+	public String DeleteUser(@PathVariable int id)
 	{
 		userRepository.deleteById(id);
 		return "redirect:/index";
@@ -102,10 +102,10 @@ public class UserController
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		if (user.isAdmin())
 		{
-			user.setAuthority(Authority.ADMIN);
+			user.setRole(Authority.ADMIN);
 		} else
 		{
-			user.setAuthority(Authority.USER);
+			user.setRole(Authority.USER);
 		}
 		return "confirm";
 	}
@@ -125,7 +125,7 @@ public class UserController
 	@PostMapping("/complete")
 	public String complete(@ModelAttribute User user)
 	{
-		System.out.println(user.getName() + " を登録する");
+		System.out.println(user.getFirst_name() + " " + user.getLast_name() + " " + " を登録する");
 		userRepository.save(user);
 		System.out.println("データに登録された");
 		return "redirect:Auth/login";
@@ -134,7 +134,7 @@ public class UserController
 	@PostMapping("/alterComplete")
 	public String alterComplete(@ModelAttribute User user, Authentication loginUser, Model model)
 	{
-		System.out.println(user.getName() + " を登録する");
+		System.out.println(user.getFirst_name() + " " + user.getLast_name() + " " + " を登録する");
 		userRepository.save(user);
 		System.out.println("データに登録された");
 		model.addAttribute("username", loginUser.getName());

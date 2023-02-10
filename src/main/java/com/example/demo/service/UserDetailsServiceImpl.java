@@ -18,13 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService
 	private final UserMngRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String userID) throws UsernameNotFoundException
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
 	{
 		// ユーザーIDを検索し、存在しない場合は例外を投げる
-		var user = userRepository.findByUserID(userID)
-				.orElseThrow(() -> new UsernameNotFoundException(userID + "not Found"));
+		var user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException(email + "not Found"));
 
-		return new User(user.getUserID(), user.getPassword(),
-				AuthorityUtils.createAuthorityList(user.getAuthority().name()));
+		return new User(user.getEmail(), user.getPassword(),
+				AuthorityUtils.createAuthorityList(user.getRole().name()));
 	}
 }

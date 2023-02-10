@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.User;
 
-public interface UserMngRepository extends JpaRepository<User, Long>
+public interface UserMngRepository extends JpaRepository<User, Integer>
 {
-	Optional<User> findByName(String name);
-	Optional<User> findByUserID(String userID);
+	//Optional<User> findByName(String name);
+	Optional<User> findByEmail(String email);
 }
