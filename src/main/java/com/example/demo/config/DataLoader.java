@@ -29,7 +29,8 @@ public class DataLoader implements ApplicationRunner
 		user.setEmail("admin@example");
 		user.setPassword(passwordEncoder.encode("password"));
 		user.setRole(Authority.ADMIN);
-		
+		user.setName(user.getFirst_name() + " " + user.getLast_name());
+
 		user.setAdmin(true);
 
 		System.out.println(user.getFirst_name() + " " + user.getLast_name());
@@ -40,7 +41,7 @@ public class DataLoader implements ApplicationRunner
 			user.setCreated_at(timestamp);
 			user.setUpdated_at(timestamp);
 			userMngRepository.save(user);
-			System.out.println(user.getFirst_name() + " " + user.getLast_name()+" を登録しました");
+			System.out.println(user.getFirst_name() + " " + user.getLast_name() + " を登録しました");
 		}
 	}
 }

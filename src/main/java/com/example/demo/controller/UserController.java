@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +37,6 @@ public class UserController
 	{
 		// System.out.println("メインサイト");
 		model.addAttribute("username", loginUser.getName());
-		model.addAttribute("authority", loginUser.getAuthorities());
 //		if(loginUser.getAuthorities()==Authority.ADMIN) {
 //			
 //		}
@@ -84,7 +85,7 @@ public class UserController
 	}
 
 	@GetMapping("/delete/{id}")
-	public String DeleteUser(@PathVariable int id)
+	public String deleteUser(@PathVariable int id)
 	{
 		userRepository.deleteById(id);
 		return "redirect:/index";
@@ -95,6 +96,7 @@ public class UserController
 	{
 		if (result.hasErrors())
 		{
+			errorUtil.printErrorLog(result);
 			model.addAttribute("headline", editHeadline);
 			return "register";
 		}
@@ -107,6 +109,10 @@ public class UserController
 		{
 			user.setRole(Authority.USER);
 		}
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		user.setCreated_at(timestamp);
+		user.setUpdated_at(timestamp);
 		return "confirm";
 	}
 

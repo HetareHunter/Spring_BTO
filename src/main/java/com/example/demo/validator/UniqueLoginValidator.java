@@ -7,7 +7,7 @@ import com.example.demo.repository.UserMngRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin,String>
+public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, String>
 {
 	private final UserMngRepository userRepository;
 

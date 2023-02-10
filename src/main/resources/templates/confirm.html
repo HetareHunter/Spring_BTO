@@ -15,18 +15,18 @@
 							th:text="以下の内容で登録します。"></h3>
 						<div class="mb-3">
 							<div class="row">
+								<label class="col-sm-2 control-label" for="username">苗字：</label>
+								<div class="col-sm-10">[[${user.first_name}]]</div>
+							</div>
+							
+							<div class="row">
 								<label class="col-sm-2 control-label" for="username">名前：</label>
-								<div class="col-sm-10">[[${user.name}]]</div>
+								<div class="col-sm-10">[[${user.last_name}]]</div>
 							</div>
 	
 							<div class="row">
 								<label class="col-sm-2 control-label" for="username">E-Mail：</label>
 								<div class="col-sm-10">[[${user.email}]]</div>
-							</div>
-							
-							<div class="row">
-								<label class="col-sm-2 control-label" for="username">ID：</label>
-								<div class="col-sm-10">[[${user.userID}]]</div>
 							</div>
 							<table class="table">
 								<tr>
@@ -34,11 +34,13 @@
 										<form th:action="@{/complete}" th:object="${user}"
 											method="post">
 											<input type="hidden" th:field="*{id}">
-											<input type="hidden" th:field="*{name}">
+											<input type="hidden" th:field="*{first_name}">
+											<input type="hidden" th:field="*{last_name}">
 											<input type="hidden" th:field="*{email}">
-											<input type="hidden" th:field="*{authority}">
-											<input type="hidden" th:field="*{userID}">
 											<input type="hidden" th:field="*{password}">
+											<input type="hidden" th:field="*{role}">
+											<input type="hidden" th:field="*{created_at}">
+											<input type="hidden" th:field="*{updated_at}">
 											<input type="hidden" th:field="*{admin}">
 											<button class="btn btn-primary btn-wide" type="submit"
 												th:text="登録"></button>

@@ -35,4 +35,16 @@ public class ErrorUtil
 		}
 		return false;
 	}
+	
+	public void printErrorLog(BindingResult result)
+	{
+		String field = "";
+		String message = "";
+		for (FieldError error : result.getFieldErrors())
+		{
+			field = error.getField();
+			message = error.getDefaultMessage();
+			System.out.println(field + "：" + message);
+		}
+	}
 }
