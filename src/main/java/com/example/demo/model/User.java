@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @SequenceGenerator(name = "USER_GENERATOR", sequenceName = "testSeq", allocationSize = 1)
-@Table(name = "test")
+@Table(name = "USERACCOUNT")
 public class User
 {
 	@Id
