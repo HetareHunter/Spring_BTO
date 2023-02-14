@@ -15,11 +15,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+/**
+ * @author umaib
+ *本システムにログインできるユーザ、パスワードを管理する
+ */
+@Data
 @Entity
 @SequenceGenerator(name = "USER_GENERATOR", sequenceName = "testSeq", allocationSize = 1)
 @Table(name = "USERS")
