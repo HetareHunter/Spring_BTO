@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -29,15 +28,11 @@ public class Lending
 	@Column(name = "id")
 	private int id;
 
-	@NotBlank
-	@Column(name = "book_id")
 	@ManyToOne
-	private int bookId;
+	private Book book;
 	
-	@NotBlank
-	@Column(name = "user_id")
 	@ManyToOne
-	private int userId;
+	private User user;
 	
 	//貸し出し日
 	@Column(name = "lend_date")
