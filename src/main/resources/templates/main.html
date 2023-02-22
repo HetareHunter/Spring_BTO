@@ -1,12 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<title>BTO</title>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">
+<title>Rental</title>
 </head>
-<body>
+<body class="bg-light">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
+				<div class="mb-3">
+					<table class="table">
+						<tr th:text="*{username}"></tr>
+						<tr>
+							<td>
+								<form th:action="@{/index}" method="get">
+									<button type="submit" class="btn btn-primary btn-sm"
+										th:text="管理者画面"></button>
+								</form>
+							</td>
+							
+							<td>
+								<div th:if="*{isLogin==false}">
+									<form th:action="@{/login}" method="get">
+										<button type="submit" class="btn btn-primary btn-sm"
+											th:text="ログイン"></button>
+									</form>
+								</div>
+								<div th:if="*{isLogin==true}">
+									<form th:action="@{/logout}" method="post">
+										<button type="submit" class="btn btn-primary btn-sm"
+											th:text="ログアウト"></button>
+									</form>
+								</div>
+							</td>
+							
+							<!-- <td>
+								<form th:action="@{/delete/{id}(id=*{id})}" method="get">
+									<button type="submit" class="btn btn-danger btn-sm"  th:text="削除"></button>
+								</form>
+							</td> -->
+						</tr>
+					</table>
+
+					<!-- <form th:action="@{/register}" method="get">
+						<button class="w-25 btn btn-primary" type="submit" th:text="新規登録"></button>
+					</form> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>

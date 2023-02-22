@@ -37,15 +37,31 @@
 								</form>
 							</td>
 						</tr>
+						
+						
 					</table>
 					
+					<table class="table">
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/}" method="get">
+										<button class="w-25 btn btn-primary" type="submit" th:text="メインサイト"></button>
+									</form>
+								</div>
+							</td>
+							
+							<td>
+								<form th:action="@{/logout}" method="post" class="mr-3">
+									<button class="w-25 btn btn-secondary" type="submit" th:text="ログアウト"></button>
+								</form>
+							</td>
+						</tr>
+					</table>
 					<!-- <form th:action="@{/register}" method="get">
 						<button class="w-25 btn btn-primary" type="submit" th:text="新規登録"></button>
 					</form> -->
-					<hr>
-					<form th:action="@{/logout}" method="post">
-						<button class="w-25 btn btn-secondary" type="submit" th:text="ログアウト"></button>
-					</form>
+					
 				</div>
 			</div>
 		</div>

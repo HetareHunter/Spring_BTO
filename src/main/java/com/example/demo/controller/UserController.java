@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +34,24 @@ public class UserController
 	private ErrorUtil errorUtil = new ErrorUtil();
 
 	@GetMapping("/")
-	public String mainSite(Authentication loginUser, Model model)
+	public String mainSite(Model model)
 	{
-		// System.out.println("メインサイト");
-		model.addAttribute("username", loginUser.getName());
-//		if(loginUser.getAuthorities()==Authority.ADMIN) {
-//			
-//		}
-		model.addAttribute("userList", userRepository.findAll());
-		return "index";
+		Authentication loginUser = SecurityContextHolder.getContext().getAuthentication();
+
+		if (loginUser.getName().equals("anonymousUser"))
+		{
+			model.addAttribute("username", "ログインしていません。");
+			model.addAttribute("isLogin", false);
+		} else if (loginUser.isAuthenticated())
+		{
+			model.addAttribute("username", loginUser.getName()+"でログインしています。");
+			model.addAttribute("isLogin", true);
+		} else
+		{
+			model.addAttribute("username", "ログインしていません。");
+			model.addAttribute("isLogin", false);
+		}
+		return "main";
 	}
 
 	@GetMapping("/admin/list")
@@ -57,12 +67,6 @@ public class UserController
 		return "Auth/login";
 	}
 
-//	@GetMapping("/")
-//	public String getAllUsers(Model model)
-//	{
-//		model.addAttribute("userList", userRepository.findAll());
-//		return "index";
-//	}
 
 	// ユーザーの新規登録
 	@GetMapping("/register")
@@ -85,7 +89,7 @@ public class UserController
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteUser(@PathVariable int id,Authentication loginUser, Model model)
+	public String deleteUser(@PathVariable int id, Authentication loginUser, Model model)
 	{
 		userRepository.deleteById(id);
 		model.addAttribute("username", loginUser.getName());
@@ -110,7 +114,7 @@ public class UserController
 		{
 			user.setRole(Authority.USER);
 		}
-		
+
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setCreated_at(timestamp);
 		user.setUpdated_at(timestamp);
@@ -126,7 +130,7 @@ public class UserController
 			model.addAttribute("headline", editHeadline);
 			return "/Auth/Alter/alterUserInfo";
 		}
-		
+
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setUpdated_at(timestamp);
 		return "/Auth/Alter/alterConfirm";
@@ -149,13 +153,14 @@ public class UserController
 		System.out.println("データに登録された");
 		model.addAttribute("username", loginUser.getName());
 		model.addAttribute("userList", userRepository.findAll());
-		
+
 		return "index";
 	}
 
 	@GetMapping("/index")
-	public String getindex(Model model)
+	public String getindex(Authentication user,Model model)
 	{
+		model.addAttribute("username", user.getName());
 		model.addAttribute("userList", userRepository.findAll());
 		return "index";
 	}

@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.model.Book;
-import com.example.demo.model.Lending;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -44,21 +43,18 @@ public class DataLoader implements ApplicationRunner
 
 		
 		System.out.println(user.getFirst_name() + " " + user.getLast_name());
+		LendingInitRun();
 		//System.out.println(userMngRepository.findByEmail(user.getEmail()));
-		LendingInitRun(user);
+		
 		if (userMngRepository.findByEmail(user.getEmail()).isEmpty())
 		{
 			System.out.println("if文到達");
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			user.setCreated_at(timestamp);
 			user.setUpdated_at(timestamp);
-			
-			
-			
 			userMngRepository.save(user);
 			System.out.println(user.getFirst_name() + " " + user.getLast_name() + " を登録しました");
 		}
-		
 	}
 
 	void BookInitRun()
@@ -76,14 +72,16 @@ public class DataLoader implements ApplicationRunner
 		}
 	}
 	
-	void LendingInitRun(User user)
+	void LendingInitRun()
 	{
-		var lending = new Lending();
-		lending.setUser(userMngRepository.findById(401).get());
-		//book.setLending(new ArrayList<>());
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		lending.setCreated_at(timestamp);
-		lending.setUpdated_at(timestamp);
-		lendingRepository.save(lending);
+//		var lending = new Lending();
+//		lending.setUser(userMngRepository.findById(401).get());
+//		//book.setLending(new ArrayList<>());
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		lending.setCreated_at(timestamp);
+//		lending.setUpdated_at(timestamp);
+//		lendingRepository.save(lending);
+		
+		lendingRepository.findAll();
 	}
 }

@@ -31,15 +31,15 @@ public class SecurityConfig
 		http.authorizeHttpRequests(auth -> auth
 				// 認証の必要があるように設定
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-				.requestMatchers("/register","/login","/confirm","/complete").permitAll()
-				.requestMatchers("/admin.**").hasAuthority(Authority.ADMIN.name())
-				.anyRequest().authenticated())
+				.requestMatchers("/register", "/login", "/confirm", "/complete", "/").permitAll()
+				.requestMatchers("/admin.**").hasAuthority(Authority.ADMIN.name()).anyRequest().authenticated())
 				// フォームベースの認証
 				.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
 				// ログアウトの設定
-				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
+				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+						.logoutSuccessUrl("/").permitAll())
 				// Remember-Meの認証を許可する
 				.rememberMe().key("katsu");
-		return http.build();		
+		return http.build();
 	}
 }
