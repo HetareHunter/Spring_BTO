@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.User;
+import com.example.demo.repository.BookNameRepository;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.ErrorUtil;
 import com.example.demo.util.Authority;
@@ -28,11 +30,17 @@ public class UserController
 {
 	@Autowired
 	private UserMngRepository userRepository;
+	@Autowired
+	private BookRepository bookRepository;
+	@Autowired
+	private BookNameRepository bookNameRepository;
+	
 	private final PasswordEncoder passwordEncoder;
 
 	private String editHeadline = "";
 	private ErrorUtil errorUtil = new ErrorUtil();
 
+	// -------------------------メインサイト-------------------------
 	@GetMapping("/")
 	public String mainSite(Model model)
 	{
@@ -44,7 +52,7 @@ public class UserController
 			model.addAttribute("isLogin", false);
 		} else if (loginUser.isAuthenticated())
 		{
-			model.addAttribute("username", loginUser.getName()+"でログインしています。");
+			model.addAttribute("username", loginUser.getName() + "でログインしています。");
 			model.addAttribute("isLogin", true);
 		} else
 		{
@@ -61,12 +69,13 @@ public class UserController
 		return "list";
 	}
 
+	// -------------------------ログイン画面、ユーザー情報変更画面-------------------------
+
 	@GetMapping("/login")
 	public String login()
 	{
 		return "Auth/login";
 	}
-
 
 	// ユーザーの新規登録
 	@GetMapping("/register")
@@ -85,7 +94,7 @@ public class UserController
 		model.addAttribute("user", userRepository.findById(id));
 		editHeadline = "ユーザー情報編集";
 		model.addAttribute("headline", editHeadline);
-		return "/Auth/Alter/alterUserInfo";
+		return "Auth/Alter/alterUserInfo";
 	}
 
 	@GetMapping("/delete/{id}")
@@ -128,12 +137,12 @@ public class UserController
 		if (result.hasErrors() && !errorUtil.isOnlyEmailError(result))
 		{
 			model.addAttribute("headline", editHeadline);
-			return "/Auth/Alter/alterUserInfo";
+			return "Auth/Alter/alterUserInfo";
 		}
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setUpdated_at(timestamp);
-		return "/Auth/Alter/alterConfirm";
+		return "Auth/Alter/alterConfirm";
 	}
 
 	@PostMapping("/complete")
@@ -157,10 +166,11 @@ public class UserController
 		return "index";
 	}
 
+	// -------------------------管理者画面-------------------------
 	@GetMapping("/index")
-	public String getindex(Authentication user,Model model)
+	public String getindex(Authentication user, Model model)
 	{
-		model.addAttribute("username", user.getName());
+		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("userList", userRepository.findAll());
 		return "index";
 	}
@@ -170,5 +180,15 @@ public class UserController
 	{
 		model.addAttribute("userList", userRepository.findAll());
 		return "index";
+	}
+	
+	// -------------------------本の貸し出し画面-------------------------
+	@GetMapping("/bookIndex")
+	public String getBookIndex(Authentication user, Model model)
+	{
+		model.addAttribute("username", user.getName() + "でログインしています。");
+		model.addAttribute("bookList", bookRepository.findAll());
+		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		return "BookRental/bookIndex";
 	}
 }

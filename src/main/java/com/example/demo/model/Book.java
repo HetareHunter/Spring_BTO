@@ -6,7 +6,6 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +17,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 /**
- * @author umaib 各書籍を管理する。
+ * @author 
+ * 各書籍を管理する。
  */
 @Data
 @Entity
@@ -33,8 +33,8 @@ public class Book
 
 	// カスケードは子(このテーブルのデータ)が削除されれば親(参照先)も削除される設定
 	@OneToOne
-	@JoinColumn(name = "bookNameId")
-	private BookName bookName;
+	@JoinColumn(name = "book_name_id")
+	private BookName bookNameId;
 
 	@Column(name = "active")
 	private boolean active;
@@ -42,8 +42,7 @@ public class Book
 	@Column(name = "lendable")
 	private boolean lendable;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
-	@Column(name = "lending")
+	@OneToMany(mappedBy = "book")
 	private List<Lending> lending = new ArrayList<>();
 
 	@Column(name = "created_at")

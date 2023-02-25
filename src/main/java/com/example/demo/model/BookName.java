@@ -2,13 +2,11 @@ package com.example.demo.model;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -50,7 +48,7 @@ public class BookName
 	@Column(name = "publisher")
 	private String publisher;
 	
-	@NotBlank
+	//@NotBlank
 	@Column(name = "genre")
 	private int genre;
 	
@@ -59,12 +57,8 @@ public class BookName
 	@Column(name = "img")
 	private String img;
 	
-	@Column(name = "avtive")
-	private boolean avtive;
-	
-	// カスケードは子(このテーブルのデータ)が削除されれば親(参照先)も削除される設定
-	@OneToOne(mappedBy = "bookName", cascade = CascadeType.ALL)
-	private Book book;
+	@Column(name = "active")
+	private boolean active;
 	
 	@Column(name = "created_at")
 	private Timestamp created_at;
