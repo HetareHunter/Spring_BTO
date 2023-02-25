@@ -48,7 +48,8 @@ public class BookName
 	@Column(name = "publisher")
 	private String publisher;
 	
-	//@NotBlank
+//	@Max(128)
+//	@Min(0)
 	@Column(name = "genre")
 	private int genre;
 	

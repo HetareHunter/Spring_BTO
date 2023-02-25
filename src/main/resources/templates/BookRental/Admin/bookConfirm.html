@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<!-- <link rel="stylesheet" href="../../../css/leftChild.css"> -->
+</head>
+<body>
+	<main layout:fragment="content" class="bg-image">
+		<div class="container">
+			<div class="row vh-100 align-items-center justify-content-center">
+				<div class="card shadow" style="max-width: 640px;">
+					<div class="card-body">
+						<h3 class="card-title mb-3 text-center text-navy"
+							th:text="以下の内容で登録します。"></h3>
+						<div class="mb-3">
+							<div class="row">
+								<label class="col-sm-3 control-label" for="title"
+									th:text="#{title}"></label>
+								<div class="col-sm-8">[[${bookName.title}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="author"
+									th:text="#{author}"></label>
+								<div class="col-sm-8">[[${bookName.author}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="detail"
+									th:text="#{detail}"></label>
+								<div class="col-sm-8">[[${bookName.detail}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="publisher"
+									th:text="#{publisher}"></label>
+								<div class="col-sm-8">[[${bookName.publisher}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="genre"
+									th:text="#{genre}"></label>
+								<div class="col-sm-8">[[${bookName.genre}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="img" th:text="#{img}"></label>
+								<div class="col-sm-8">[[${bookName.img}]]</div>
+							</div>
+
+							<div class="row">
+								<label class="col-sm-3 control-label" for="active"
+									th:text="#{renralActivate}"></label>
+								<div class="col-sm-8">[[${bookName.active}]]</div>
+							</div>
+							<table class="table">
+								<tr>
+									<td>
+										<form th:action="@{/bookRegComplete}" th:object="${bookName}"
+											method="post">
+											<input type="hidden" th:field="*{id}">
+											<input type="hidden" th:field="*{title}">
+											<input type="hidden" th:field="*{author}">
+											<input type="hidden" th:field="*{detail}">
+											<input type="hidden" th:field="*{publisher}">
+											<input type="hidden" th:field="*{genre}">
+											<input type="hidden" th:field="*{img}">
+											<input type="hidden" th:field="*{active}">
+											<input type="hidden" th:field="*{created_at}">
+											<input type="hidden" th:field="*{updated_at}">
+											
+											<button class="btn btn-primary btn-wide" type="submit"
+												th:text="登録"></button>
+										</form>
+									</td>
+
+									<td>
+										<form th:action="@{/bookRegister}" th:object="${bookName}"
+											method="get">
+											<button class="btn btn-secondary btn-wide" type="submit"
+												th:text="戻る"></button>
+										</form>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

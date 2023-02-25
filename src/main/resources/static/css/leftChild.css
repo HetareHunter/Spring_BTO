@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.parent {
+ display: flex;
+ }
+ 
+.child {
+    display: inline-block;      /* インラインブロック要素にする */
+    background-color:  #ccc;    /* 背景色指定 */
+    border: solid 1px;          /* 枠線指定 */
+    padding:  10px;             /* 余白指定 */
+}
