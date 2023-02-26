@@ -28,7 +28,7 @@
 							
 							<td th:text="*{title}"></td>
 							<td th:text="*{author}"></td>
-							<td th:text="*{genre}"></td>
+							<td th:text="${genreList[{list.genre}].name}"></td>
 							<td th:text="*{publisher}"></td>
 							<td th:text="*{img}"></td>
 							<td th:text="*{active}"></td>

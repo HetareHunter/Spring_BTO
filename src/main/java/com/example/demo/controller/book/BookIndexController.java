@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.GenreRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +20,8 @@ public class BookIndexController
 	private BookRepository bookRepository;
 	@Autowired
 	private BookNameRepository bookNameRepository;
+	@Autowired
+	private GenreRepository genreRepository;
 	
 	//private ErrorUtil errorUtil = new ErrorUtil();
 
@@ -28,6 +31,8 @@ public class BookIndexController
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		model.addAttribute("genreList", genreRepository.findAll());
+		
 		return "BookRental/bookIndex";
 	}
 }

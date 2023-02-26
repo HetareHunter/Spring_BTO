@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.BookName;
+import com.example.demo.model.Genre;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.util.Authority;
@@ -27,6 +29,7 @@ public class DataLoader implements ApplicationRunner
 	private final BookRepository bookRepository;
 	private final BookNameRepository bookNameRepository;
 	private final LendingRepository lendingRepository;
+	private final GenreRepository genreRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception
@@ -53,6 +56,7 @@ public class DataLoader implements ApplicationRunner
 			System.out.println(user.getFirst_name() + " " + user.getLast_name() + " を登録しました");
 		}
 		bookInitRun();
+		GenreInitRun();
 	}
 
 	void bookInitRun()
@@ -88,7 +92,7 @@ public class DataLoader implements ApplicationRunner
 		bookName.setUpdated_at(timestamp);
 		System.out.println("bookNameInitRun save到達");
 		System.out.println("bookName.id:" + bookName.getId());
-		
+
 		if (bookNameRepository.findByTitle(bookName.getTitle()).isEmpty())
 		{
 
@@ -109,5 +113,29 @@ public class DataLoader implements ApplicationRunner
 //		lendingRepository.save(lending);
 
 		lendingRepository.findAll();
+	}
+
+	void GenreInitRun()
+	{
+		var genre = new Genre();
+		genre.setName("技術書");
+		
+		if (genreRepository.findByName(genre.getName()).isEmpty())
+		{
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			genre.setCreated_at(timestamp);
+			genre.setUpdated_at(timestamp);
+			genreRepository.save(genre);
+		}
+		
+		var genre2 = new Genre();
+		genre2.setName("経済書");
+		if (genreRepository.findByName(genre2.getName()).isEmpty())
+		{
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			genre.setCreated_at(timestamp);
+			genre.setUpdated_at(timestamp);
+			genreRepository.save(genre2);
+		}
 	}
 }
