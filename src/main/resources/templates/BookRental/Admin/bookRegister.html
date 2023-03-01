@@ -14,90 +14,74 @@
 				<div class="card shadow" style="max-width: 480px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="本の新規登録"></h3>
-						<form th:action="@{/bookRegConfirm}" th:object="${bookName}"
-							method="post" novalidate>
+						<form th:action="@{/bookRegConfirm}" method="post" novalidate>
 							<div class="mb-3">
-								<input type="hidden" th:field="*{id}">
+								<input type="hidden" th:field="${bookName.id}">
 
 								<div class="mb-3">
 
 									<label for="title" th:text="#{title}">
 										<span class="badge bg-danger">必須</span>
 									</label>
-									<input type="text" th:field="*{title}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{title}"></div>
+									<input type="text" th:field="${bookName.title}"
+										class="form-control" th:errorclass="is-invalid">
+									<div class="invalid-feedback" th:errors="${bookName.title}"></div>
 								</div>
 
 								<div class="mb-3">
 									<label for="author" th:text="#{author}">
 										<span class="badge bg-danger">必須</span>
 									</label>
-									<input type="text" th:field="*{author}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{author}"></div>
+									<input type="text" th:field="${bookName.author}"
+										class="form-control" th:errorclass="is-invalid">
+									<div class="invalid-feedback" th:errors="${bookName.author}"></div>
 								</div>
 
 								<div class="mb-3">
 									<label for="detail" th:text="#{detail}">
 										<span class="badge bg-danger">必須</span>
 									</label>
-									<input type="text" th:field="*{detail}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{detail}"></div>
+									<input type="text" th:field="${bookName.detail}"
+										class="form-control" th:errorclass="is-invalid">
+									<div class="invalid-feedback" th:errors="${bookName.detail}"></div>
 								</div>
 
 								<div class="mb-3">
 									<label for="publisher" th:text="#{publisher}">
 										<span class="badge bg-danger">必須</span>
 									</label>
-									<input type="text" th:field="*{publisher}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{publisher}"></div>
+									<input type="text" th:field="${bookName.publisher}"
+										class="form-control" th:errorclass="is-invalid">
+									<div class="invalid-feedback" th:errors="${bookName.publisher}"></div>
 								</div>
 
-								<!-- <div class="mb-3">
-									<label for="genre" th:text="#{genre}">
-										<span class="badge bg-danger">必須</span>
-									</label>
-									<input type="text" th:field="*{genre}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{genre}"></div>
-								</div> -->
+								<div class="mb-3">
+									<label for="genre" th:text="#{genre}"></label>
+									<br>
+									<select id="genre" name="genre">
 
-								<!-- <div class="dropdown">
-									<button class="btn btn-success dropdown-toggle" type="button"
-										id="dropdownMenuButton1" data-bs-toggle="dropdown"
-										aria-expanded="false" th:text="#{genre}"></button>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-									th:each="list : ${genreList}" th:object="${list}">
-										<li><a class="dropdown-item" href="#">Action</a></li>
-										<li><a class="dropdown-item" href="#">Another action</a></li>
-										<li><a class="dropdown-item" href="#">Something else
-												here</a></li>
-									</ul>
-								</div> -->
-								<select id="genre" name="genre">
-									<option value="0"></option>
-									<option th:each="list : ${genreList}" th:value="${list.id}"
-										th:field="*{genre}" th:text="${list.name}"
-										th:selected="${list.id} == ${selectedValue}">
-									</option>
-								</select>
+										<option value="0"></option>
+										<option th:each="list : ${genreList}" th:value="${list.id}"
+											th:field="${bookName.genre}" th:text="${list.name}"
+											th:selected="${list.id} == ${selectedValue}"></option>
+									</select>
+								</div>
 
 								<div class="mb-3">
 									<label for="img" th:text="#{img}">
 										<span class="badge bg-danger">必須</span>
 									</label>
-									<input type="text" th:field="*{img}" class="form-control"
-										th:errorclass="is-invalid">
-									<div class="invalid-feedback" th:errors="*{img}"></div>
+									<input type="text" th:field="${bookName.img}"
+										class="form-control" th:errorclass="is-invalid">
+									<div class="invalid-feedback" th:errors="${bookName.img}"></div>
 								</div>
 
+								<input type="hidden" th:field="${book.id}">
 								<div class="mb-3 form-check">
 									<input class="form-check-input" type="checkbox"
-										th:field="*{active}">
-									<label class="form-check-label" th:for="${#ids.prev('active')}">貸し出しの可否(チェック入りで許可する状態)</label>
+										th:field="${book.lendable}">
+									<label class="form-check-label"
+										th:for="${#ids.prev('lendable')}">貸し出しの可否(チェック入りで許可する状態)</label>
 								</div>
 
 								<button class="w-25 btn btn-primary" type="submit" th:text="登録"></button>

@@ -1,6 +1,7 @@
 package com.example.demo.controller.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,7 @@ public class BookIndexController
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
-		model.addAttribute("genreList", genreRepository.findAll());
+		model.addAttribute("genreList", genreRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
 		
 		return "BookRental/bookIndex";
 	}

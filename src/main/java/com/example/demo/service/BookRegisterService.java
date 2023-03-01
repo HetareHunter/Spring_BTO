@@ -22,18 +22,17 @@ public class BookRegisterService
 	@Autowired
 	private BookNameRepository bookNameRepository;
 
-	public void bookSave(BookName bookName, Model model)
+	public void bookSave(Book book, BookName bookName, Model model)
 	{
-		var book = new Book();
 		book.setActive(true);
 		book.setBookNameId(bookNameRepository.findById(bookName.getId()).get());
-		if (bookName.isActive())
-		{
-			book.setLendable(true);
-		} else
-		{
-			book.setLendable(false);
-		}
+//		if (bookName.isActive())
+//		{
+//			book.setLendable(true);
+//		} else
+//		{
+//			book.setLendable(false);
+//		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		book.setCreated_at(timestamp);
 		book.setUpdated_at(timestamp);

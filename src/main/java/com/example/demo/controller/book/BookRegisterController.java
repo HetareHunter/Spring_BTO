@@ -3,6 +3,7 @@ package com.example.demo.controller.book;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.model.Book;
 import com.example.demo.model.BookName;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
@@ -38,23 +40,28 @@ public class BookRegisterController
 	private ErrorUtil errorUtil = new ErrorUtil();
 
 	@GetMapping("/bookRegister")
-	public String getBookRegister(@ModelAttribute BookName bookName, Model model)
+	public String getBookRegister(@ModelAttribute BookName bookName, @ModelAttribute Book book, Model model)
 	{
-		model.addAttribute("genreList", genreRepository.findAll());
+		model.addAttribute("genreList", genreRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
 		// プルダウンの初期値を設定する場合は指定
-        model.addAttribute("selectedValue", "1");
+		model.addAttribute("selectedValue", "1");
 		return "BookRental/Admin/bookRegister";
 	}
 
 	@PostMapping("/bookRegConfirm")
-	public String postBookConfirm(@Validated @ModelAttribute BookName bookName, BindingResult result, Model model)
+	public String postBookConfirm(@Validated @ModelAttribute BookName bookName, @ModelAttribute Book book,
+			BindingResult result, Model model)
 	{
 		if (result.hasErrors())
 		{
 			errorUtil.printErrorLog(result);
+			model.addAttribute("genreList", genreRepository.findAll());
+			// プルダウンの初期値を設定する場合は指定
+			model.addAttribute("selectedValue", "1");
 			return "BookRental/Admin/bookRegister";
 		}
 
+		bookName.setActive(true);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		bookName.setCreated_at(timestamp);
 		bookName.setUpdated_at(timestamp);
@@ -62,15 +69,17 @@ public class BookRegisterController
 	}
 
 	@PostMapping("/bookRegComplete")
-	public String complete(Authentication user, @ModelAttribute BookName bookName, Model model)
+	public String complete(Authentication user, @ModelAttribute BookName bookName, @ModelAttribute Book book,
+			Model model)
 	{
 		System.out.println(bookName.getTitle() + " を登録する");
 		bookNameRepository.save(bookName);
-		bookRegisterService.bookSave(bookName, model);
+		bookRegisterService.bookSave(book, bookName, model);
 
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		model.addAttribute("genreList", genreRepository.findAll());
 		return "BookRental/bookIndex";
 	}
 }

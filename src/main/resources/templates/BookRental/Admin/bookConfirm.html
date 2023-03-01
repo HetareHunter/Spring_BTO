@@ -42,7 +42,7 @@
 							<div class="row">
 								<label class="col-sm-3 control-label" for="genre"
 									th:text="#{genre}"></label>
-								<div class="col-sm-8">[[${bookName.genre}]]</div>
+								<div class="col-sm-8">[[${bookName.genre.name}]]</div>
 							</div>
 
 							<div class="row">
@@ -51,34 +51,37 @@
 							</div>
 
 							<div class="row">
-								<label class="col-sm-3 control-label" for="active"
+								<label class="col-sm-3 control-label" for="lendable"
 									th:text="#{renralActivate}"></label>
-								<div class="col-sm-8">[[${bookName.active}]]</div>
+								<div class="col-sm-8">[[${book.lendable}]]</div>
 							</div>
 							<table class="table">
 								<tr>
 									<td>
-										<form th:action="@{/bookRegComplete}" th:object="${bookName}"
-											method="post">
-											<input type="hidden" th:field="*{id}">
-											<input type="hidden" th:field="*{title}">
-											<input type="hidden" th:field="*{author}">
-											<input type="hidden" th:field="*{detail}">
-											<input type="hidden" th:field="*{publisher}">
-											<input type="hidden" th:field="*{genre}">
-											<input type="hidden" th:field="*{img}">
-											<input type="hidden" th:field="*{active}">
-											<input type="hidden" th:field="*{created_at}">
-											<input type="hidden" th:field="*{updated_at}">
-											
+										<form th:action="@{/bookRegComplete}" method="post">
+											<input type="hidden" th:field="${bookName.id}">
+											<input type="hidden" th:field="${bookName.title}">
+											<input type="hidden" th:field="${bookName.author}">
+											<input type="hidden" th:field="${bookName.detail}">
+											<input type="hidden" th:field="${bookName.publisher}">
+											<input type="hidden" th:field="${bookName.genre}">
+											<input type="hidden" th:field="${bookName.img}">
+											<input type="hidden" th:field="${bookName.active}">
+											<input type="hidden" th:field="${bookName.created_at}">
+											<input type="hidden" th:field="${bookName.updated_at}">
+
+											<input type="hidden" th:field="${book.id}">
+											<input type="hidden" th:field="${book.lendable}">
+											<input type="hidden" th:field="${book.created_at}">
+											<input type="hidden" th:field="${book.updated_at}">
+
 											<button class="btn btn-primary btn-wide" type="submit"
 												th:text="登録"></button>
 										</form>
 									</td>
 
 									<td>
-										<form th:action="@{/bookRegister}" th:object="${bookName}"
-											method="get">
+										<form th:action="@{/bookRegister}" method="get">
 											<button class="btn btn-secondary btn-wide" type="submit"
 												th:text="戻る"></button>
 										</form>
