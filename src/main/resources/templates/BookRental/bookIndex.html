@@ -14,6 +14,7 @@
 				<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
 				<div class="mb-3">
 					<table class="table">
+
 						<tr th:text="*{username}"></tr>
 						<tr>
 							<th>本のタイトル</th>
@@ -23,32 +24,59 @@
 							<th>イメージ</th>
 							<th>貸し出し</th>
 							<th>詳細</th>
+							<th>借りたい本</th>
 						</tr>
-						<tr th:each="list : ${bookNameList}" th:object="${list}">
-							<td th:text="*{title}"></td>
-							<td th:text="*{author}"></td>
-							<td th:text="*{genre.name}"></td>
-							<td th:text="*{publisher}"></td>
-							<td th:text="*{img}"></td>
-							<td th:text="*{active}"></td>
-							<td th:text="*{detail}"></td>
+						<tr th:each="book : ${bookList}" th:object="${book}">
+							<td th:text="*{bookNameId.title}"></td>
+							<td th:text="*{bookNameId.author}"></td>
+							<td th:text="*{bookNameId.genre.name}"></td>
+							<td th:text="*{bookNameId.publisher}"></td>
+							<td th:text="*{bookNameId.img}"></td>
+							<td th:text="*{lendable}"></td>
+							<td th:text="*{bookNameId.detail}"></td>
+							<td th:block th:if="*{lendable}">
+								<div class="mr-10">
+									<form th:action="@{/bookIndex/{bookId}(bookId=*{id})}" method="get">
+										<button class="w-80 btn btn-primary" type="submit" 
+											th:text="カートに入れる"></button>
+									</form>
+								</div>
+							</td>
 						</tr>
-						
+
+						<tr>
+							<td>
+								<div class="mr-10">
+									<button class="w-100 btn btn-primary" type="submit"
+										th:text="本を借りる"></button>
+								</div>
+							</td>
+						</tr>
 					</table>
 					<table class="table">
 						<tr>
 							<td>
 								<div class="mr-10">
 									<form th:action="@{/}" method="get">
-										<button class="w-40 btn btn-primary" type="submit" th:text="メインサイト"></button>
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="メインサイト"></button>
 									</form>
 								</div>
 							</td>
-							
+
 							<td>
 								<div class="mr-10">
 									<form th:action="@{/bookRegister}" method="get">
-										<button class="w-40 btn btn-primary" type="submit" th:text="本の登録"></button>
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="本の登録"></button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookRentalConfirm}" method="post">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="カートの確認"></button>
 									</form>
 								</div>
 							</td>
