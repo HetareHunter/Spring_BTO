@@ -25,13 +25,13 @@
 								<th>イメージ</th>
 								<th>詳細</th>
 							</tr>
-							<tr th:each="book : ${bookList}" th:object="${book}">
-								<td th:text="*{bookNameId.title}"></td>
-								<td th:text="*{bookNameId.author}"></td>
-								<td th:text="*{bookNameId.genre.name}"></td>
-								<td th:text="*{bookNameId.publisher}"></td>
-								<td th:text="*{bookNameId.img}"></td>
-								<td th:text="*{bookNameId.detail}"></td>
+							<tr th:each="lending : ${lendingList}" th:object="${lending}">
+								<td th:text="*{book.bookNameId.title}"></td>
+								<td th:text="*{book.bookNameId.author}"></td>
+								<td th:text="*{book.bookNameId.genre.name}"></td>
+								<td th:text="*{book.bookNameId.publisher}"></td>
+								<td th:text="*{book.bookNameId.img}"></td>
+								<td th:text="*{book.bookNameId.detail}"></td>
 							</tr>
 							
 							<tr>

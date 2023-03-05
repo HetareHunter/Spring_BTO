@@ -74,7 +74,7 @@ public class BookRegisterController
 	{
 		System.out.println(bookName.getTitle() + " を登録する");
 		bookNameRepository.save(bookName);
-		bookRegisterService.bookSave(book, bookName, model);
+		bookRegisterService.bookSave(book, bookName);
 
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());

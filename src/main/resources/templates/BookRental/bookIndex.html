@@ -36,10 +36,17 @@
 							<td th:text="*{bookNameId.detail}"></td>
 							<td th:block th:if="*{lendable}">
 								<div class="mr-10">
-									<form th:action="@{/bookIndex/{bookId}(bookId=*{id})}" method="get">
-										<button class="w-80 btn btn-primary" type="submit" 
+									<form th:action="@{/bookIndex_setLending/{bookId}(bookId=*{id})}"
+										method="get">
+										<button class="w-80 btn btn-primary" type="submit"
 											th:text="カートに入れる"></button>
 									</form>
+								</div>
+							</td>
+							<td th:block th:if="*{!lendable}">
+								<div class="mr-10">
+									<button class="w-80 btn btn-secondary" type="submit"
+										th:text="貸し出し中" disabled></button>
 								</div>
 							</td>
 						</tr>
@@ -77,6 +84,16 @@
 									<form th:action="@{/bookRentalConfirm}" method="post">
 										<button class="w-40 btn btn-primary" type="submit"
 											th:text="カートの確認"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/deleteLending}" method="get">
+										<button class="w-40 btn btn-danger" type="submit"
+											th:text="全ての貸し借り状態の削除"></button>
 									</form>
 								</div>
 							</td>

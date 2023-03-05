@@ -2,16 +2,16 @@ package com.example.demo.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.Lending;
 import com.example.demo.model.User;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,33 +22,92 @@ public class LendingService
 {
 	@Autowired
 	private LendingRepository lendingRepository;
-	//貸し出し期間
+	@Autowired
+	private BookRepository bookRepository;
+	// 貸し出し期間
 	private int lendablePeriod = 14;
+	// カートに入れて保存されている時間
+	private int tempLendablePeriod = 1;
+	// 貸し出し期間
+	private Calendar calendar;
 
-	
-	public void LendingSave(Lending lend, Book book, User user, Model model)
+	// 正式に借りたときの処理
+	public void lendingSave(Book book, User user)
 	{
+		Lending lend = new Lending();
 		lend.setBook(book);
-		lend.setUser(user);		
-		
-		Date currentDate = new Date(System.currentTimeMillis());
-		lend.setLendDate(currentDate);
-		
-		Date futureDate = Date.valueOf(LocalDate.now().plusDays(lendablePeriod));
-		lend.setReturnDueDate(futureDate);
-		
-		lend.setReturnDate(null);		
+		lend.setUser(user);
+		calendar = Calendar.getInstance();
 
-		LocalDate currentLocalDate = currentDate.toLocalDate();
-		LocalDate futureLocalDate = futureDate.toLocalDate();
+		lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
 
-		int daysDiff = (int)ChronoUnit.DAYS.between(currentLocalDate, futureLocalDate);		
-		lend.setOverdueDate(daysDiff);
-		
+		// 返す日は借りた日にlendablePeriodを加えた日付とする
+		calendar.add(Calendar.DATE, lendablePeriod);
+		lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
+
+		// 返した日はまだ設定できない
+		lend.setReturnDate(null);
+
+		// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
+		lend.setOverdueDate(0);
+
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		lend.setCreated_at(timestamp);
 		lend.setUpdated_at(timestamp);
 		lendingRepository.save(lend);
 		System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
+	}
+
+	// ショッピングサイトのカートに保存するときの処理
+	public Lending tempLendingSave(Book book, User user)
+	{
+		Lending lend = new Lending();
+		lend.setBook(book);
+		lend.setUser(user);
+
+		calendar = Calendar.getInstance();
+
+		lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
+
+		// 返す日は借りた日にlendablePeriodを加えた日付とする
+		calendar.add(Calendar.HOUR_OF_DAY, tempLendablePeriod);
+		lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
+
+		// 返した日はまだ設定できない
+		lend.setReturnDate(null);
+
+		// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
+		lend.setOverdueDate(0);
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		lend.setCreated_at(timestamp);
+		lend.setUpdated_at(timestamp);
+		if (lendingRepository.findByBook(book).isEmpty())
+		{
+			lendingRepository.save(lend);
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本をLendingテーブルに登録した");
+		} else
+		{
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本は既に登録されています。登録失敗");
+		}
+
+		return lend;
+	}
+
+	public void deleteLending(int lendId)
+	{
+		lendingRepository.deleteById(lendId);
+		System.out.println("lendId " + lendId + " のLendingオブジェクトを削除しました");
+	}
+
+	public List<Lending> searchLending(User user)
+	{
+		return user.getLendings();
+	}
+
+	public void deleteAllLending()
+	{
+		lendingRepository.deleteAll();
+		System.out.println("全てのLendingオブジェクトを削除しました");
 	}
 }

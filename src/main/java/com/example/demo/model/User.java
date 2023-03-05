@@ -61,7 +61,7 @@ public class User
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	@Column(name = "lending")
-	private List<Lending> lending = new ArrayList<>();
+	private List<Lending> lendings = new ArrayList<>();
 
 	@Column(name = "created_at")
 	private Timestamp created_at;

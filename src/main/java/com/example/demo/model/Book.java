@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -41,9 +38,6 @@ public class Book
 
 	@Column(name = "lendable")
 	private boolean lendable;
-
-	@OneToMany(mappedBy = "book")
-	private List<Lending> lending = new ArrayList<>();
 
 	@Column(name = "created_at")
 	private Timestamp created_at;
