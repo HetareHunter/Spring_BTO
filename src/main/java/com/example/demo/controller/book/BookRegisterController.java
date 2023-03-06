@@ -18,6 +18,8 @@ import com.example.demo.model.BookName;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.GenreRepository;
+import com.example.demo.repository.LendingRepository;
+import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.ErrorUtil;
 
@@ -33,6 +35,10 @@ public class BookRegisterController
 	private BookNameRepository bookNameRepository;
 	@Autowired
 	private GenreRepository genreRepository;
+	@Autowired
+	private LendingRepository lendingRepository;
+	@Autowired
+	private UserMngRepository userRepository;
 
 	@Autowired
 	private BookRegisterService bookRegisterService;
@@ -75,11 +81,6 @@ public class BookRegisterController
 		System.out.println(bookName.getTitle() + " を登録する");
 		bookNameRepository.save(bookName);
 		bookRegisterService.bookSave(book, bookName);
-
-		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("bookList", bookRepository.findAll());
-		model.addAttribute("bookNameList", bookNameRepository.findAll());
-		model.addAttribute("genreList", genreRepository.findAll());
-		return "BookRental/bookIndex";
+		return "redirect:/bookIndex";
 	}
 }

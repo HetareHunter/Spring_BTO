@@ -107,7 +107,7 @@ public class UserRegisterController
 			System.out.println(user.getFirst_name() + " " + user.getLast_name() + " " + " を登録する");
 			userRepository.save(user);
 			System.out.println("データに登録された");
-			return "redirect:Auth/login";
+			return "redirect:/login";
 		}
 
 		@PostMapping("/alterComplete")
@@ -119,6 +119,6 @@ public class UserRegisterController
 			model.addAttribute("username", loginUser.getName());
 			model.addAttribute("userList", userRepository.findAll());
 
-			return "index";
+			return "redirect:/index";
 		}
 }

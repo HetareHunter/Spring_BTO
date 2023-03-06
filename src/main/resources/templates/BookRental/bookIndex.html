@@ -17,13 +17,13 @@
 
 						<tr th:text="*{username}"></tr>
 						<tr>
-							<th>本のタイトル</th>
-							<th>著者</th>
-							<th>ジャンル</th>
-							<th>出版社</th>
-							<th>イメージ</th>
-							<th>貸し出し</th>
-							<th>詳細</th>
+							<th th:text=#{title}></th>
+							<th th:text=#{author}></th>
+							<th th:text=#{genre}></th>
+							<th th:text=#{publisher}></th>
+							<th th:text=#{img}></th>
+							<th th:text=#{renralActivate}></th>
+							<th th:text=#{detail}></th>
 							<th>借りたい本</th>
 							<th>貸し出し解除</th>
 						</tr>
@@ -45,9 +45,9 @@
 									</form>
 								</div>
 							</td>
-							<td th:block th:if="*{!lendable}">
+							<td th:block th:unless="*{lendable}">
 								<div class="mr-10">
-									<button class="w-80 btn btn-secondary" type="submit"
+									<button class="w-60 btn btn-secondary" type="submit"
 										th:text="貸し出し中" disabled></button>
 								</div>
 							</td>
@@ -58,7 +58,7 @@
 											<form
 												th:action="@{/bookIndex_deleteLending/{bookId}(bookId=*{id})}"
 												method="get">
-												<button class="w-100 btn btn-primary" type="submit"
+												<button class="w-60 btn btn-primary" type="submit"
 													th:text="カートから削除"></button>
 											</form>
 										</div>
@@ -69,10 +69,18 @@
 
 						<tr>
 							<td>
-								<div class="mr-10">
-									<button class="w-100 btn btn-primary" type="submit"
-										th:text="本を借りる"></button>
-								</div>
+								<th:block th:if="${lendingList.size() >= 1}">
+									<div class="mr-10">
+										<button class="w-100 btn btn-primary" type="submit"
+											th:text="本を借りる"></button>
+									</div>
+								</th:block>
+								<th:block th:unless="${lendingList.size() >= 1}">
+									<div class="mr-10">
+										<button class="w-100 btn btn-secondary" type="submit"
+											th:text="本を借りる" disabled></button>
+									</div>
+								</th:block>
 							</td>
 						</tr>
 					</table>
@@ -97,7 +105,7 @@
 							</td>
 							<td>
 								<div class="mr-10">
-									<form th:action="@{/bookRentalConfirm}" method="post">
+									<form th:action="@{/bookCartConfirm}" method="post">
 										<button class="w-40 btn btn-primary" type="submit"
 											th:text="カートの確認"></button>
 									</form>

@@ -1,7 +1,5 @@
 package com.example.demo.controller.book;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -49,8 +47,6 @@ public class BookIndexController
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
 		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
 		model.addAttribute("lendingList", lendingList);
-
-		// System.out.println(lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get()));
 		return "BookRental/bookIndex";
 	}
 
@@ -58,86 +54,55 @@ public class BookIndexController
 	public String getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
 			@PathVariable int bookId)
 	{
-		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("bookList", bookRepository.findAll());
-		model.addAttribute("bookNameList", bookNameRepository.findAll());
-
 		try
 		{
-//			bookSelected = bookRentalService
-//					.selectedBook(userRepository.findByEmail(user.getName()).get().getId(), bookId);
-//			System.out.println(bookSelected.keySet() + " " + bookSelected.values());
-//			for (int id : bookSelected.keySet())
-//			{
-//				System.out.println(bookRepository.findById(id).get().getBookNameId().getTitle());
-//			}
-			try
+			book = bookRepository.findById(bookId).get();
+			if (!book.isLendable())
 			{
-				book = bookRepository.findById(bookId).get();
-				bookRegisterService.bookLendableChange(book, false); // bookの貸し出し状態を更新
-				var userEntity = userRepository.findByEmail(user.getName()).get();
-				var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
-				userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
-
-			} catch (Exception e)
-			{
-				System.out.println(e + " が postBookIndex() で発生");
+				System.out.println("既に貸し出しされています");
+				return "BookRental/bookIndex";
 			}
+			bookRegisterService.bookLendableChange(book, false); // bookの貸し出し状態を更新
+			var userEntity = userRepository.findByEmail(user.getName()).get();
+			var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
+			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 
-		} catch (NoSuchElementException e)
+		} catch (Exception e)
 		{
-			System.out.println(e + " 発生");
+			System.out.println(e + " が postBookIndex() で発生");
 		}
-
-		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
-		model.addAttribute("lendingList", lendingList);
-		return "BookRental/bookIndex";
+		return "redirect:/bookIndex";
 	}
 
 	@GetMapping("/bookIndex_deleteLending/{bookId}")
 	public String getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
 			@PathVariable int bookId)
 	{
-		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("bookList", bookRepository.findAll());
-		model.addAttribute("bookNameList", bookNameRepository.findAll());
-
 		try
 		{
-			try
-			{
-				book = bookRepository.findById(bookId).get();
-				var lend = lendingRepository.findByBook(book).get();
-				var userEntity = userRepository.findByEmail(user.getName()).get(); 
-				
-				bookRegisterService.bookLendableChange(book, true); // bookの貸し出し状態を更新
-				userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
-				lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
+			book = bookRepository.findById(bookId).get();
+			var lend = lendingRepository.findByBook(book).get();
+			var userEntity = userRepository.findByEmail(user.getName()).get();
 
-			} catch (Exception e)
-			{
-				System.out.println(e + " が postBookIndex() で発生");
-			}
+			bookRegisterService.bookLendableChange(book, true); // bookの貸し出し状態を更新
+			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+			lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
 
-		} catch (NoSuchElementException e)
+		} catch (Exception e)
 		{
-			System.out.println(e + " 発生");
+			System.out.println(e + " が postBookIndex() で発生");
 		}
-
-		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
-		model.addAttribute("lendingList", lendingList);
-
-		return "BookRental/bookIndex";
+		return "redirect:/bookIndex";
 	}
 
-	@PostMapping("/bookRentalConfirm")
+	@PostMapping("/bookCartConfirm")
 	public String postBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("lendingList", lendingService
 				.searchLending(userRepository.findByEmail(user.getName()).get()));
 
-		return "BookRental/bookRentalConfirm";
+		return "BookRental/bookCartConfirm";
 	}
 
 	@GetMapping("/deleteLending")
@@ -146,12 +111,6 @@ public class BookIndexController
 		lendingService.deleteAllLending();
 		bookRegisterService.bookAllLendableChange(true);
 		userRegisterService.deleteAllLendingRelationship();
-
-		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("bookList", bookRepository.findAll());
-		model.addAttribute("bookNameList", bookNameRepository.findAll());
-		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
-		model.addAttribute("lendingList", lendingList);
-		return "BookRental/bookIndex";
+		return "redirect:/bookIndex";
 	}
 }
