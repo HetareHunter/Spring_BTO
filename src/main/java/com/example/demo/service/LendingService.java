@@ -13,6 +13,7 @@ import com.example.demo.model.Lending;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
+import com.example.demo.util.LendingState;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,6 +51,7 @@ public class LendingService
 
 		// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
 		lend.setOverdueDate(0);
+		lend.setState(LendingState.RENTAL);
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		lend.setCreated_at(timestamp);
@@ -78,6 +80,7 @@ public class LendingService
 
 		// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
 		lend.setOverdueDate(0);
+		lend.setState(LendingState.CART);
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		lend.setCreated_at(timestamp);

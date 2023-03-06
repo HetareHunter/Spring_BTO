@@ -17,6 +17,7 @@ import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
+import com.example.demo.util.BookState;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,7 +63,7 @@ public class BookIndexController
 				System.out.println("既に貸し出しされています");
 				return "BookRental/bookIndex";
 			}
-			bookRegisterService.bookLendableChange(book, false); // bookの貸し出し状態を更新
+			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 			var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
 			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
@@ -84,7 +85,7 @@ public class BookIndexController
 			var lend = lendingRepository.findByBook(book).get();
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 
-			bookRegisterService.bookLendableChange(book, true); // bookの貸し出し状態を更新
+			bookRegisterService.bookLendableChange(book, true, BookState.FREE); // bookの貸し出し状態を更新
 			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 			lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
 

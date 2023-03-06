@@ -12,7 +12,7 @@
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy"
-							th:text="借りる本の確認"></h3>
+							th:text="以下の本を借りました"></h3>
 						<table class="table">
 							
 							<tr th:text="*{username}"></tr>
@@ -37,13 +37,7 @@
 								<td>
 									<form th:action="@{/bookIndex}" th:object="${user}" method="get">
 										<button class="btn btn-primary btn-wide" type="submit"
-											th:text="借りる"></button>
-									</form>
-								</td>
-								<td>
-									<form th:action="@{/bookIndex}" th:object="${user}" method="get">
-										<button class="btn btn-secondary btn-wide" type="submit"
-											th:text="戻る"></button>
+											th:text="本の貸し出しに戻る"></button>
 									</form>
 								</td>
 							</tr>

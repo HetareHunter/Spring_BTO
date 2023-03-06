@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import java.sql.Timestamp;
 
+import com.example.demo.util.BookState;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +16,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 /**
- * @author 
- * 各書籍を管理する。
+ * @author 各書籍を管理する。
  */
 @Data
 @Entity
@@ -38,6 +39,9 @@ public class Book
 
 	@Column(name = "lendable")
 	private boolean lendable;
+
+	@Column(name = "state")
+	private BookState state = BookState.FREE;
 
 	@Column(name = "created_at")
 	private Timestamp created_at;

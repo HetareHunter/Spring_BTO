@@ -9,6 +9,7 @@ import com.example.demo.model.Book;
 import com.example.demo.model.BookName;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.util.BookState;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,16 +28,28 @@ public class BookRegisterService
 		book.setBookNameId(bookNameRepository.findById(bookName.getId()).get());
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		book.setLendable(true);
+		book.setState(BookState.FREE);
 		book.setCreated_at(timestamp);
 		book.setUpdated_at(timestamp);
 		bookRepository.save(book);
 		System.out.println(bookName.getTitle() + " を登録した");
 	}
 
-	public void bookLendableChange(Book book, boolean lendable)
+	public void bookLendableChange(Book book, boolean lendable, BookState state)
 	{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		book.setLendable(lendable);
+		book.setState(state);
+		book.setUpdated_at(timestamp);
+		bookRepository.save(book);
+		System.out.println(book.getBookNameId().getTitle() + " を貸し出し不能にした");
+	}
+
+	public void bookCartSave(Book book)
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		book.setLendable(false);
+		book.setState(BookState.CART);
 		book.setUpdated_at(timestamp);
 		bookRepository.save(book);
 		System.out.println(book.getBookNameId().getTitle() + " を貸し出し不能にした");
@@ -49,6 +62,7 @@ public class BookRegisterService
 		for (Book book : books)
 		{
 			book.setLendable(lendable);
+			book.setState(BookState.FREE);
 			book.setUpdated_at(timestamp);
 			bookRepository.save(book);
 		}

@@ -68,20 +68,21 @@
 						</tr>
 
 						<tr>
-							<td>
-								<th:block th:if="${lendingList.size() >= 1}">
+							<td><th:block th:if="${lendingList.size() >= 1}">
 									<div class="mr-10">
-										<button class="w-100 btn btn-primary" type="submit"
-											th:text="本を借りる"></button>
+										<form
+											th:action="@{/bookRental}"
+											method="get">
+											<button class="w-100 btn btn-primary" type="submit"
+												th:text="本を借りる"></button>
+										</form>
 									</div>
-								</th:block>
-								<th:block th:unless="${lendingList.size() >= 1}">
+								</th:block> <th:block th:unless="${lendingList.size() >= 1}">
 									<div class="mr-10">
 										<button class="w-100 btn btn-secondary" type="submit"
 											th:text="本を借りる" disabled></button>
 									</div>
-								</th:block>
-							</td>
+								</th:block></td>
 						</tr>
 					</table>
 					<table class="table">

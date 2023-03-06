@@ -33,7 +33,7 @@ public class UserRegisterController
 	private String editHeadline = "";
 	private ErrorUtil errorUtil = new ErrorUtil();
 	
-	// ユーザーの新規登録
+		// ユーザーの新規登録
 		@GetMapping("/register")
 		public String register(@ModelAttribute User user, Model model)
 		{
