@@ -43,4 +43,13 @@ public class UserRegisterService
 		}
 		System.out.println("全てのユーザーの本の貸し借り関係を削除した");
 	}
+
+	public void deleteLendingRelationship(User user, Lending lend)
+	{
+		var lendings = user.getLendings();
+		lendings.remove(lend);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		user.setUpdated_at(timestamp);
+		userRepository.save(user);
+	}
 }

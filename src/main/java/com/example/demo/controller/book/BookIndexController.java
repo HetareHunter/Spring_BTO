@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
@@ -32,6 +33,8 @@ public class BookIndexController
 	@Autowired
 	private UserMngRepository userRepository;
 	@Autowired
+	private LendingRepository lendingRepository;
+	@Autowired
 	private LendingService lendingService;
 	@Autowired
 	BookRegisterService bookRegisterService;
@@ -44,16 +47,21 @@ public class BookIndexController
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
+		model.addAttribute("lendingList", lendingList);
 
+		// System.out.println(lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get()));
 		return "BookRental/bookIndex";
 	}
 
 	@GetMapping("/bookIndex_setLending/{bookId}")
-	public String getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model, @PathVariable int bookId)
+	public String getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+			@PathVariable int bookId)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+
 		try
 		{
 //			bookSelected = bookRentalService
@@ -81,31 +89,30 @@ public class BookIndexController
 			System.out.println(e + " 発生");
 		}
 
+		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
+		model.addAttribute("lendingList", lendingList);
 		return "BookRental/bookIndex";
 	}
-	
+
 	@GetMapping("/bookIndex_deleteLending/{bookId}")
-	public String getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model, @PathVariable int bookId)
+	public String getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+			@PathVariable int bookId)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+
 		try
 		{
-//			bookSelected = bookRentalService
-//					.selectedBook(userRepository.findByEmail(user.getName()).get().getId(), bookId);
-//			System.out.println(bookSelected.keySet() + " " + bookSelected.values());
-//			for (int id : bookSelected.keySet())
-//			{
-//				System.out.println(bookRepository.findById(id).get().getBookNameId().getTitle());
-//			}
 			try
 			{
 				book = bookRepository.findById(bookId).get();
-				bookRegisterService.bookLendableChange(book, false); // bookの貸し出し状態を更新
-				var userEntity = userRepository.findByEmail(user.getName()).get();
-				var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
+				var lend = lendingRepository.findByBook(book).get();
+				var userEntity = userRepository.findByEmail(user.getName()).get(); 
+				
+				bookRegisterService.bookLendableChange(book, true); // bookの貸し出し状態を更新
 				userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+				lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
 
 			} catch (Exception e)
 			{
@@ -116,6 +123,9 @@ public class BookIndexController
 		{
 			System.out.println(e + " 発生");
 		}
+
+		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
+		model.addAttribute("lendingList", lendingList);
 
 		return "BookRental/bookIndex";
 	}
@@ -140,6 +150,8 @@ public class BookIndexController
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
+		model.addAttribute("lendingList", lendingList);
 		return "BookRental/bookIndex";
 	}
 }
