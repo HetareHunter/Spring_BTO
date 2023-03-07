@@ -1,5 +1,7 @@
 package com.example.demo.controller.book;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
+import com.example.demo.util.BookState;
+import com.example.demo.util.LendingState;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,40 +40,46 @@ public class BookRentalController
 	BookRegisterService bookRegisterService;
 	@Autowired
 	UserRegisterService userRegisterService;
-	
+
 	@GetMapping("/bookRental")
 	public String getBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("lendingList", lendingService
-				.searchLending(userRepository.findByEmail(user.getName()).get()));
+				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.CART));
 		return "BookRental/bookRentalConfirm";
 	}
-	
+
 	@GetMapping("/bookRentalComplete")
-	public String getBookRentalComplete(Authentication user, @ModelAttribute Book book, Model model)
+	public String getBookRentalComplete(Authentication user, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("lendingList", lendingService
-				.searchLending(userRepository.findByEmail(user.getName()).get()));
 		
-//		try
-//		{
-//			book = bookRepository.findById(bookId).get();
-//			if (!book.isLendable())
-//			{
-//				System.out.println("既に貸し出しされています");
-//				return "BookRental/bookIndex";
-//			}
-//			bookRegisterService.bookLendableChange(book, false); // bookの貸し出し状態を更新
-//			var userEntity = userRepository.findByEmail(user.getName()).get();
-//			var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
-//			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
-//
-//		} catch (Exception e)
-//		{
-//			System.out.println(e + " が postBookIndex() で発生");
-//		}
+
+		var books = new ArrayList<Book>();
+		books = bookRepository.findByState(BookState.CART);
+		for (Book book : books)
+		{
+			try
+			{
+//				if (!book.isLendable())
+//				{
+//					System.out.println("貸し出しエラー");
+//					return "redirect:/bookIndex";
+//				}
+				bookRegisterService.bookRentalSave(book); // bookの貸し出し状態を更新
+				var userEntity = userRepository.findByEmail(user.getName()).get();
+				var lend = lendingService.lendingSave(book, userEntity); // 借りている状態にする
+				userEntity = userRegisterService.userSetRentalLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+
+			} catch (Exception e)
+			{
+				System.out.println(e + " が postBookIndex() で発生");
+			}
+		}
+		model.addAttribute("lendingList", lendingService
+				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL));
+
 		return "BookRental/bookRentalComplete";
 	}
 }

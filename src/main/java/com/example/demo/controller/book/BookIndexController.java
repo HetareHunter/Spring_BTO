@@ -18,6 +18,7 @@ import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.BookState;
+import com.example.demo.util.LendingState;
 
 import lombok.RequiredArgsConstructor;
 
@@ -66,7 +67,7 @@ public class BookIndexController
 			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 			var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
-			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+			userEntity = userRegisterService.userSetCartLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 
 		} catch (Exception e)
 		{
@@ -86,7 +87,7 @@ public class BookIndexController
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 
 			bookRegisterService.bookLendableChange(book, true, BookState.FREE); // bookの貸し出し状態を更新
-			userEntity = userRegisterService.changeUserLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+			userEntity = userRegisterService.userSetCartLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 			lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
 
 		} catch (Exception e)
@@ -101,7 +102,7 @@ public class BookIndexController
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("lendingList", lendingService
-				.searchLending(userRepository.findByEmail(user.getName()).get()));
+				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.CART));
 
 		return "BookRental/bookCartConfirm";
 	}

@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,7 @@ import com.example.demo.model.Lending;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
+import com.example.demo.repository.UserMngRepository;
 import com.example.demo.util.LendingState;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class LendingService
 	private LendingRepository lendingRepository;
 	@Autowired
 	private BookRepository bookRepository;
+	@Autowired
+	private UserMngRepository userRepository;
 	// 貸し出し期間
 	private int lendablePeriod = 14;
 	// カートに入れて保存されている時間
@@ -33,7 +36,7 @@ public class LendingService
 	private Calendar calendar;
 
 	// 正式に借りたときの処理
-	public void lendingSave(Book book, User user)
+	public Lending lendingSave(Book book, User user)
 	{
 		Lending lend = new Lending();
 		lend.setBook(book);
@@ -58,6 +61,8 @@ public class LendingService
 		lend.setUpdated_at(timestamp);
 		lendingRepository.save(lend);
 		System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
+
+		return lend;
 	}
 
 	// ショッピングサイトのカートに保存するときの処理
@@ -72,7 +77,7 @@ public class LendingService
 		lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
 
 		// 返す日は借りた日にlendablePeriodを加えた日付とする
-		calendar.add(Calendar.HOUR_OF_DAY, tempLendablePeriod);
+		calendar.add(Calendar.DATE, tempLendablePeriod);
 		lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
 
 		// 返した日はまだ設定できない
@@ -103,9 +108,18 @@ public class LendingService
 		System.out.println("lendId " + lendId + " のLendingオブジェクトを削除しました");
 	}
 
-	public List<Lending> searchLending(User user)
+	public ArrayList<Lending> searchLendings(User user, LendingState state)
 	{
-		return user.getLendings();
+		var lendingMap = user.getLendings();
+		var returnList = new ArrayList<Lending>();
+		for (Lending lending : lendingMap.values())
+		{
+			if (lending.getState() == state)
+			{
+				returnList.add(lending);
+			}
+		}
+		return returnList;
 	}
 
 	public void deleteAllLending()

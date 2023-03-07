@@ -42,7 +42,7 @@ public class BookRegisterService
 		book.setState(state);
 		book.setUpdated_at(timestamp);
 		bookRepository.save(book);
-		System.out.println(book.getBookNameId().getTitle() + " を貸し出し不能にした");
+		System.out.println(book.getBookNameId().getTitle() + " の貸し出しを " + lendable + " にした");
 	}
 
 	public void bookCartSave(Book book)
@@ -52,7 +52,17 @@ public class BookRegisterService
 		book.setState(BookState.CART);
 		book.setUpdated_at(timestamp);
 		bookRepository.save(book);
-		System.out.println(book.getBookNameId().getTitle() + " を貸し出し不能にした");
+		System.out.println(book.getBookNameId().getTitle() + " をカートに入れた");
+	}
+
+	public void bookRentalSave(Book book)
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		book.setLendable(false);
+		book.setState(BookState.RENTAL);
+		book.setUpdated_at(timestamp);
+		bookRepository.save(book);
+		System.out.println(book.getBookNameId().getTitle() + " を貸し出した");
 	}
 
 	public void bookAllLendableChange(boolean lendable)
