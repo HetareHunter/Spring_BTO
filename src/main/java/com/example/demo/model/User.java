@@ -69,6 +69,6 @@ public class User
 	@Column(name = "updated_at")
 	private Timestamp updated_at;
 
-	private String name = first_name + " " + last_name;
+	private String name;
 	private boolean admin;
 }

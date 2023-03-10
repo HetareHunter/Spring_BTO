@@ -30,7 +30,7 @@ public class LendingService
 	private Calendar calendar;
 	
 	// ショッピングサイトのカートに保存するときの処理
-	public Lending tempLendingSave(Book book, User user)
+	public Lending setLendingCart(Book book, User user)
 	{
 		Lending lend = new Lending();
 		lend.setBook(book);
@@ -54,21 +54,22 @@ public class LendingService
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		lend.setCreated_at(timestamp);
 		lend.setUpdated_at(timestamp);
-		if (lendingRepository.findByBook(book).isEmpty())
-		{
-			lendingRepository.save(lend);
-			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本をLendingテーブルに登録した");
-		} else
-		{
-			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本は既に登録されています。登録失敗");
-		}
+		lendingRepository.save(lend);
+//		if (lendingRepository.findByBook(book).isEmpty())
+//		{
+//			lendingRepository.save(lend);
+//			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本をLendingテーブルに登録した");
+//		} else
+//		{
+//			System.out.println(lend.getBook().getBookNameId().getTitle() + " の本は既に登録されています。登録失敗");
+//		}
 
 		return lend;
 	}
 
 
 	// 正式に借りるときの処理
-	public List<Lending> lendingsSave(List<Lending> lendings)
+	public List<Lending> setLendingRental(List<Lending> lendings)
 	{
 		for(var lend:lendings) {
 			calendar = Calendar.getInstance();
@@ -97,7 +98,7 @@ public class LendingService
 	}
 	
 	//ユーザーが返却処理を行ったとき
-	public List<Lending> returnLendings(List<Lending> lendings)
+	public List<Lending> setLendingReturn(List<Lending> lendings)
 	{
 		for(var lend:lendings) {
 			calendar = Calendar.getInstance();
@@ -116,6 +117,44 @@ public class LendingService
 
 		return lendings;
 	}
+	
+	//ユーザーが返却処理を行ったとき
+	public List<Lending> setLendingClose(List<Lending> lendings)
+	{
+		for(var lend:lendings) {
+			calendar = Calendar.getInstance();
+
+			// 返した日
+			lend.setReturnDate(new Date(calendar.getTimeInMillis()));
+			
+			lend.setState(LendingState.CLOSE);
+
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			lend.setUpdated_at(timestamp);
+			
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " を返却を受理しクローズした");
+		}
+		lendingRepository.saveAll(lendings);
+		return lendings;
+	}
+	
+	//ユーザーが返却処理を行ったとき
+		public Lending setLendingClose(Lending lend)
+		{
+			calendar = Calendar.getInstance();
+
+			// 返した日
+			lend.setReturnDate(new Date(calendar.getTimeInMillis()));
+			
+			lend.setState(LendingState.CLOSE);
+
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			lend.setUpdated_at(timestamp);
+			
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " を返却を受理しクローズした");
+			lendingRepository.save(lend);
+			return lend;
+		}
 	
 	public void deleteLending(int lendId)
 	{

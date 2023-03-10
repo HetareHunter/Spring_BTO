@@ -74,7 +74,7 @@ public class BookReturnController
 			System.out.println("form.getId(): " + id);
 		}
 		var returnList = lendingRepository.findAllById(form.getChecks());
-		lendingService.returnLendings(returnList);// 返却リストの更新
+		lendingService.setLendingReturn(returnList);// 返却リストの更新
 		var userEntity = userRepository.findByEmail(user.getName()).get();
 		userEntity = userRegisterService.userSetRentalLending(userEntity, returnList); // ユーザーエンティティの貸し出し状態を更新
 		model.addAttribute("lendingList", returnList);

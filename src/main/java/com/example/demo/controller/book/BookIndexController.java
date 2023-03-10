@@ -67,7 +67,7 @@ public class BookIndexController
 			}
 			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
-			var lend = lendingService.tempLendingSave(book, userEntity); // カートに入れる状態にする
+			var lend = lendingService.setLendingCart(book, userEntity); // カートに入れる状態にする
 			userEntity = userRegisterService.userSetCartLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 
 		} catch (Exception e)

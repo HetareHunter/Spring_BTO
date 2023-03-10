@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" th:remove="tag">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">
+<title>Rental</title>
+</head>
+<body class="bg-light">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<h4 class="border-bottom my-3" th:text="ユーザーの貸し出し状況"></h4>
+				<div class="mb-3">
+					<table class="table">
+
+						<tr th:text="${username}"></tr>
+						<tr>
+							<th th:text=#{title}></th>
+							<th th:text=#{author}></th>
+							<th th:text=#{genre}></th>
+							<th th:text=#{publisher}></th>
+							<th th:text=#{img}></th>
+							<th>貸し出し状況</th>
+							<th th:text=#{detail}></th>
+							<th>貸し出しユーザー</th>
+						</tr>
+						<tr th:each="lend : ${lendingList}" th:object="${lend}">
+							<td th:text="*{book.bookNameId.title}"></td>
+							<td th:text="*{book.bookNameId.author}"></td>
+							<td th:text="*{book.bookNameId.genre.name}"></td>
+							<td th:text="*{book.bookNameId.publisher}"></td>
+							<td th:text="*{book.bookNameId.img}"></td>
+							<td th:text="*{state}"></td>
+							<td th:text="*{book.bookNameId.detail}"></td>
+							<td th:text="*{user.name}"></td>
+							<td th:block th:if="${lend.state == lendingState}">
+								<div class="mr-10">
+									<form th:action="@{/LendingClose/{lendId}(lendId=${lend.id})}"
+										method="get">
+										<button class="w-60 btn btn-primary" type="submit"
+											th:text="クローズ"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+						</tr>
+					</table>
+					<table class="table">
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="メインサイト"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookAdminMain}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="管理者メニュー"></button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookIndex}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="利用者メニュー"></button>
+									</form>
+								</div>
+							</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/deleteLending}" method="get">
+										<button class="w-40 btn btn-danger" type="submit"
+											th:text="全ての貸し借り状態の削除"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

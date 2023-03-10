@@ -14,7 +14,6 @@
 				<h4 class="border-bottom my-3" th:text="本の貸し出し管理者メニュー"></h4>
 				<div class="mb-3">
 					<table class="table">
-
 						<tr th:text="*{username}"></tr>
 						<tr>
 							<th th:text=#{title}></th>
@@ -22,9 +21,9 @@
 							<th th:text=#{genre}></th>
 							<th th:text=#{publisher}></th>
 							<th th:text=#{img}></th>
-							<th>貸し出し状況</th>
+							<th th:text=#{renralActivate}></th>
 							<th th:text=#{detail}></th>
-							<th>借りたい本</th>
+							<!-- <th>借りたい本</th> -->
 						</tr>
 						<tr th:each="book : ${bookList}" th:object="${book}">
 							<td th:text="*{bookNameId.title}"></td>
@@ -34,7 +33,7 @@
 							<td th:text="*{bookNameId.img}"></td>
 							<td th:text="*{lendable}"></td>
 							<td th:text="*{bookNameId.detail}"></td>
-							<td th:block th:if="*{lendable}">
+							<!-- <td th:block th:if="*{lendable}">
 								<div class="mr-10">
 									<form
 										th:action="@{/bookIndex_setLending/{bookId}(bookId=*{id})}"
@@ -49,7 +48,7 @@
 									<button class="w-60 btn btn-secondary" type="submit"
 										th:text="貸し出し中" disabled></button>
 								</div>
-							</td>
+							</td> -->
 							<th:block th:each="lend : ${cartLendingList}">
 								<th:block th:if="${lend.book.id ==book.id}">
 									<td>
@@ -68,7 +67,7 @@
 
 						<tr>
 
-							<td><th:block th:if="${cartLendingList.size() >= 1}">
+							<!-- <td><th:block th:if="${cartLendingList.size() >= 1}">
 									<div class="mr-10">
 										<form th:action="@{/bookRental}" method="get">
 											<button class="w-100 btn btn-primary" type="submit"
@@ -80,7 +79,7 @@
 										<button class="w-100 btn btn-secondary" type="submit"
 											th:text="本を借りる" disabled></button>
 									</div>
-								</th:block></td>
+								</th:block></td> -->
 						</tr>
 					</table>
 					<table class="table">
@@ -102,7 +101,7 @@
 									</form>
 								</div>
 							</td>
-							<td>
+							<!-- <td>
 								<div class="mr-10">
 									<form th:action="@{/bookReturnRegister}" method="get">
 										<button class="w-40 btn btn-primary" type="submit"
@@ -117,12 +116,12 @@
 											th:text="カートの確認"></button>
 									</form>
 								</div>
-							</td>
+							</td> -->
 							<td>
 								<div class="mr-10">
-									<form th:action="@{/bookRentalCheck}" method="get">
+									<form th:action="@{/bookLendingAdmin}" method="get">
 										<button class="w-40 btn btn-primary" type="submit"
-											th:text="貸し出し状況"></button>
+											th:text="ユーザーの貸し出し状況"></button>
 									</form>
 								</div>
 							</td>
