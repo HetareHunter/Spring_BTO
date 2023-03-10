@@ -41,7 +41,7 @@ public class BookIndexController
 	private UserRegisterService userRegisterService;
 
 	@GetMapping("/bookIndex")
-	public String getBookIndex(Authentication user, @ModelAttribute Book book, Model model)
+	public String getBookIndex(Authentication user, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
@@ -99,7 +99,7 @@ public class BookIndexController
 	}
 
 	@GetMapping("/bookCartConfirm")
-	public String getBookCartConfirm(Authentication user, @ModelAttribute Book book, Model model)
+	public String getBookCartConfirm(Authentication user, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		var lendingList = lendingRepository
@@ -110,7 +110,7 @@ public class BookIndexController
 	}
 
 	@GetMapping("/bookRentalCheck")
-	public String getBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
+	public String getBookRentalConfirm(Authentication user, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		var lendingList = lendingRepository
@@ -121,11 +121,24 @@ public class BookIndexController
 	}
 
 	@GetMapping("/deleteLending")
-	public String getDeleteLending(Authentication user, @ModelAttribute Book book, Model model)
+	public String getDeleteLending(Authentication user, Model model)
 	{
 		lendingService.deleteAllLending();
 		bookRegisterService.bookAllLendableChange(true);
 		userRegisterService.deleteAllLendingRelationship();
 		return "redirect:/bookIndex";
+	}
+
+	@GetMapping("/bookAdminMain")
+	public String getbookAdminMain(Authentication user, Model model)
+	{
+		model.addAttribute("username", user.getName() + "でログインしています。");
+		model.addAttribute("bookList", bookRepository.findAll());
+		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		var cartLendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("cartLendingList", cartLendingList);
+		model.addAttribute("bookState_CART", BookState.CART);
+		return "BookRental/Admin/bookRentalAdminMain";
 	}
 }

@@ -28,36 +28,7 @@ public class LendingService
 	private int tempLendablePeriod = 1;
 	// 貸し出し期間
 	private Calendar calendar;
-
-	// 正式に借りるときの処理
-	public List<Lending> lendingsSave(List<Lending> lendings)
-	{
-		for(var lend:lendings) {
-			calendar = Calendar.getInstance();
-
-			lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
-
-			// 返す日は借りた日にlendablePeriodを加えた日付とする
-			calendar.add(Calendar.DATE, lendablePeriod);
-			lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
-
-			// 返した日はまだ設定できない
-			lend.setReturnDate(null);
-
-			// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
-			lend.setOverdueDate(0);
-			lend.setState(LendingState.RENTAL);
-
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			lend.setUpdated_at(timestamp);
-			
-			System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
-		}
-		lendingRepository.saveAll(lendings);
-
-		return lendings;
-	}
-
+	
 	// ショッピングサイトのカートに保存するときの処理
 	public Lending tempLendingSave(Book book, User user)
 	{
@@ -95,6 +66,57 @@ public class LendingService
 		return lend;
 	}
 
+
+	// 正式に借りるときの処理
+	public List<Lending> lendingsSave(List<Lending> lendings)
+	{
+		for(var lend:lendings) {
+			calendar = Calendar.getInstance();
+
+			lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
+
+			// 返す日は借りた日にlendablePeriodを加えた日付とする
+			calendar.add(Calendar.DATE, lendablePeriod);
+			lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
+
+			// 返した日はまだ設定できない
+			lend.setReturnDate(null);
+
+			// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
+			lend.setOverdueDate(0);
+			lend.setState(LendingState.RENTAL);
+
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			lend.setUpdated_at(timestamp);
+			
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
+		}
+		lendingRepository.saveAll(lendings);
+
+		return lendings;
+	}
+	
+	//ユーザーが返却処理を行ったとき
+	public List<Lending> returnLendings(List<Lending> lendings)
+	{
+		for(var lend:lendings) {
+			calendar = Calendar.getInstance();
+
+			// 返した日
+			lend.setReturnDate(new Date(calendar.getTimeInMillis()));
+			
+			lend.setState(LendingState.RETURN);
+
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			lend.setUpdated_at(timestamp);
+			
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " を返却処理した");
+		}
+		lendingRepository.saveAll(lendings);
+
+		return lendings;
+	}
+	
 	public void deleteLending(int lendId)
 	{
 		lendingRepository.deleteById(lendId);

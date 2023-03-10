@@ -11,40 +11,45 @@
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
-						<h3 class="card-title mb-3 text-center text-navy" th:text="以下の本を返却します"></h3>
-						<table class="table">
+						<h3 class="card-title mb-3 text-center text-navy"
+							th:text="以下の本を返却します"></h3>
+						<form th:action="@{/bookReturnComplete}" th:object="${form}"
+							method="post">
+							<table class="table">
 
-							<tr th:text="*{username}"></tr>
-							<tr>
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-								<th th:text=#{img}></th>
-								<th th:text=#{detail}></th>
-								<th>返却期限</th>
-								<th>返却する本</th>
-							</tr>
-							<tr th:each="lending : ${lendingList}" th:object="${lending}">
-								<td th:text="*{book.bookNameId.title}"></td>
-								<td th:text="*{book.bookNameId.author}"></td>
-								<td th:text="*{book.bookNameId.genre.name}"></td>
-								<td th:text="*{book.bookNameId.publisher}"></td>
-								<td th:text="*{book.bookNameId.img}"></td>
-								<td th:text="*{book.bookNameId.detail}"></td>
-								<td th:text="*{returnDueDate}"></td>
-							</tr>
-
-							<tr>
-								<td>
-									<form th:action="@{/bookIndex}" th:object="${user}"
-										method="get">
-										<button class="btn btn-secondary btn-wide" type="submit"
-											th:text="戻る"></button>
-									</form>
-								</td>
-							</tr>
-						</table>
+								<tr th:text="${username}"></tr>
+								<tr>
+									<th th:text=#{title}></th>
+									<th th:text=#{author}></th>
+									<th th:text=#{genre}></th>
+									<th th:text=#{publisher}></th>
+									<th th:text=#{img}></th>
+									<th th:text=#{detail}></th>
+									<th>返却期限</th>
+								</tr>
+								<tr th:each="lending : ${lendingList}" th:object="${lending}">
+									<td th:text="*{book.bookNameId.title}"></td>
+									<td th:text="*{book.bookNameId.author}"></td>
+									<td th:text="*{book.bookNameId.genre.name}"></td>
+									<td th:text="*{book.bookNameId.publisher}"></td>
+									<td th:text="*{book.bookNameId.img}"></td>
+									<td th:text="*{book.bookNameId.detail}"></td>
+									<td th:text="*{returnDueDate}"></td>
+									<td><input type="hidden" name="checks"
+											th:id="${lending.id}" th:value="${lending.id}"
+											th:checked="${form.checks.contains(lending.id)}" /> <label
+											th:for="${lending.id}" class="checks"></label></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary btn-wide" type="submit"
+											th:text="返却"></button></td>
+								</tr>
+							</table>
+						</form>
+						<form th:action="@{/bookReturnRegister}" th:object="${form}" method="get">
+							<button class="btn btn-secondary btn-wide" type="submit"
+								th:text="戻る"></button>
+						</form>
 					</div>
 				</div>
 			</div>

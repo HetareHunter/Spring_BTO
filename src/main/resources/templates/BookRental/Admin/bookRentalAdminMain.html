@@ -11,7 +11,7 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
-				<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
+				<h4 class="border-bottom my-3" th:text="本の貸し出し管理者メニュー"></h4>
 				<div class="mb-3">
 					<table class="table">
 
@@ -22,7 +22,7 @@
 							<th th:text=#{genre}></th>
 							<th th:text=#{publisher}></th>
 							<th th:text=#{img}></th>
-							<th th:text=#{renralActivate}></th>
+							<th>貸し出し状況</th>
 							<th th:text=#{detail}></th>
 							<th>借りたい本</th>
 						</tr>
@@ -93,6 +93,15 @@
 									</form>
 								</div>
 							</td>
+
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookRegister}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="本の登録"></button>
+									</form>
+								</div>
+							</td>
 							<td>
 								<div class="mr-10">
 									<form th:action="@{/bookReturnRegister}" method="get">
@@ -121,9 +130,9 @@
 						<tr>
 							<td>
 								<div class="mr-10">
-									<form th:action="@{/bookAdminMain}" method="get">
+									<form th:action="@{/bookIndex}" method="get">
 										<button class="w-40 btn btn-primary" type="submit"
-											th:text="管理者メニュー"></button>
+											th:text="利用者メニュー"></button>
 									</form>
 								</div>
 							</td>

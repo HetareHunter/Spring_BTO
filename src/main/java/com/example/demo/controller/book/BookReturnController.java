@@ -57,7 +57,16 @@ public class BookReturnController
 	}
 
 	@PostMapping("/bookReturnConfirm")
-	public String postBookReturnRegister(Authentication user, @ModelAttribute("form") FormEntity form, Model model)
+	public String postBookReturnConfirm(Authentication user, @ModelAttribute("form") FormEntity form, Model model)
+	{
+		model.addAttribute("username", user.getName() + "でログインしています。");
+		var returnList = lendingRepository.findAllById(form.getChecks());
+		model.addAttribute("lendingList", returnList);
+		return "BookRental/bookReturnConfirm";
+	}
+	
+	@PostMapping("/bookReturnComplete")
+	public String postBookReturnComplete(Authentication user, @ModelAttribute("form") FormEntity form, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		for (var id : form.getChecks())
@@ -65,7 +74,10 @@ public class BookReturnController
 			System.out.println("form.getId(): " + id);
 		}
 		var returnList = lendingRepository.findAllById(form.getChecks());
+		lendingService.returnLendings(returnList);// 返却リストの更新
+		var userEntity = userRepository.findByEmail(user.getName()).get();
+		userEntity = userRegisterService.userSetRentalLending(userEntity, returnList); // ユーザーエンティティの貸し出し状態を更新
 		model.addAttribute("lendingList", returnList);
-		return "BookRental/bookReturnConfirm";
+		return "BookRental/bookReturnComplete";
 	}
 }

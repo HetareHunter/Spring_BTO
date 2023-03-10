@@ -58,11 +58,21 @@ public class BookRegisterService
 	public void bookRentalSave(Book book)
 	{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		book.setLendable(false);
 		book.setState(BookState.RENTAL);
 		book.setUpdated_at(timestamp);
 		bookRepository.save(book);
 		System.out.println(book.getBookNameId().getTitle() + " を貸し出した");
+	}
+	
+	// ユーザーが返却し、かつ管理者が承認した場合に呼び出す
+	public void bookReturnSave(Book book)
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		book.setLendable(true);
+		book.setState(BookState.FREE);
+		book.setUpdated_at(timestamp);
+		bookRepository.save(book);
+		System.out.println(book.getBookNameId().getTitle() + " を貸し出し可能にした");
 	}
 
 	public void bookAllLendableChange(boolean lendable)

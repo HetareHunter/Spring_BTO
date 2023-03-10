@@ -65,8 +65,8 @@ public class BookRentalController
 				bookRegisterService.bookRentalSave(book); // bookの貸し出し状態を更新
 				var userEntity = userRepository.findByEmail(user.getName()).get();
 				var cartLendings = lendingRepository.findListByUserAndState(userEntity, LendingState.CART);
-				var lend = lendingService.lendingsSave(cartLendings); // 借りている状態にする
-				userEntity = userRegisterService.userSetRentalLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+				var lendings = lendingService.lendingsSave(cartLendings); // 借りている状態にする
+				userEntity = userRegisterService.userSetRentalLending(userEntity, lendings); // ユーザーエンティティの貸し出し状態を更新
 
 			} catch (Exception e)
 			{
