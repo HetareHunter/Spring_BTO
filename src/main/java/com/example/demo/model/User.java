@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.demo.util.Authority;
 import com.example.demo.validator.UniqueLogin;
@@ -61,7 +61,7 @@ public class User
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	@Column(name = "lending")
-	private Map<Integer, Lending> lendings = new HashMap<Integer, Lending>();
+	private List<Lending> lendings = new ArrayList<Lending>();
 
 	@Column(name = "created_at")
 	private Timestamp created_at;

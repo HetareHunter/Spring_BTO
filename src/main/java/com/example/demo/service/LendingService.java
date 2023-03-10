@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.Book;
 import com.example.demo.model.Lending;
 import com.example.demo.model.User;
-import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
-import com.example.demo.repository.UserMngRepository;
 import com.example.demo.util.LendingState;
 
 import lombok.RequiredArgsConstructor;
@@ -24,10 +22,6 @@ public class LendingService
 {
 	@Autowired
 	private LendingRepository lendingRepository;
-	@Autowired
-	private BookRepository bookRepository;
-	@Autowired
-	private UserMngRepository userRepository;
 	// 貸し出し期間
 	private int lendablePeriod = 14;
 	// カートに入れて保存されている時間
@@ -35,34 +29,33 @@ public class LendingService
 	// 貸し出し期間
 	private Calendar calendar;
 
-	// 正式に借りたときの処理
-	public Lending lendingSave(Book book, User user)
+	// 正式に借りるときの処理
+	public List<Lending> lendingsSave(List<Lending> lendings)
 	{
-		Lending lend = new Lending();
-		lend.setBook(book);
-		lend.setUser(user);
-		calendar = Calendar.getInstance();
+		for(var lend:lendings) {
+			calendar = Calendar.getInstance();
 
-		lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
+			lend.setLendDate(new Date(calendar.getTimeInMillis())); // 借りた日をset
 
-		// 返す日は借りた日にlendablePeriodを加えた日付とする
-		calendar.add(Calendar.DATE, lendablePeriod);
-		lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
+			// 返す日は借りた日にlendablePeriodを加えた日付とする
+			calendar.add(Calendar.DATE, lendablePeriod);
+			lend.setReturnDueDate(new Date(calendar.getTimeInMillis())); // 返す日をset
 
-		// 返した日はまだ設定できない
-		lend.setReturnDate(null);
+			// 返した日はまだ設定できない
+			lend.setReturnDate(null);
 
-		// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
-		lend.setOverdueDate(0);
-		lend.setState(LendingState.RENTAL);
+			// 延滞日数のカウントは登録日にはできないので暫定的に0を入れている
+			lend.setOverdueDate(0);
+			lend.setState(LendingState.RENTAL);
 
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		lend.setCreated_at(timestamp);
-		lend.setUpdated_at(timestamp);
-		lendingRepository.save(lend);
-		System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			lend.setUpdated_at(timestamp);
+			
+			System.out.println(lend.getBook().getBookNameId().getTitle() + " を登録した");
+		}
+		lendingRepository.saveAll(lendings);
 
-		return lend;
+		return lendings;
 	}
 
 	// ショッピングサイトのカートに保存するときの処理
@@ -106,20 +99,6 @@ public class LendingService
 	{
 		lendingRepository.deleteById(lendId);
 		System.out.println("lendId " + lendId + " のLendingオブジェクトを削除しました");
-	}
-
-	public ArrayList<Lending> searchLendings(User user, LendingState state)
-	{
-		var lendingMap = user.getLendings();
-		var returnList = new ArrayList<Lending>();
-		for (Lending lending : lendingMap.values())
-		{
-			if (lending.getState() == state)
-			{
-				returnList.add(lending);
-			}
-		}
-		return returnList;
 	}
 
 	public void deleteAllLending()

@@ -71,7 +71,7 @@ public class BookRegisterController
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		bookName.setCreated_at(timestamp);
 		bookName.setUpdated_at(timestamp);
-		return "BookRental/Admin/bookConfirm";
+		return "BookRental/Admin/bookRegisterConfirm";
 	}
 
 	@PostMapping("/bookRegComplete")

@@ -51,8 +51,8 @@
 										th:text="貸し出し中" disabled></button>
 								</div>
 							</td>
-							<th:block th:each="lend : ${lendingList}">
-								<th:block th:if="${!book.lendable && book.id == lend.book.id}">
+							<th:block th:each="lend : ${cartLendingList}">
+								<th:block th:if="${lend.book.id ==book.id}">
 									<td>
 										<div class="mr-10">
 											<form
@@ -68,16 +68,15 @@
 						</tr>
 
 						<tr>
-							<td><th:block th:if="${lendingList.size() >= 1}">
+
+							<td><th:block th:if="${cartLendingList.size() >= 1}">
 									<div class="mr-10">
-										<form
-											th:action="@{/bookRental}"
-											method="get">
+										<form th:action="@{/bookRental}" method="get">
 											<button class="w-100 btn btn-primary" type="submit"
 												th:text="本を借りる"></button>
 										</form>
 									</div>
-								</th:block> <th:block th:unless="${lendingList.size() >= 1}">
+								</th:block> <th:block th:unless="${cartLendingList.size() >= 1}">
 									<div class="mr-10">
 										<button class="w-100 btn btn-secondary" type="submit"
 											th:text="本を借りる" disabled></button>
@@ -106,9 +105,35 @@
 							</td>
 							<td>
 								<div class="mr-10">
-									<form th:action="@{/bookCartConfirm}" method="post">
+									<form th:action="@{/bookReturnRegister}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="本の返却"></button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookCartConfirm}" method="get">
 										<button class="w-40 btn btn-primary" type="submit"
 											th:text="カートの確認"></button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookRentalCheck}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="貸し出し状況"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/deleteLending}" method="get">
+										<button class="w-40 btn btn-primary" type="submit"
+											th:text="管理者メニュー"></button>
 									</form>
 								</div>
 							</td>

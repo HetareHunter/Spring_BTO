@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,9 @@ public class UserRegisterService
 
 	public User userSetCartLending(User user, Lending lend)
 	{
-		var lendingMap = user.getLendings();
-		var lendId = lend.getId();
-		if (lendingMap.containsKey(lendId))
-		{
-			lendingMap.put(lendId, lend);
-		}
+		var lendings = user.getLendings();
+		lendings.add(lend);
+		user.setLendings(lendings);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setUpdated_at(timestamp);
 		userRepository.save(user);
@@ -37,14 +35,9 @@ public class UserRegisterService
 		return user;
 	}
 
-	public User userSetRentalLending(User user, Lending lend)
+	public User userSetRentalLending(User user, List<Lending> lendings)
 	{
-		var lendingMap = user.getLendings();
-		var lendId = lend.getId();
-		if (lendingMap.containsKey(lendId))
-		{
-			lendingMap.replace(lendId, lend);
-		}
+		user.setLendings(lendings);
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		user.setUpdated_at(timestamp);
@@ -56,7 +49,7 @@ public class UserRegisterService
 	public void deleteAllLendingRelationship()
 	{
 		var users = userRepository.findAll();
-		var lendings = new HashMap<Integer, Lending>();
+		var lendings = new ArrayList<Lending>();
 		for (User user : users)
 		{
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());

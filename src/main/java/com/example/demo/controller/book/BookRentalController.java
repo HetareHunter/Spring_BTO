@@ -45,8 +45,9 @@ public class BookRentalController
 	public String getBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("lendingList", lendingService
-				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.CART));
+		var lendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("lendingList", lendingList);
 		return "BookRental/bookRentalConfirm";
 	}
 
@@ -54,7 +55,6 @@ public class BookRentalController
 	public String getBookRentalComplete(Authentication user, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
-		
 
 		var books = new ArrayList<Book>();
 		books = bookRepository.findByState(BookState.CART);
@@ -62,14 +62,10 @@ public class BookRentalController
 		{
 			try
 			{
-//				if (!book.isLendable())
-//				{
-//					System.out.println("貸し出しエラー");
-//					return "redirect:/bookIndex";
-//				}
 				bookRegisterService.bookRentalSave(book); // bookの貸し出し状態を更新
 				var userEntity = userRepository.findByEmail(user.getName()).get();
-				var lend = lendingService.lendingSave(book, userEntity); // 借りている状態にする
+				var cartLendings = lendingRepository.findListByUserAndState(userEntity, LendingState.CART);
+				var lend = lendingService.lendingsSave(cartLendings); // 借りている状態にする
 				userEntity = userRegisterService.userSetRentalLending(userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
 
 			} catch (Exception e)
@@ -77,8 +73,9 @@ public class BookRentalController
 				System.out.println(e + " が postBookIndex() で発生");
 			}
 		}
-		model.addAttribute("lendingList", lendingService
-				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL));
+		var lendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+		model.addAttribute("lendingList", lendingList);
 
 		return "BookRental/bookRentalComplete";
 	}

@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookNameRepository;
@@ -37,9 +36,9 @@ public class BookIndexController
 	@Autowired
 	private LendingService lendingService;
 	@Autowired
-	BookRegisterService bookRegisterService;
+	private BookRegisterService bookRegisterService;
 	@Autowired
-	UserRegisterService userRegisterService;
+	private UserRegisterService userRegisterService;
 
 	@GetMapping("/bookIndex")
 	public String getBookIndex(Authentication user, @ModelAttribute Book book, Model model)
@@ -47,8 +46,10 @@ public class BookIndexController
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
-		var lendingList = lendingRepository.findListByUser(userRepository.findByEmail(user.getName()).get());
-		model.addAttribute("lendingList", lendingList);
+		var cartLendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("cartLendingList", cartLendingList);
+		model.addAttribute("bookState_CART", BookState.CART);
 		return "BookRental/bookIndex";
 	}
 
@@ -97,14 +98,26 @@ public class BookIndexController
 		return "redirect:/bookIndex";
 	}
 
-	@PostMapping("/bookCartConfirm")
-	public String postBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
+	@GetMapping("/bookCartConfirm")
+	public String getBookCartConfirm(Authentication user, @ModelAttribute Book book, Model model)
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
-		model.addAttribute("lendingList", lendingService
-				.searchLendings(userRepository.findByEmail(user.getName()).get(), LendingState.CART));
+		var lendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("lendingList", lendingList);
 
 		return "BookRental/bookCartConfirm";
+	}
+
+	@GetMapping("/bookRentalCheck")
+	public String getBookRentalConfirm(Authentication user, @ModelAttribute Book book, Model model)
+	{
+		model.addAttribute("username", user.getName() + "でログインしています。");
+		var lendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+		model.addAttribute("lendingList", lendingList);
+
+		return "BookRental/bookRentalCheck";
 	}
 
 	@GetMapping("/deleteLending")
