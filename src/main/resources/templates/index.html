@@ -1,73 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <head>
-	<meta charset="UTF-8" th:remove="tag">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<title>Rental</title>
+<meta charset="UTF-8" th:remove="tag">
 </head>
-<body class="bg-light">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-8">
-				<h4 class="border-bottom my-3" th:text="ユーザー情報一覧"></h4>
-				<div class="mb-3">
-					<table class="table">
-						<tr th:text="*{username}"></tr>
-						<tr>
-							<th>名前</th>
-							<th>E-mail</th>
-							<th>登録日</th>
-							<th>最終更新日</th>
-						</tr>
-						<tr th:each="list : ${userList}" th:object="${list}">
-							
-							<td th:text="*{first_name} + *{last_name}"></td>
-							<td th:text="*{email}"></td>
-							<td th:text="*{created_at}"></td>
-							<td th:text="*{updated_at}"></td>
-							<td>
-								<form th:action="@{/register/{id}(id=*{id})}" method="get">
-									<button type="submit" class="btn btn-primary btn-sm" th:text="編集"></button>
-								</form>
-							</td>
-							<td>
-								<form th:action="@{/delete/{id}(id=*{id})}" method="get">
-									<button type="submit" class="btn btn-danger btn-sm"  th:text="削除"></button>
-								</form>
-							</td>
-						</tr>
-						
-						
-					</table>
-					
-					<table class="table">
-						<tr>
-							<td>
-								<div class="mr-10">
-									<form th:action="@{/}" method="get">
-										<button class="w-25 btn btn-primary" type="submit" th:text="メインサイト"></button>
-									</form>
-								</div>
-							</td>
-							
-							<td>
-								<form th:action="@{/logout}" method="post" class="mr-3">
-									<button class="w-25 btn btn-secondary" type="submit" th:text="ログアウト"></button>
-								</form>
-							</td>
-						</tr>
-					</table>
-					<!-- <form th:action="@{/register}" method="get">
-						<button class="w-25 btn btn-primary" type="submit" th:text="新規登録"></button>
-					</form> -->
-					
+<body>
+	<!-- サイドバーの表示 -->
+	<div layout:fragment="sidebar"
+		th:replace="~{fragments/sidebar :: sidebar}"></div>
+		
+	<!-- コンテンツの表示 -->
+	<main layout:fragment="content" class="offcanvas-outside bg-light">
+		<div class="container-fluid">
+			<!-- トグルボタン -->
+			<div th:replace="~{fragments/sidebar :: toggler}"></div>
+			<div class="row">
+				<div class="col">
+					<div class="card shadow">
+						<div class="card-header">
+							<h4 class="border-bottom my-3" th:text="ユーザー情報一覧"></h4>
+							<div class="mb-3">
+								<table th:if="${userList.size() > 0}"
+									class="table table-bordered">
+									<tr th:text="*{username}"></tr>
+									<thead>
+										<tr>
+											<th>名前</th>
+											<th>E-mail</th>
+											<th>登録日</th>
+											<th>最終更新日</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${userList}" th:object="${list}">
+											<td th:text="*{first_name} + *{last_name}"></td>
+											<td th:text="*{email}"></td>
+											<td th:text="*{created_at}"></td>
+											<td th:text="*{updated_at}"></td>
+											<td>
+												<form th:action="@{/register/{id}(id=*{id})}" method="get">
+													<button type="submit" class="btn btn-primary btn-sm"
+														th:text="編集"></button>
+												</form>
+											</td>
+											<td>
+												<form th:action="@{/delete/{id}(id=*{id})}" method="get">
+													<button type="submit" class="btn btn-danger btn-sm"
+														th:text="削除"></button>
+												</form>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<table class="table">
+									<tr>
+										<td>
+											<div class="mr-10">
+												<form th:action="@{/}" method="get">
+													<button class="w-25 btn btn-primary" type="submit"
+														th:text="メインサイト"></button>
+												</form>
+											</div>
+										</td>
+										<td>
+											<form th:action="@{/logout}" method="post" class="mr-3">
+												<button class="w-25 btn btn-secondary" type="submit"
+													th:text="ログアウト"></button>
+											</form>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	</main>
 </body>
 </html>

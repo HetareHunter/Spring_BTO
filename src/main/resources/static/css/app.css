@@ -3,8 +3,7 @@
   background:
     linear-gradient(to bottom,
       rgba(34, 74, 190, 1),
-      rgba(34, 74, 190, 0.7)
-    ),
+      rgba(34, 74, 190, 0.7)),
     url('/images/photo.jpg');
   background-size: cover;
 }
@@ -26,6 +25,7 @@
 /* Off-Canvas (SideBar) */
 .offcanvas {
   width: 200px;
+  height: 100%;
 }
 
 @media (min-width: 992px) {
@@ -59,7 +59,6 @@ a {
 }
 
 /* Table */
-.table > :not(:first-child) {
-    border-top: 0;
+.table> :not(:first-child) {
+  border-top: 0;
 }
-

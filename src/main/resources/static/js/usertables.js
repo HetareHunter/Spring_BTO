@@ -1,6 +1,6 @@
 $(function() {
   $("#user-table").dataTable({
-    // DataTablesを日本語化する
+    // DataTableを日本語化する
     language: {
       url: "/webjars/datatables-plugins/i18n/ja.json"
     },
