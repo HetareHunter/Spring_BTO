@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8" th:remove="tag">
@@ -133,7 +134,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td>
+											<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 												<div class="mr-10">
 													<form th:action="@{/bookAdminMain}" method="get">
 														<button class="w-40 btn btn-primary" type="submit"
@@ -143,7 +144,7 @@
 											</td>
 										</tr>
 										<tr>
-											<td>
+											<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 												<div class="mr-10">
 													<form th:action="@{/deleteLending}" method="get">
 														<button class="w-40 btn btn-danger" type="submit"

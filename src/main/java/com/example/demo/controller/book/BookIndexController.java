@@ -72,7 +72,7 @@ public class BookIndexController
 
 		} catch (Exception e)
 		{
-			System.out.println(e + " が postBookIndex() で発生");
+			System.out.println(e.getCause() + " が BookIndexController.getTempLendingBook() で発生");
 		}
 		return "redirect:/bookIndex";
 	}
@@ -84,7 +84,7 @@ public class BookIndexController
 		try
 		{
 			book = bookRepository.findById(bookId).get();
-			var lend = lendingRepository.findByBook(book).get();
+			var lend = lendingRepository.findByBookAndState(book, LendingState.CART).get();
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 
 			bookRegisterService.bookLendableChange(book, true, BookState.FREE); // bookの貸し出し状態を更新
@@ -93,7 +93,7 @@ public class BookIndexController
 
 		} catch (Exception e)
 		{
-			System.out.println(e + " が postBookIndex() で発生");
+			System.out.println(e.getCause() + " が BookIndexController.getDeleteTempLendingBook() で発生");
 		}
 		return "redirect:/bookIndex";
 	}

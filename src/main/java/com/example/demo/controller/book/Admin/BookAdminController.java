@@ -43,11 +43,10 @@ public class BookAdminController
 	{
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
-		model.addAttribute("bookNameList", bookNameRepository.findAll());
 		model.addAttribute("lendingList", lendingRepository.findAll());
-		var returnLendingList = lendingRepository
-				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.RETURN);
-		model.addAttribute("returnLendingList", returnLendingList);
+//		var returnLendingList = lendingRepository
+//				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.RETURN);
+//		model.addAttribute("returnLendingList", returnLendingList);
 		model.addAttribute("bookState_CART", BookState.CART);
 		model.addAttribute("lendingState", LendingState.RETURN);
 		return "BookRental/Admin/bookLendingAdmin";

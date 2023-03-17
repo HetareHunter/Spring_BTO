@@ -16,6 +16,8 @@ public interface LendingRepository extends JpaRepository<Lending, Integer>
 
 	Optional<Lending> findByBook(Book book);
 
+	Optional<Lending> findByBookAndState(Book book, LendingState state);
+
 	Optional<Lending> findByUser(User user);
 
 	List<Lending> findListByUser(User user);
