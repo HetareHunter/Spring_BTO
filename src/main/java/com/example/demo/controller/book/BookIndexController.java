@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookNameRepository;
@@ -41,8 +42,10 @@ public class BookIndexController
 	private UserRegisterService userRegisterService;
 
 	@GetMapping("/bookIndex")
-	public String getBookIndex(Authentication user, Model model)
+	public String getBookIndex(Authentication user, Model model, @ModelAttribute Book book,
+			@ModelAttribute String bookId)
 	{
+		model.addAttribute("returnBook", book);
 		model.addAttribute("username", user.getName() + "でログインしています。");
 		model.addAttribute("bookList", bookRepository.findAll());
 		model.addAttribute("bookNameList", bookNameRepository.findAll());
@@ -53,17 +56,21 @@ public class BookIndexController
 		return "BookRental/bookIndex";
 	}
 
-	@GetMapping("/bookIndex_setLending/{bookId}")
-	public String getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
-			@PathVariable int bookId)
+	@GetMapping("/bookIndex_setLending")
+	@ResponseBody
+	public void getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+			@RequestParam("param") String bookId)
 	{
+		// model.addAttribute("returnBook", book);
+		System.out.println("本のID：" + bookId);
 		try
 		{
-			book = bookRepository.findById(bookId).get();
+			book = bookRepository.findById(Integer.parseInt(bookId)).get();
 			if (!book.isLendable())
 			{
 				System.out.println("既に貸し出しされています");
-				return "BookRental/bookIndex";
+				// return "BookRental/bookIndex";
+				// return note;
 			}
 			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
@@ -74,16 +81,18 @@ public class BookIndexController
 		{
 			System.out.println(e.getCause() + " が BookIndexController.getTempLendingBook() で発生");
 		}
-		return "redirect:/bookIndex";
+		// return "redirect:/bookIndex";
+		// return "BookRental/bookIndex";
 	}
 
-	@GetMapping("/bookIndex_deleteLending/{bookId}")
-	public String getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
-			@PathVariable int bookId)
+	@GetMapping("/bookIndex_deleteLending")
+	@ResponseBody
+	public void getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+			@RequestParam("param") String bookId)
 	{
 		try
 		{
-			book = bookRepository.findById(bookId).get();
+			book = bookRepository.findById(Integer.parseInt(bookId)).get();
 			var lend = lendingRepository.findByBookAndState(book, LendingState.CART).get();
 			var userEntity = userRepository.findByEmail(user.getName()).get();
 
@@ -95,7 +104,7 @@ public class BookIndexController
 		{
 			System.out.println(e.getCause() + " が BookIndexController.getDeleteTempLendingBook() で発生");
 		}
-		return "redirect:/bookIndex";
+		//return "redirect:/bookIndex";
 	}
 
 	@GetMapping("/bookCartConfirm")
