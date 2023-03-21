@@ -50,33 +50,34 @@
 												<td th:text="*{bookNameId.img}"></td>
 												<td th:text="*{lendable}"></td>
 												<td th:text="*{bookNameId.detail}"></td>
+
 												<td th:block th:if="*{lendable}">
 													<div class="mr-10">
 														<form method="get" th:id="'book_cart_'+${book.Id}">
 															<button class="w-80 btn btn-primary" type="submit" th:name="${book.id}"
-																th:text="カートに入れる"></button>
+																th:text="カートに入れる" th:id="'cartButtonSet_'+${book.Id}"></button>
 														</form>
 													</div>
 												</td>
-
 												<td th:block th:unless="*{lendable}">
 													<div class="mr-10">
 														<button class="w-60 btn btn-secondary" type="submit" th:text="貸し出し中"
 															disabled></button>
 													</div>
 												</td>
-												<th:block th:each="lend : ${cartLendingList}">
+												<td>
+													<div class="mr-10">
+														<form method="get" th:id="'book_cartDelete_'+${book.Id}">
+															<button class="w-60 btn btn-primary" type="submit" th:name="${book.id}"
+																th:text="カートから取り出す" th:id="'cartButtonDelete_'+${book.Id}"
+																style="display: none;"></button>
+														</form>
+													</div>
+												</td>
+												<!-- <th:block th:each="lend : ${cartLendingList}">
 													<th:block th:if="${lend.book.id == book.id}">
-														<td>
-															<div class="mr-10">
-																<form method="get" th:id="'book_cartDelete_'+${book.Id}">
-																	<button class="w-60 btn btn-primary" type="submit" th:name="${book.id}"
-																		th:text="カートから取り出す"></button>
-																</form>
-															</div>
-														</td>
 													</th:block>
-												</th:block>
+												</th:block> -->
 											</tr>
 											<tr>
 												<td><th:block th:if="${cartLendingList.size() >= 1}">

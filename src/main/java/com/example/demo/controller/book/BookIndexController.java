@@ -70,7 +70,7 @@ public class BookIndexController
 			{
 				System.out.println("既に貸し出しされています");
 				// return "BookRental/bookIndex";
-				// return note;
+				return;
 			}
 			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
@@ -90,6 +90,7 @@ public class BookIndexController
 	public void getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
 			@RequestParam("param") String bookId)
 	{
+		System.out.println("bookIndex_deleteLending");
 		try
 		{
 			book = bookRepository.findById(Integer.parseInt(bookId)).get();

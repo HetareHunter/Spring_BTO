@@ -1,5 +1,3 @@
-
-
 $(function() {
   $('button[name]').on('click', function(e) {
     var id = $(this).attr('name');
@@ -7,7 +5,6 @@ $(function() {
     $('#book_cart_' + id).on('click', 'button', function(e) {
       e.preventDefault();
       var param = $(this).attr('name');
-      alert(param);
       // var target = $(e.target);
       // var parentRow = target.closest('tr');
       // var bookId = target.attr("name");
@@ -25,10 +22,13 @@ $(function() {
             //$("#bookId").val("");
             // var divId = document.getElementById("bookId").dataset.id;
             // alert(param);
+            $('#cartButtonSet_' + id).hide();
+            $('#cartButtonDelete_' + id).show();
           })
           .fail(function() {
             alert('book_cart error!');
           })
+      id = '';
     });
 
     $('#book_cartDelete_' + id).on('click', 'button', function(e) {
@@ -44,11 +44,13 @@ $(function() {
          }
        })
           .done(function() {
-            alert(param);
+            $('#cartButtonSet_' + id).show();
+            $('#cartButtonDelete_' + id).hide();
           })
           .fail(function() {
             alert('book_cartDelete error!');
           })
+      id = '';
     });
   });
 });
