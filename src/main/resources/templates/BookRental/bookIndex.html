@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8" th:remove="tag">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="/js/bookCartIn.js"></script>
+
 </head>
 
 <body>
@@ -54,7 +54,7 @@
 												<td th:block th:if="*{lendable}">
 													<div class="mr-10">
 														<form method="get" th:id="'book_cart_'+${book.Id}">
-															<button class="w-80 btn btn-primary" type="submit" th:name="${book.id}"
+															<button class="w-80 btn btn-primary cartButtonSet_" type="submit" th:name="${book.id}"
 																th:text="カートに入れる" th:id="'cartButtonSet_'+${book.Id}"></button>
 														</form>
 													</div>
@@ -68,7 +68,7 @@
 												<td>
 													<div class="mr-10">
 														<form method="get" th:id="'book_cartDelete_'+${book.Id}">
-															<button class="w-60 btn btn-primary" type="submit" th:name="${book.id}"
+															<button class="w-60 btn btn-primary book_cartDelete_" type="submit" th:name="${book.id}"
 																th:text="カートから取り出す" th:id="'cartButtonDelete_'+${book.Id}"
 																style="display: none;"></button>
 														</form>
@@ -95,6 +95,8 @@
 											</tr>
 										</tbody>
 									</table>
+									<script src="/js/book/bookCartIn.js"></script>
+									<script src="/js/book/bookCartDelete.js"></script>
 									<table class="table">
 										<tr>
 											<td>
