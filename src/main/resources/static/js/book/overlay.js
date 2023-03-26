@@ -1,6 +1,10 @@
 export function overlay() {
-  $(function cartInFade($) {
+  $(function cartInFade() {
     $('.cartButtonSet_').click(function() {
+      $('#overlay').fadeIn();
+      console.log('fadeIn!');
+    });
+    $('.book_cartDelete_').click(function() {
       $('#overlay').fadeIn();
       console.log('fadeIn!');
     });
@@ -12,13 +16,6 @@ export function overlay() {
     $('.overlay-inner').click(function(event) {
       event.stopPropagation();
       console.log('stopPropagation!');
-    });
-  });
-
-  $(function cartOutFade($) {
-    $('.book_cartDelete_').click(function() {
-      $('#overlay').fadeIn();
-      console.log('fadeIn!');
     });
   });
 }
