@@ -1,8 +1,11 @@
 import {cartIn} from './bookCartIn.js';
-import {overlay} from './overlay.js';
+import {spinnerFadeIn} from './overlay.js';
+import {spinnerFadeOut} from './overlay.js';
 
 export function cartOut() {
   $(function cartOut() {
+    spinnerFadeIn();
+
     $('.book_cartDelete_').click(function(e) {
       console.log('book_cartDelete_');
       e.preventDefault();
@@ -21,9 +24,9 @@ export function cartOut() {
             console.log('削除成功');
             console.log('data : ' + param);
             $('#ajaxReload').html(data);
+            spinnerFadeOut();
             cartIn();
             cartOut();
-            overlay();
           })
           .fail(function() {
             alert('book_cartDelete error!');

@@ -15,8 +15,14 @@
 
 	<!-- サイドバーの表示 -->
 	<div layout:fragment="sidebar" th:replace="~{fragments/sidebar :: sidebar}"></div>
-	<main layout:fragment="content" class="offcanvas-outside bg-light">
 
+	<main layout:fragment="content" class="offcanvas-outside bg-light">
+		<!-- ↓非同期処理の待機画面の挿入 -->
+		<div id="overlay">
+			<div class="cv-spinner">
+				<span class="spinner"></span>
+			</div>
+		</div>
 		<div class="container-fluid">
 			<!-- トグルボタン -->
 			<div th:replace="~{fragments/sidebar :: toggler}"></div>
@@ -28,101 +34,10 @@
 							<div class="mb-3">
 								<div class="card-body">
 									<p th:text="*{username}"></p>
-
-									<div id="overlay" class="close">
-										<div class="flex">
-											<div class="overlay-inner">
-												<p>Overlay</p>
-												<button id="close-btn" class="close" type="button">Close</button>
-											</div>
-										</div>
-									</div>
-
 									<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
 									<div id="ajaxReload">
 										<div th:replace="~{BookRental/BookIndexFragment/bookTable :: tableReload}">
 										</div>
-
-										<!-- <table th:if="${bookList.size() > 0}" class="table table-bordered">
-											<tr th:text="*{username}"></tr>
-											<thead>
-												<tr>
-													<th th:text=#{title}></th>
-													<th th:text=#{author}></th>
-													<th th:text=#{genre}></th>
-													<th th:text=#{publisher}></th>
-													<th th:text=#{img}></th>
-													<th th:text=#{renralActivate}></th>
-													<th th:text=#{detail}></th>
-													<th>借りたい本</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:if="${bookList.size() == 0}">
-													<td>該当データがありません</td>
-												</tr>
-												<tr th:each="book: ${bookList}" th:object="${book}">
-													<td th:text="*{bookNameId.title}"></td>
-													<td th:text="*{bookNameId.author}"></td>
-													<td th:text="*{bookNameId.genre.name}"></td>
-													<td th:text="*{bookNameId.publisher}"></td>
-													<td th:text="*{bookNameId.img}"></td>
-													<td th:text="*{lendable}"></td>
-													<td th:text="*{bookNameId.detail}"></td>
-
-													<td th:block th:if="*{lendable}">
-														<div class="mr-10">
-															<form method="get" th:id="'book_cart_'+${book.Id}">
-															js側(bookCartIn.js)で非同期処理をするためtype="button"としている
-																<button class="w-80 btn btn-primary cartButtonSet_" type="button"
-																	th:name="${book.id}" th:text="カートに入れる"
-																	th:id="'cartButtonSet_'+${book.Id}"></button>
-															</form>
-														</div>
-													</td>
-													<td th:block th:unless="*{lendable}">
-														<div class="mr-10">
-															<button class="w-60 btn btn-secondary" type="button" th:text="貸し出し中"
-																disabled></button>
-														</div>
-													</td>
-													<td>
-														<div class="mr-10">
-															<form method="get" th:id="'book_cartDelete_'+${book.Id}">
-																<th:block th:each="lend : ${cartLendingList}">
-																	<th:block th:if="${lend.book.id == book.id}">
-																	js側(bookCartDelete.js)で非同期処理をするためtype="button"としている
-																		<button class="w-60 btn btn-primary book_cartDelete_" type="button"
-																			th:name="${book.id}" th:text="カートから取り出す"
-																			th:id="'cartButtonDelete_'+${book.Id}"></button>
-																	</th:block>
-																	<th:block th:unless="${lend.book.id == book.id}">
-																	<button class="w-60 btn btn-primary book_cartDelete_" type="submit"
-																		th:name="${book.id}" th:text="カートから取り出す"
-																		th:id="'cartButtonDelete_'+${book.Id}" style="display: none;"></button>
-																</th:block>
-																</th:block>
-															</form>
-														</div>
-													</td>
-
-												</tr>
-												<tr>
-													<td><th:block th:if="${cartLendingList.size() >= 1}">
-															<div class="mr-10">
-																<form th:action="@{/bookRental}" method="get">
-																	<button class="w-100 btn btn-primary" type="submit" th:text="本を借りる"></button>
-																</form>
-															</div>
-														</th:block> <th:block th:unless="${cartLendingList.size() >= 1}">
-															<div class="mr-10">
-																<button class="w-100 btn btn-secondary" type="submit" th:text="本を借りる"
-																	disabled></button>
-															</div>
-														</th:block></td>
-												</tr>
-											</tbody>
-										</table> -->
 									</div>
 								</div>
 

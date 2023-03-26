@@ -1,11 +1,13 @@
 import {cartOut} from './bookCartDelete.js';
-import {overlay} from './overlay.js';
+import {spinnerFadeIn} from './overlay.js';
+import {spinnerFadeOut} from './overlay.js';
 
 export function cartIn() {
   $(function cartIn() {
+    spinnerFadeIn();
+
     $('.cartButtonSet_').click(function(e) {
       console.log('book_cart_ ');
-      // e.preventDefault();  //有効にするとページの部分更新もできなくなる
       var param = $(this).attr('name');
       var lendable = $('#debug' + param).attr('name');
       $.ajax({
@@ -25,9 +27,9 @@ export function cartIn() {
             lendable = $('#debug' + param).attr('name');
             console.log('更新後lendable : ' + lendable);
             $('#ajaxReload').html(data);
+            spinnerFadeOut();
             cartIn();
             cartOut();
-            overlay();
           })
           .fail(function(data) {
             alert('book_cart error!' + data);
