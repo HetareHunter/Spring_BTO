@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookNameRepository;
@@ -57,11 +56,10 @@ public class BookIndexController
 	}
 
 	@GetMapping("/bookIndex_setLending")
-	@ResponseBody
-	public void getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+	//@ResponseBody
+	public String getTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
 			@RequestParam("param") String bookId)
 	{
-		// model.addAttribute("returnBook", book);
 		System.out.println("本のID：" + bookId);
 		try
 		{
@@ -69,8 +67,7 @@ public class BookIndexController
 			if (!book.isLendable())
 			{
 				System.out.println("既に貸し出しされています");
-				// return "BookRental/bookIndex";
-				return;
+				return "BookRental/BookIndexFragment/bookTable :: tableReload";
 			}
 			bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
 			var userEntity = userRepository.findByEmail(user.getName()).get();
@@ -81,13 +78,18 @@ public class BookIndexController
 		{
 			System.out.println(e.getCause() + " が BookIndexController.getTempLendingBook() で発生");
 		}
-		// return "redirect:/bookIndex";
-		// return "BookRental/bookIndex";
+		model.addAttribute("bookList", bookRepository.findAll());
+		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		var cartLendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("cartLendingList", cartLendingList);
+		model.addAttribute("bookState_CART", BookState.CART);
+		System.out.println("javaのcontrollerクラス側は /bookIndex_setLending にて更新完了");
+		return "BookRental/BookIndexFragment/bookTable :: tableReload";
 	}
 
 	@GetMapping("/bookIndex_deleteLending")
-	@ResponseBody
-	public void getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
+	public String getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book, Model model,
 			@RequestParam("param") String bookId)
 	{
 		System.out.println("bookIndex_deleteLending");
@@ -105,7 +107,13 @@ public class BookIndexController
 		{
 			System.out.println(e.getCause() + " が BookIndexController.getDeleteTempLendingBook() で発生");
 		}
-		//return "redirect:/bookIndex";
+		model.addAttribute("bookList", bookRepository.findAll());
+		model.addAttribute("bookNameList", bookNameRepository.findAll());
+		var cartLendingList = lendingRepository
+				.findListByUserAndState(userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+		model.addAttribute("cartLendingList", cartLendingList);
+		model.addAttribute("bookState_CART", BookState.CART);
+		return "BookRental/BookIndexFragment/bookTable :: tableReload";
 	}
 
 	@GetMapping("/bookCartConfirm")

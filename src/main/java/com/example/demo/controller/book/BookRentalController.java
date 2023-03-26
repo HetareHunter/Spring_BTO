@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.model.Book;
-import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
@@ -28,8 +27,6 @@ public class BookRentalController
 {
 	@Autowired
 	private BookRepository bookRepository;
-	@Autowired
-	private BookNameRepository bookNameRepository;
 	@Autowired
 	private UserMngRepository userRepository;
 	@Autowired

@@ -9,12 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.FormEntity;
-import com.example.demo.repository.BookNameRepository;
-import com.example.demo.repository.BookRepository;
-import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
-import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.LendingState;
@@ -26,19 +22,11 @@ import lombok.RequiredArgsConstructor;
 public class BookReturnController
 {
 	@Autowired
-	private BookRepository bookRepository;
-	@Autowired
-	private BookNameRepository bookNameRepository;
-	@Autowired
-	private GenreRepository genreRepository;
-	@Autowired
 	private LendingRepository lendingRepository;
 	@Autowired
 	private UserMngRepository userRepository;
 	@Autowired
 	private LendingService lendingService;
-	@Autowired
-	private BookRegisterService bookRegisterService;
 	@Autowired
 	private UserRegisterService userRegisterService;
 

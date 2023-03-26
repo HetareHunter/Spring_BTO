@@ -7,10 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
-import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
@@ -25,10 +23,6 @@ public class BookAdminController
 {
 	@Autowired
 	private BookRepository bookRepository;
-	@Autowired
-	private BookNameRepository bookNameRepository;
-	@Autowired
-	private UserMngRepository userRepository;
 	@Autowired
 	private LendingRepository lendingRepository;
 	@Autowired

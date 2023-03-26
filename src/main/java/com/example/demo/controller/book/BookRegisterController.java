@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.model.Book;
 import com.example.demo.model.BookName;
 import com.example.demo.repository.BookNameRepository;
-import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.GenreRepository;
-import com.example.demo.repository.LendingRepository;
-import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.ErrorUtil;
 
@@ -30,15 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class BookRegisterController
 {
 	@Autowired
-	private BookRepository bookRepository;
-	@Autowired
 	private BookNameRepository bookNameRepository;
 	@Autowired
 	private GenreRepository genreRepository;
-	@Autowired
-	private LendingRepository lendingRepository;
-	@Autowired
-	private UserMngRepository userRepository;
 
 	@Autowired
 	private BookRegisterService bookRegisterService;
