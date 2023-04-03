@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/mainLayout}">
 
 <head>
 	<meta charset="UTF-8" th:remove="tag">
@@ -13,10 +13,10 @@
 
 <body>
 
-	<!-- サイドバーの表示 -->
-	<div layout:fragment="sidebar" th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<!-- トップバーの表示 -->
+	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
 
-	<main layout:fragment="content" class="offcanvas-outside bg-light">
+	<main layout:fragment="content" class="bg-light">
 		<!-- ↓非同期処理の待機画面の挿入 -->
 		<div id="overlay">
 			<div class="cv-spinner">

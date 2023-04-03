@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
   <meta charset="UTF-8">
 </head>
+
 <body>
 
   <!-- サイドバー -->
   <div th:fragment="sidebar">
-    <div class="offcanvas offcanvas-start.show"
-      data-bs-scroll="true"
-      data-bs-backdrop="false"
-      tabindex="-1"
-      id="offcanvasScrolling"
-      aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas offcanvas-start.show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+      id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
       <nav class="navbar-dark bg-image text-white h-100">
 
         <div class="offcanvas-header">
           <h4 class="offcanvas-title" id="offcanvasScrolling">
             <a th:href="@{/}" class="text-white">
-              <span class="d-inline-block me-1"
-                style="transform: rotate(-15deg)">
+              <span class="d-inline-block me-1" style="transform: rotate(-15deg)">
                 <i class="bi bi-credit-card-2-front-fill fs-3">
                 </i>
               </span>
@@ -51,7 +47,7 @@
                 本の借り入れ
               </a>
             </li>
-            
+
             <li sec:authorize="isAuthenticated()" class="nav-item">
               <a th:href="@{/logout}" class="nav-link text-white">
                 <i class="bi bi-box-arrow-right me-2"></i>
@@ -69,8 +65,7 @@
           <hr>
           <!-- 閉じるボタン(画面が小さい時に表示) -->
           <div class="text-center d-lg-none">
-            <button type="button" class="btn-circle btn-light"
-              data-bs-dismiss="offcanvas" aria-label="Close">
+            <button type="button" class="btn-circle btn-light" data-bs-dismiss="offcanvas" aria-label="Close">
               <i class="bi bi-chevron-left"></i>
             </button>
           </div>
@@ -83,13 +78,8 @@
   <div th:fragment="toggler">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <button class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasScrolling"
-          aria-controls="offcanvasScrolling"
-          aria-expanded="false"
-          aria-label="Toggle offcanvas">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+          aria-controls="offcanvasScrolling" aria-expanded="false" aria-label="Toggle offcanvas">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
@@ -97,4 +87,5 @@
   </div>
 
 </body>
+
 </html>

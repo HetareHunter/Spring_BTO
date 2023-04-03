@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
-<head>
-<meta charset="UTF-8" th:remove="tag">
-</head>
-<body>
-	<!-- サイドバーの表示 -->
-	<div layout:fragment="sidebar"
-		th:replace="~{fragments/sidebar :: sidebar}"></div>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/mainLayout}">
 
-	<main layout:fragment="content" class="offcanvas-outside bg-light">
+<head>
+	<meta charset="UTF-8" th:remove="tag">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="/js/book/bookEntry.js" type="module"></script>
+	<script src="/js/book/bookCartIn.js" type="module"></script>
+	<script src="/js/book/bookCartDelete.js" type="module"></script>
+	<script src="/js/book/overlay.js" type="module"></script>
+</head>
+
+<body>
+	<!-- トップバーの表示 -->
+	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+
+	<main layout:fragment="content" class="bg-light">
 		<div class="container-fluid">
 			<!-- トグルボタン -->
 			<div th:replace="~{fragments/sidebar :: toggler}"></div>
@@ -44,8 +49,7 @@
 										<td th:text="*{user.name}"></td>
 										<td th:block th:if="${lend.state == lendingState}">
 											<div class="mr-10">
-												<form
-													th:action="@{/LendingClose/{lendId}(lendId=${lend.id})}"
+												<form th:action="@{/LendingClose/{lendId}(lendId=${lend.id})}"
 													method="get">
 													<button class="w-60 btn btn-primary" type="submit"
 														th:text="クローズ"></button>
@@ -103,4 +107,5 @@
 		</div>
 	</main>
 </body>
+
 </html>

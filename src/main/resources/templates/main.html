@@ -1,66 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
 <head>
-<meta charset="UTF-8" th:remove="tag">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
-	rel="stylesheet">
-<title>Rental</title>
+	<meta charset="UTF-8" th:remove="tag">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<title>Rental</title>
 </head>
+
 <body>
-	<!-- サイドバーの表示 -->
-	<div layout:fragment="sidebar"
-		th:replace="~{fragments/sidebar :: sidebar}"></div>
-		
-	<!-- コンテンツの表示 -->
-	<main layout:fragment="content" class="offcanvas-outside bg-light">
-		<div class="container-fluid">
-			<!-- トグルボタン -->
-			<div th:replace="~{fragments/sidebar :: toggler}"></div>
-			<div class="row">
-				<div class="col">
-				<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
-				<div class="mb-3">
-					<table class="table">
-						<tr th:text="*{username}"></tr><!-- 
-						<tr>
-							<td>
-								<form th:action="@{/index}" method="get">
-									<button type="submit" class="btn btn-primary btn-sm"
-										th:text="管理者画面"></button>
-								</form>
-							</td>
-							
-							<td>
-								<div th:if="*{isLogin==false}">
-									<form th:action="@{/login}" method="get">
-										<button type="submit" class="btn btn-primary btn-sm"
-											th:text="ログイン"></button>
-									</form>
-								</div>
-								<div th:if="*{isLogin==true}">
-									<form th:action="@{/logout}" method="post">
-										<button type="submit" class="btn btn-primary btn-sm"
-											th:text="ログアウト"></button>
-									</form>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<form th:action="@{/bookIndex}" method="get">
-									<button type="submit" class="btn btn-primary btn-sm"
-										th:text="本の借り入れ"></button>
-								</form>
-							</td>
-						</tr>
-					 --></table>
+
+	<!-- トップバーの表示 -->
+	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+
+	<div>
+		<!-- コンテンツの表示 -->
+		<main layout:fragment="content" class="bg-light">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col">
+						<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
+						<div class="mb-3">
+							<table class="table">
+								<tr th:text="*{username}"></tr>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</main>
 	</div>
-</main>
 </body>
+
 </html>
