@@ -20,13 +20,15 @@
           </a>
         </h4>
 
-        <form action="#" class="search-form-005 me-2">
+        <!-- 検索バー -->
+        <form class="search-form-005 me-2">
           <label>
-            <input type="text" placeholder="本のタイトル">
+            <input type="text" placeholder="本のタイトル" id="bookSearch">
           </label>
-          <button type="submit" aria-label="検索"></button>
+          <button class="bookSearch" type="submit" aria-label="検索"></button>
         </form>
 
+        <!-- 各メニュー要素 -->
         <div class="centerAlign">
           <li class="li_top menuList">
             <a th:href="@{/}" class="menua">

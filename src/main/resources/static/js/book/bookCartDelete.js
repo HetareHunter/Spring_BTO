@@ -24,12 +24,13 @@ export function cartOut() {
             console.log('削除成功');
             console.log('data : ' + param);
             $('#ajaxReload').html(data);
-            spinnerFadeOut();
             cartIn();
             cartOut();
+            spinnerFadeOut();
           })
           .fail(function() {
             alert('book_cartDelete error!');
+            spinnerFadeOut();
           })
     });
   });

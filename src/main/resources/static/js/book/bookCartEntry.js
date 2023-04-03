@@ -5,5 +5,4 @@ import {overlay} from './overlay.js';
 $(function main() {
   cartIn();
   cartOut();
-  overlay();
 });

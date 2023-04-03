@@ -46,11 +46,18 @@ public class BookIndexController {
     return "BookRental/bookIndex";
   }
 
+  /**
+   * 本の検索処理
+   * @param user
+   * @param model
+   * @param searchStr
+   * @return
+   */
   @GetMapping("/bookIndex_setSearch")
   public String getSearchBook(Authentication user, Model model,
                               @RequestParam("param") String searchStr) {
     var books = new ArrayList<Book>();
-    System.out.println("本のID：" + searchStr);
+    System.out.println("本のタイトル：" + searchStr);
     try {
       books = bookRepository.findAllByBookNameId(
           bookNameRepository.findByTitle(searchStr));
@@ -60,11 +67,22 @@ public class BookIndexController {
                          " が BookIndexController.getTempLendingBook() で発生");
     }
     model.addAttribute("bookList", books);
+    var cartLendingList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+    model.addAttribute("cartLendingList", cartLendingList);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
+  /**
+   * カートに入れるときの処理
+   * @param user
+   * @param book
+   * @param model
+   * @param bookId
+   * @return
+   */
   @GetMapping("/bookIndex_setLending")
   public String getTempLendingBook(Authentication user,
                                    @ModelAttribute Book book, Model model,
@@ -98,6 +116,14 @@ public class BookIndexController {
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
+  /**
+   * カートから取り出すときの処理
+   * @param user
+   * @param book
+   * @param model
+   * @param bookId
+   * @return
+   */
   @GetMapping("/bookIndex_deleteLending")
   public String getDeleteTempLendingBook(Authentication user,
                                          @ModelAttribute Book book, Model model,

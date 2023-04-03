@@ -5,10 +5,12 @@
 <head>
 	<meta charset="UTF-8" th:remove="tag">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-	<script src="/js/book/bookEntry.js" type="module"></script>
+	<script src="/js/book/bookCartEntry.js" type="module"></script>
 	<script src="/js/book/bookCartIn.js" type="module"></script>
 	<script src="/js/book/bookCartDelete.js" type="module"></script>
 	<script src="/js/book/overlay.js" type="module"></script>
+	<script src="/js/book/bookSearch.js" type="module"></script>
+	<script src="/js/book/bookSearchEntry.js" type="module"></script>
 </head>
 
 <body>
@@ -45,25 +47,9 @@
 									<tr>
 										<td>
 											<div class="mr-10">
-												<form th:action="@{/}" method="get">
-													<button class="w-40 btn btn-primary" type="submit"
-														th:text="メインサイト"></button>
-												</form>
-											</div>
-										</td>
-										<td>
-											<div class="mr-10">
 												<form th:action="@{/bookReturnRegister}" method="get">
 													<button class="w-40 btn btn-primary" type="submit"
 														th:text="本の返却"></button>
-												</form>
-											</div>
-										</td>
-										<td>
-											<div class="mr-10">
-												<form th:action="@{/bookCartConfirm}" method="get">
-													<button class="w-40 btn btn-primary" type="submit"
-														th:text="カートの確認"></button>
 												</form>
 											</div>
 										</td>
