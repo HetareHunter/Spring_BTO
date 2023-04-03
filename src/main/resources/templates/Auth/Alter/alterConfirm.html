@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 </head>
+
 <body>
 	<main layout:fragment="content" class="bg-image">
 		<div class="container">
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow" style="max-width: 640px;">
 					<div class="card-body">
-						<h3 class="card-title mb-3 text-center text-navy"
-							th:text="以下の内容に変更します。"></h3>
+						<h3 class="card-title mb-3 text-center text-navy" th:text="以下の内容に変更します。"></h3>
 						<div class="mb-3">
 							<div class="row">
 								<label class="col-sm-2 control-label" for="username">苗字：</label>
 								<div class="col-sm-10">[[${user.first_name}]]</div>
 							</div>
-							
+
 							<div class="row">
 								<label class="col-sm-2 control-label" for="username">名前：</label>
 								<div class="col-sm-10">[[${user.last_name}]]</div>
@@ -26,8 +26,7 @@
 							<table class="table">
 								<tr>
 									<td>
-										<form th:action="@{/alterComplete}" th:object="${user}"
-											method="post">
+										<form th:action="@{/alterComplete}" th:object="${user}" method="post">
 											<input type="hidden" th:field="*{id}">
 											<input type="hidden" th:field="*{first_name}">
 											<input type="hidden" th:field="*{last_name}">
@@ -41,12 +40,10 @@
 												th:text="登録"></button>
 										</form>
 									</td>
-	
+
 									<td>
-										<form th:action="@{/Auth/Alter/alterUserInfo}" th:object="${user}" method="get">
-											<button class="btn btn-secondary btn-wide" type="submit"
-												th:text="戻る"></button>
-										</form>
+										<button class="btn btn-secondary btn-wide" onclick="history.back()"
+											th:text="戻る"></button>
 									</td>
 								</tr>
 							</table>
@@ -58,4 +55,5 @@
 	</main>
 	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
+
 </html>

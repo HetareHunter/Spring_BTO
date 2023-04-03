@@ -67,18 +67,20 @@
           </li>
         </div>
 
-        <li sec:authorize="isAuthenticated()" class="nav-item rightElement">
-          <a th:href="@{/logout}" class="menuUser">
-            <i class="bi bi-box-arrow-right me-2"></i>
-            ログアウト
-          </a>
-        </li>
-        <li sec:authorize="!isAuthenticated()" class="nav-item rightElement">
-          <a th:href="@{/login}" class="menuUser">
-            <i class="bi bi-box-arrow-right me-2"></i>
-            ログイン
-          </a>
-        </li>
+        <div class="centerAlign rightElement">
+          <li sec:authorize="isAuthenticated()" class="nav-item">
+            <a th:href="@{/logout}" class="menuUser">
+              <i class="bi bi-box-arrow-right"></i>
+              <p>ログアウト</p>
+            </a>
+          </li>
+          <li sec:authorize="!isAuthenticated()" class="nav-item">
+            <a th:href="@{/login}" class="menuUser">
+              <i class="bi bi-box-arrow-right"></i>
+              <p>ログイン</p>
+            </a>
+          </li>
+        </div>
       </ul>
     </nav>
   </div>
