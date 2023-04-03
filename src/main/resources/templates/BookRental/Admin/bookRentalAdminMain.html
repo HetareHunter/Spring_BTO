@@ -14,85 +14,53 @@
 <body>
 	<!-- トップバーの表示 -->
 	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
-
 	<main layout:fragment="content" class="bg-light">
 		<div class="container-fluid">
-			<!-- トグルボタン -->
-			<div th:replace="~{fragments/sidebar :: toggler}"></div>
 			<div class="row">
 				<div class="col">
 					<div class="card shadow">
 						<div class="card-header">
 							<h4 class="border-bottom my-3" th:text="本の貸し出し管理者メニュー"></h4>
+							<p th:text="*{username}"></p>
 							<div class="mb-3">
-								<table class="table">
-									<tr th:text="*{username}"></tr>
-									<tr>
-										<th th:text=#{title}></th>
-										<th th:text=#{author}></th>
-										<th th:text=#{genre}></th>
-										<th th:text=#{publisher}></th>
-										<th th:text=#{img}></th>
-										<th th:text=#{renralActivate}></th>
-										<th th:text=#{detail}></th>
-										<!-- <th>借りたい本</th> -->
-									</tr>
-									<tr th:each="book : ${bookList}" th:object="${book}">
-										<td th:text="*{bookNameId.title}"></td>
-										<td th:text="*{bookNameId.author}"></td>
-										<td th:text="*{bookNameId.genre.name}"></td>
-										<td th:text="*{bookNameId.publisher}"></td>
-										<td th:text="*{bookNameId.img}"></td>
-										<td th:text="*{lendable}"></td>
-										<td th:text="*{bookNameId.detail}"></td>
-										<!-- <td th:block th:if="*{lendable}">
-								<div class="mr-10">
-									<form
-										th:action="@{/bookIndex_setLending/{bookId}(bookId=*{id})}"
-										method="get">
-										<button class="w-80 btn btn-primary" type="submit"
-											th:text="カートに入れる"></button>
-									</form>
-								</div>
-							</td>
-							<td th:block th:unless="*{lendable}">
-								<div class="mr-10">
-									<button class="w-60 btn btn-secondary" type="submit"
-										th:text="貸し出し中" disabled></button>
-								</div>
-							</td> -->
-										<th:block th:each="lend : ${cartLendingList}">
-											<th:block th:if="${lend.book.id ==book.id}">
-												<td>
-													<div class="mr-10">
-														<form
-															th:action="@{/bookIndex_deleteLending/{bookId}(bookId=*{id})}"
-															method="get">
-															<button class="w-60 btn btn-primary" type="submit"
-																th:text="カートから取り出す"></button>
-														</form>
-													</div>
-												</td>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th th:text=#{title}></th>
+											<th th:text=#{author}></th>
+											<th th:text=#{genre}></th>
+											<th th:text=#{publisher}></th>
+											<th th:text=#{img}></th>
+											<th th:text=#{renralActivate}></th>
+											<th th:text=#{detail}></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="book : ${bookList}" th:object="${book}">
+											<td th:text="*{bookNameId.title}"></td>
+											<td th:text="*{bookNameId.author}"></td>
+											<td th:text="*{bookNameId.genre.name}"></td>
+											<td th:text="*{bookNameId.publisher}"></td>
+											<td th:text="*{bookNameId.img}"></td>
+											<td th:text="*{lendable}"></td>
+											<td th:text="*{bookNameId.detail}"></td>
+
+											<th:block th:each="lend : ${cartLendingList}">
+												<th:block th:if="${lend.book.id ==book.id}">
+													<td>
+														<div class="mr-10">
+															<form
+																th:action="@{/bookIndex_deleteLending/{bookId}(bookId=*{id})}"
+																method="get">
+																<button class="w-60 btn btn-primary" type="submit"
+																	th:text="カートから取り出す"></button>
+															</form>
+														</div>
+													</td>
+												</th:block>
 											</th:block>
-										</th:block>
-									</tr>
-
-									<tr>
-
-										<!-- <td><th:block th:if="${cartLendingList.size() >= 1}">
-									<div class="mr-10">
-										<form th:action="@{/bookRental}" method="get">
-											<button class="w-100 btn btn-primary" type="submit"
-												th:text="本を借りる"></button>
-										</form>
-									</div>
-								</th:block> <th:block th:unless="${cartLendingList.size() >= 1}">
-									<div class="mr-10">
-										<button class="w-100 btn btn-secondary" type="submit"
-											th:text="本を借りる" disabled></button>
-									</div>
-								</th:block></td> -->
-									</tr>
+										</tr>
+									</tbody>
 								</table>
 								<table class="table">
 									<tr>
@@ -113,22 +81,6 @@
 												</form>
 											</div>
 										</td>
-										<!-- <td>
-								<div class="mr-10">
-									<form th:action="@{/bookReturnRegister}" method="get">
-										<button class="w-40 btn btn-primary" type="submit"
-											th:text="本の返却"></button>
-									</form>
-								</div>
-							</td>
-							<td>
-								<div class="mr-10">
-									<form th:action="@{/bookCartConfirm}" method="get">
-										<button class="w-40 btn btn-primary" type="submit"
-											th:text="カートの確認"></button>
-									</form>
-								</div>
-							</td> -->
 										<td>
 											<div class="mr-10">
 												<form th:action="@{/bookLendingAdmin}" method="get">

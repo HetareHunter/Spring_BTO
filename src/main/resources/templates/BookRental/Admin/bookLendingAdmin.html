@@ -14,49 +14,49 @@
 <body>
 	<!-- トップバーの表示 -->
 	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
-
 	<main layout:fragment="content" class="bg-light">
 		<div class="container-fluid">
-			<!-- トグルボタン -->
-			<div th:replace="~{fragments/sidebar :: toggler}"></div>
 			<div class="row">
 				<div class="col">
 					<div class="card shadow">
 						<div class="card-header">
 							<h4 class="border-bottom my-3" th:text="ユーザーの貸し出し状況"></h4>
+							<p th:text="*{username}"></p>
 							<div class="mb-3">
-								<table class="table">
-
-									<tr th:text="${username}"></tr>
-									<tr>
-										<th th:text=#{title}></th>
-										<th th:text=#{author}></th>
-										<th th:text=#{genre}></th>
-										<th th:text=#{publisher}></th>
-										<th th:text=#{img}></th>
-										<th>貸し出し状況</th>
-										<th th:text=#{detail}></th>
-										<th>貸し出しユーザー</th>
-									</tr>
-									<tr th:each="lend : ${lendingList}" th:object="${lend}">
-										<td th:text="*{book.bookNameId.title}"></td>
-										<td th:text="*{book.bookNameId.author}"></td>
-										<td th:text="*{book.bookNameId.genre.name}"></td>
-										<td th:text="*{book.bookNameId.publisher}"></td>
-										<td th:text="*{book.bookNameId.img}"></td>
-										<td th:text="*{state}"></td>
-										<td th:text="*{book.bookNameId.detail}"></td>
-										<td th:text="*{user.name}"></td>
-										<td th:block th:if="${lend.state == lendingState}">
-											<div class="mr-10">
-												<form th:action="@{/LendingClose/{lendId}(lendId=${lend.id})}"
-													method="get">
-													<button class="w-60 btn btn-primary" type="submit"
-														th:text="クローズ"></button>
-												</form>
-											</div>
-										</td>
-									</tr>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th th:text=#{title}></th>
+											<th th:text=#{author}></th>
+											<th th:text=#{genre}></th>
+											<th th:text=#{publisher}></th>
+											<th th:text=#{img}></th>
+											<th>貸し出し状況</th>
+											<th th:text=#{detail}></th>
+											<th>貸し出しユーザー</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="lend : ${lendingList}" th:object="${lend}">
+											<td th:text="*{book.bookNameId.title}"></td>
+											<td th:text="*{book.bookNameId.author}"></td>
+											<td th:text="*{book.bookNameId.genre.name}"></td>
+											<td th:text="*{book.bookNameId.publisher}"></td>
+											<td th:text="*{book.bookNameId.img}"></td>
+											<td th:text="*{state}"></td>
+											<td th:text="*{book.bookNameId.detail}"></td>
+											<td th:text="*{user.name}"></td>
+											<td th:block th:if="${lend.state == lendingState}">
+												<div class="mr-10">
+													<form th:action="@{/LendingClose/{lendId}(lendId=${lend.id})}"
+														method="get">
+														<button class="w-60 btn btn-primary" type="submit"
+															th:text="クローズ"></button>
+													</form>
+												</div>
+											</td>
+										</tr>
+									</tbody>
 								</table>
 								<table class="table">
 									<tr>

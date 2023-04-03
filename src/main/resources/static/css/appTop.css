@@ -1,3 +1,4 @@
+/* メニューバーのレイアウト */
 /* Color */
 .bg-image {
   background:
@@ -22,12 +23,6 @@
   background-color: #0d47a1;
 }
 
-/* .Off-Canvas (TopBar) */
-.offcanvas_top {
-  width: 100%;
-  height: 30px;
-}
-
 .nav_top {
   width: 100%;
   height: 70px;
@@ -40,25 +35,6 @@
 
 .li_top {
   list-style: none;
-}
-
-.a_top {
-  display: block;
-  text-decoration: none;
-  color: white;
-  margin-right: 35px;
-}
-
-@media (min-width: 992px) {
-  .offcanvas {
-    transform: none;
-    visibility: visible !important;
-  }
-
-  .offcanvas-outside {
-    transition: margin-left 0.3s ease-in-out;
-    margin-left: 10px;
-  }
 }
 
 .btn-circle {
@@ -82,7 +58,7 @@
 .menu-bar {
   width: 100%;
   /* height: 30px; */
-  padding: 10px 0;
+  /* padding: 0 0; */
 }
 
 .menu-bar ul {
@@ -98,19 +74,19 @@
 
 .menua {
   display: block;
-  padding: 8px 15px;
+  padding: 10px 15px;
   text-decoration: none;
   font-weight: bold;
-  margin-right: 35px;
+  margin-right: 25px;
   color: #ffffff;
 }
 
 .menuUser {
   display: block;
-  padding: 8px 15px;
+  padding: 10px 15px;
   text-decoration: none;
   font-weight: bold;
-  margin-left: 35px;
+  /* margin-left: 35px; */
   color: #ffffff;
 }
 
@@ -121,16 +97,14 @@
 
 .rightElement {
   margin: 0 0 0 auto;
-  float: right;
+  /* float: right; */
 }
 
-div#sidebar {
-  float: left;
-  width: 200px;
-  height: 100%;
+.centerAlign {
+  text-align: center;
 }
 
-
+/* 読み込み中のオーバーレイ */
 
 #overlay {
   /*オーバーレイのCSS*/
@@ -167,4 +141,82 @@ div#sidebar {
 
 .is-hide {
   display: none;
+}
+
+/* 検索機能のレイアウト */
+.search-form-005 {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 3px;
+  padding: 8px 15px;
+}
+
+.search-form-005 input {
+  width: 250px;
+  height: 45px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 3px 0 0 3px;
+  box-sizing: border-box;
+  background-color: #e6edf3;
+  font-size: 1em;
+  outline: none;
+}
+
+.search-form-005 input::placeholder {
+  color: #767d83;
+}
+
+.search-form-005 button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 45px;
+  border: none;
+  border-radius: 0 3px 3px 0;
+  background-color: #2589d0;
+  cursor: pointer;
+}
+
+.search-form-005 button::after {
+  width: 20px;
+  height: 20px;
+  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%20%3Cpath%20d%3D%22M23.7%2020.8%2019%2016.1c-.2-.2-.5-.3-.8-.3h-.8c1.3-1.7%202-3.7%202-6C19.5%204.4%2015.1%200%209.7%200S0%204.4%200%209.7s4.4%209.7%209.7%209.7c2.3%200%204.3-.8%206-2v.8c0%20.3.1.6.3.8l4.7%204.7c.4.4%201.2.4%201.6%200l1.3-1.3c.5-.5.5-1.2.1-1.6zm-14-5.1c-3.3%200-6-2.7-6-6s2.7-6%206-6%206%202.7%206%206-2.6%206-6%206z%22%20fill%3D%22%23fff%22%3E%3C%2Fpath%3E%20%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  content: '';
+}
+
+/* カートのボタン */
+.button-065 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #44444400;
+  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7.2%2019.2c-1.3%200-2.4%201.1-2.4%202.4%200%201.3%201.1%202.4%202.4%202.4s2.4-1.1%202.4-2.4c0-1.3-1.1-2.4-2.4-2.4zM0%200v2.4h2.4l4.3%209.1-1.6%202.9c-.2.3-.3.7-.3%201.2%200%201.3%201.1%202.4%202.4%202.4h14.4v-2.4H7.7c-.2%200-.3-.1-.3-.3v-.1l1.1-2h8.9c.9%200%201.7-.5%202.1-1.2l4.3-7.8c.2-.2.2-.4.2-.6%200-.7-.5-1.2-1.2-1.2H5.1L3.9%200H0zm19.2%2019.2c-1.3%200-2.4%201.1-2.4%202.4%200%201.3%201.1%202.4%202.4%202.4%201.3%200%202.4-1.1%202.4-2.4%200-1.3-1.1-2.4-2.4-2.4z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E');
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+}
+
+.button-065 span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -35%;
+  right: -35%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #2589d0;
+  color: #fff;
+  font-size: .9em;
 }
