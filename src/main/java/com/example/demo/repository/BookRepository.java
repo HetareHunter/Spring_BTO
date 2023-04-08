@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
   Optional<Book> findById(int id);
-  Optional<Book> findByBookNameId(Optional<BookName> bookNameId);
-  ArrayList<Book> findAllByBookNameId(Optional<BookName> bookNameId);
+  Optional<Book> findByBookNameId(BookName bookNameId);
   ArrayList<Book> findByState(BookState state);
 }

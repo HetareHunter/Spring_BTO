@@ -59,8 +59,10 @@ public class BookIndexController {
     var books = new ArrayList<Book>();
     System.out.println("本のタイトル：" + searchStr);
     try {
-      books = bookRepository.findAllByBookNameId(
-          bookNameRepository.findByTitle(searchStr));
+      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
+      for (var bookName : bookNames) {
+        books.add(bookRepository.findByBookNameId(bookName).get());
+      }
 
     } catch (Exception e) {
       System.out.println(e.getCause() +
