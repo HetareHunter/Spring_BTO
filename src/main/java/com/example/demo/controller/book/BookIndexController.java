@@ -35,7 +35,6 @@ public class BookIndexController {
   public String getBookIndex(Authentication user, Model model,
                              @ModelAttribute Book book,
                              @ModelAttribute String bookId) {
-    model.addAttribute("returnBook", book);
     model.addAttribute("username", user.getName() + "でログインしています。");
     model.addAttribute("bookList", bookRepository.findAll());
     model.addAttribute("bookNameList", bookNameRepository.findAll());
@@ -68,6 +67,7 @@ public class BookIndexController {
       System.out.println(e.getCause() +
                          " が BookIndexController.getTempLendingBook() で発生");
     }
+    model.addAttribute("username", user.getName() + "でログインしています。");
     model.addAttribute("bookList", books);
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
@@ -75,6 +75,41 @@ public class BookIndexController {
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
+  }
+
+  /**
+   * 本の検索処理
+   * @param user
+   * @param model
+   * @param searchStr
+   * @return
+   */
+  @GetMapping("/bookIndex_setSearchAnotherPage")
+  public String
+  getSearchBookAnotherPage(Authentication user, Model model,
+                           @RequestParam("param") String searchStr) {
+    var books = new ArrayList<Book>();
+    System.out.println("本のタイトル：" + searchStr);
+    try {
+      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
+      for (var bookName : bookNames) {
+        books.add(bookRepository.findByBookNameId(bookName).get());
+      }
+
+    } catch (Exception e) {
+      System.out.println(e.getCause() +
+                         " が BookIndexController.getTempLendingBook() で発生");
+    }
+    model.addAttribute("username", user.getName() + "でログインしています。");
+    model.addAttribute("bookList", books);
+    var cartLendingList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+    model.addAttribute("cartLendingList", cartLendingList);
+    model.addAttribute("bookNameList", bookNameRepository.findAll());
+    model.addAttribute("bookState_CART", BookState.CART);
+    System.out.println(
+        "javaのcontrollerクラス側は /bookIndex_setSearchAnotherPage にて検索完了");
+    return "BookRental/bookIndex";
   }
 
   /**

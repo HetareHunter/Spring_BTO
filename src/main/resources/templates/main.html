@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/mainLayout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/mainLayout}">
 
 <head>
 	<meta charset="UTF-8" th:remove="tag">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<title>Rental</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="/js/book/overlay.js" type="module"></script>
+	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
+	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
 </head>
 
 <body>
