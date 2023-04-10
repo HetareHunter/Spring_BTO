@@ -1,16 +1,15 @@
-import {cartIn} from './bookCartIn.js';
 import {spinnerFadeIn} from './overlay.js';
 import {spinnerFadeOut} from './overlay.js';
 
 export function cartOut() {
   $(function cartOut() {
     spinnerFadeIn();
-
-    $('.book_cartDelete_').click(function(e) {
+    $(document).on('click', '.book_cartDelete_', function(e) {
       console.log('book_cartDelete_');
       e.preventDefault();
       var bookId = $(this).attr('name');
-      var searchStr = $('#searchStr').attr('name');
+      var searchStr = $('#searchTableStr').attr('name');
+      console.log('cartOut searchTableStr : ' + searchStr);
       $.ajax({
          url: '/bookIndex_deleteLending',
          type: 'GET',
@@ -26,8 +25,9 @@ export function cartOut() {
             console.log('削除成功');
             // console.log('data : ' + bookId);
             $('#ajaxReload').html(data);
-            cartIn();
-            cartOut();
+            console.log('cartOut後searchTableStr : ' + searchStr);
+            // cartIn();
+            // cartOut();
             spinnerFadeOut();
           })
           .fail(function() {

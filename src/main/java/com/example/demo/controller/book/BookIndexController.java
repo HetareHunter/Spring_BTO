@@ -156,6 +156,7 @@ public class BookIndexController {
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
     model.addAttribute("bookState_CART", BookState.CART);
+    System.out.println("bookIndex_setLending の searchStr : " + searchStr);
     model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setLending にて更新完了");
@@ -204,6 +205,7 @@ public class BookIndexController {
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
     model.addAttribute("bookState_CART", BookState.CART);
+    model.addAttribute("searchStr", searchStr);
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 

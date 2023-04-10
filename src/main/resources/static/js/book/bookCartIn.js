@@ -1,17 +1,16 @@
-import {cartOut} from './bookCartDelete.js';
 import {spinnerFadeIn} from './overlay.js';
 import {spinnerFadeOut} from './overlay.js';
 
 export function cartIn() {
   $(function cartIn() {
     spinnerFadeIn();
-    $('.cartButtonSet_').click(function(e) {
+    $(document).on('click', '.cartButtonSet_', function(e) {
       console.log('book_cart_ ');
       e.preventDefault();
       var bookId = $(this).attr('name');
-      var searchStr = $('#searchStr').attr('name');
-      var lendable = $('#debug' + bookId).attr('name');
-      console.log('searchStr : ' + searchStr);
+      var searchStr = $('#searchTableStr').attr('name');
+      // var lendable = $('#debug' + bookId).attr('name');
+      console.log('cartIn searchTableStr : ' + searchStr);
       $.ajax({
          url: '/bookIndex_setLending',
          type: 'GET',
@@ -26,13 +25,14 @@ export function cartIn() {
           .done(function(data) {
             // console.log('data : ' + data);
             // console.log('bookList : ' + bookList);
-            console.log('lendable : ' + lendable);
-            lendable = $('#debug' + bookId).attr('name');
-            console.log('更新後lendable : ' + lendable);
+            // console.log('lendable : ' + lendable);
+            // lendable = $('#debug' + bookId).attr('name');
+            // console.log('更新後lendable : ' + lendable);
             $('#ajaxReload').html(data);
+            console.log('CartIn後searchTableStr : ' + searchStr);
             //$('#cartLendingList_size').html(cartLendingList.size());
-            cartIn();
-            cartOut();
+            // cartIn();
+            // cartOut();
             spinnerFadeOut();
           })
           .fail(function(data) {

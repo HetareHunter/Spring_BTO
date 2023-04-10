@@ -6,7 +6,9 @@
 </head>
 
 <body>
+
 	<div th:fragment="tableReload">
+		<div id="searchTableStr" th:name="${searchStr}" type=hidden></div>
 		<table th:if="${bookList.size() > 0}" class="table table-bordered">
 			<thead>
 				<tr>
