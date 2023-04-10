@@ -5,35 +5,38 @@ import {spinnerFadeOut} from './overlay.js';
 export function cartIn() {
   $(function cartIn() {
     spinnerFadeIn();
-
     $('.cartButtonSet_').click(function(e) {
       console.log('book_cart_ ');
       e.preventDefault();
-      var param = $(this).attr('name');
-      var lendable = $('#debug' + param).attr('name');
+      var bookId = $(this).attr('name');
+      var searchStr = $('#searchStr').attr('name');
+      var lendable = $('#debug' + bookId).attr('name');
+      console.log('searchStr : ' + searchStr);
       $.ajax({
          url: '/bookIndex_setLending',
          type: 'GET',
          dataType: 'html',
          timeout: 10000,  // タイムアウト時間の指定
          data: {
-           param: param,
+           bookId: bookId,
+           searchStr: searchStr,
            _csrf: $('*[name=_csrf]').val()  // CSRFトークンを送信
          }
        })
           .done(function(data) {
-            console.log('data : ' + data);
-            console.log('param : ' + param);
+            // console.log('data : ' + data);
+            // console.log('bookList : ' + bookList);
             console.log('lendable : ' + lendable);
-            lendable = $('#debug' + param).attr('name');
+            lendable = $('#debug' + bookId).attr('name');
             console.log('更新後lendable : ' + lendable);
             $('#ajaxReload').html(data);
+            //$('#cartLendingList_size').html(cartLendingList.size());
             cartIn();
             cartOut();
             spinnerFadeOut();
           })
           .fail(function(data) {
-            alert('book_cart error!' + data);
+            alert('book_cartIn error!' + data);
             spinnerFadeOut();
           })
     });

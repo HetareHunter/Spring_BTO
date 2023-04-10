@@ -24,7 +24,7 @@
 				<tr th:if="${bookList.size() == 0}">
 					<td>該当データがありません</td>
 				</tr>
-				<tr th:each="book: ${bookList}" th:object="${book}">
+				<tr th:each="book: ${bookList}" th:object="${book}" id="bookList">
 					<td th:text="*{bookNameId.title}"></td>
 					<td th:text="*{bookNameId.author}"></td>
 					<td th:text="*{bookNameId.genre.name}"></td>

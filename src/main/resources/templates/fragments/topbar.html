@@ -25,7 +25,7 @@
           <label>
             <input type="text" placeholder="本のタイトル" id="bookSearch">
           </label>
-          <button class="bookSearch" type="submit" aria-label="検索"></button>
+          <button class="bookSearch" type="button" aria-label="検索"></button>
         </form>
 
         <!-- 各メニュー要素 -->
@@ -60,7 +60,7 @@
           <li class="nav-item menuList">
             <!-- <form th:action="@{/bookCartConfirm}" method="get" class="menua"> -->
             <a th:href="@{/bookCartConfirm}" class="menua">
-              <div class="button-065">
+              <div class="button-065" id="cartLendingList_size">
                 <span th:text="${cartLendingList.size()}"></span>
               </div>
               <p>カート</p>

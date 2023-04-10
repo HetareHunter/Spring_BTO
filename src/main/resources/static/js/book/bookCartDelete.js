@@ -9,20 +9,22 @@ export function cartOut() {
     $('.book_cartDelete_').click(function(e) {
       console.log('book_cartDelete_');
       e.preventDefault();
-      var param = $(this).attr('name');
+      var bookId = $(this).attr('name');
+      var searchStr = $('#searchStr').attr('name');
       $.ajax({
          url: '/bookIndex_deleteLending',
          type: 'GET',
          dataType: 'html',
          timeout: 10000,  // タイムアウト時間の指定
          data: {
-           param: param,
+           bookId: bookId,
+           searchStr: searchStr,
            _csrf: $('*[name=_csrf]').val()  // CSRFトークンを送信
          }
        })
           .done(function(data) {
             console.log('削除成功');
-            console.log('data : ' + param);
+            // console.log('data : ' + bookId);
             $('#ajaxReload').html(data);
             cartIn();
             cartOut();

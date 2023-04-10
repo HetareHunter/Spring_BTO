@@ -54,7 +54,7 @@ public class BookIndexController {
    */
   @GetMapping("/bookIndex_setSearch")
   public String getSearchBook(Authentication user, Model model,
-                              @RequestParam("param") String searchStr) {
+                              @RequestParam("searchStr") String searchStr) {
     var books = new ArrayList<Book>();
     System.out.println("本のタイトル：" + searchStr);
     try {
@@ -72,13 +72,14 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
   /**
-   * 本の検索処理
+   * 本の貸し出しページ外からの本の検索処理
    * @param user
    * @param model
    * @param searchStr
@@ -87,7 +88,7 @@ public class BookIndexController {
   @GetMapping("/bookIndex_setSearchAnotherPage")
   public String
   getSearchBookAnotherPage(Authentication user, Model model,
-                           @RequestParam("param") String searchStr) {
+                           @RequestParam("searchStr") String searchStr) {
     var books = new ArrayList<Book>();
     System.out.println("本のタイトル：" + searchStr);
     try {
@@ -107,6 +108,7 @@ public class BookIndexController {
     model.addAttribute("cartLendingList", cartLendingList);
     model.addAttribute("bookNameList", bookNameRepository.findAll());
     model.addAttribute("bookState_CART", BookState.CART);
+    model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearchAnotherPage にて検索完了");
     return "BookRental/bookIndex";
@@ -121,12 +123,18 @@ public class BookIndexController {
    * @return
    */
   @GetMapping("/bookIndex_setLending")
-  public String getTempLendingBook(Authentication user,
-                                   @ModelAttribute Book book, Model model,
-                                   @RequestParam("param") String bookId) {
+  public String
+  getTempLendingBook(Authentication user, @ModelAttribute Book book,
+                     Model model, @RequestParam("bookId") String bookId,
+                     @RequestParam("searchStr") String searchStr) {
     System.out.println("本のID：" + bookId);
+    var books = new ArrayList<Book>();
     try {
       book = bookRepository.findById(Integer.parseInt(bookId)).get();
+      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
+      for (var bookName : bookNames) {
+        books.add(bookRepository.findByBookNameId(bookName).get());
+      }
       if (!book.isLendable()) {
         System.out.println("既に貸し出しされています");
         return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -142,12 +150,13 @@ public class BookIndexController {
       System.out.println(e.getCause() +
                          " が BookIndexController.getTempLendingBook() で発生");
     }
-    model.addAttribute("bookList", bookRepository.findAll());
+    model.addAttribute("bookList", books);
     model.addAttribute("bookNameList", bookNameRepository.findAll());
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
     model.addAttribute("bookState_CART", BookState.CART);
+    model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setLending にて更新完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -162,12 +171,18 @@ public class BookIndexController {
    * @return
    */
   @GetMapping("/bookIndex_deleteLending")
-  public String getDeleteTempLendingBook(Authentication user,
-                                         @ModelAttribute Book book, Model model,
-                                         @RequestParam("param") String bookId) {
+  public String
+  getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book,
+                           Model model, @RequestParam("bookId") String bookId,
+                           @RequestParam("searchStr") String searchStr) {
     System.out.println("bookIndex_deleteLending");
+    var books = new ArrayList<Book>();
     try {
       book = bookRepository.findById(Integer.parseInt(bookId)).get();
+      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
+      for (var bookName : bookNames) {
+        books.add(bookRepository.findByBookNameId(bookName).get());
+      }
       var lend =
           lendingRepository.findByBookAndState(book, LendingState.CART).get();
       var userEntity = userRepository.findByEmail(user.getName()).get();
@@ -183,7 +198,7 @@ public class BookIndexController {
           e.getCause() +
           " が BookIndexController.getDeleteTempLendingBook() で発生");
     }
-    model.addAttribute("bookList", bookRepository.findAll());
+    model.addAttribute("bookList", books);
     model.addAttribute("bookNameList", bookNameRepository.findAll());
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);

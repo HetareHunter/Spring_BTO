@@ -6,7 +6,7 @@
 	<meta charset="UTF-8" th:remove="tag">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 	<script src="/js/book/bookCartEntry.js" type="module"></script>
-	<script src="/js/book/bookCartIn.js" type="module"></script>
+	<script src="/js/book/bookCartIn.js" type="module">	</script>
 	<script src="/js/book/bookCartDelete.js" type="module"></script>
 	<script src="/js/book/overlay.js" type="module"></script>
 	<script src="/js/book/bookSearch.js" type="module"></script>
@@ -15,7 +15,6 @@
 
 <body>
 
-	<!-- トップバーの表示 -->
 	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
 
 	<main layout:fragment="content" class="bg-light">
@@ -25,6 +24,7 @@
 				<span class="spinner"></span>
 			</div>
 		</div>
+		<div id="searchStr" th:name="${searchStr}" type="hidden"></div>
 		<div class="container-fluid">
 			<!-- トグルボタン -->
 			<div th:replace="~{fragments/sidebar :: toggler}"></div>

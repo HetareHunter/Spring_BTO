@@ -56,6 +56,11 @@ public class UserController {
     return "Auth/login";
   }
 
+  @GetMapping("/logout")
+  public String logout() {
+    return "/";
+  }
+
   // -------------------------管理者画面-------------------------
   @GetMapping("/index")
   public String getindex(Authentication user, Model model) {
