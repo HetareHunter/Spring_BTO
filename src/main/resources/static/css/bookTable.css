@@ -1,0 +1,7 @@
+.equal_table td {
+    white-space: normal;
+}
+
+table_th {
+    white-space: nowrap;
+}

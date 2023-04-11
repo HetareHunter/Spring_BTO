@@ -24,7 +24,7 @@
 								<th th:text=#{img}></th>
 								<th th:text=#{detail}></th>
 							</tr>
-							<tr th:each="lending : ${lendingList}" th:object="${lending}">
+							<tr th:each="lending : ${cartLendingList}" th:object="${lending}">
 								<td th:text="*{book.bookNameId.title}"></td>
 								<td th:text="*{book.bookNameId.author}"></td>
 								<td th:text="*{book.bookNameId.genre.name}"></td>

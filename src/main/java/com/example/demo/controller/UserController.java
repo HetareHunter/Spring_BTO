@@ -38,6 +38,9 @@ public class UserController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     return "main";
   }
 
@@ -69,6 +72,9 @@ public class UserController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     return "index";
   }
 
@@ -78,6 +84,9 @@ public class UserController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     return "index";
   }
 }

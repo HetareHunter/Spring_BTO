@@ -36,6 +36,9 @@ public class BookAdminController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     return "BookRental/Admin/bookLendingAdmin";
   }
 

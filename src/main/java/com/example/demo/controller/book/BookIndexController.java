@@ -41,6 +41,9 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("bookState_CART", BookState.CART);
     return "BookRental/bookIndex";
   }
@@ -72,6 +75,9 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
@@ -108,6 +114,9 @@ public class BookIndexController {
     model.addAttribute("cartLendingList", cartLendingList);
     model.addAttribute("bookNameList", bookNameRepository.findAll());
     model.addAttribute("bookState_CART", BookState.CART);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearchAnotherPage にて検索完了");
@@ -155,6 +164,9 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("bookState_CART", BookState.CART);
     System.out.println("bookIndex_setLending の searchStr : " + searchStr);
     model.addAttribute("searchStr", searchStr);
@@ -204,6 +216,9 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("bookState_CART", BookState.CART);
     model.addAttribute("searchStr", searchStr);
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -212,9 +227,9 @@ public class BookIndexController {
   @GetMapping("/bookCartConfirm")
   public String getBookCartConfirm(Authentication user, Model model) {
     model.addAttribute("username", user.getName() + "でログインしています。");
-    var lendingList = lendingRepository.findListByUserAndState(
+    var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("lendingList", lendingList);
+    model.addAttribute("cartLendingList", cartLendingList);
 
     return "BookRental/bookCartConfirm";
   }
@@ -222,9 +237,9 @@ public class BookIndexController {
   @GetMapping("/bookRentalCheck")
   public String getBookRentalConfirm(Authentication user, Model model) {
     model.addAttribute("username", user.getName() + "でログインしています。");
-    var lendingList = lendingRepository.findListByUserAndState(
+    var rentalList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("lendingList", lendingList);
+    model.addAttribute("rentalList", rentalList);
 
     return "BookRental/bookRentalCheck";
   }
@@ -245,6 +260,9 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
     model.addAttribute("bookState_CART", BookState.CART);
     return "BookRental/Admin/bookRentalAdminMain";
   }

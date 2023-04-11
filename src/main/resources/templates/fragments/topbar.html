@@ -59,11 +59,24 @@
         <div class="centerAlign">
           <li class="nav-item menuList">
             <!-- <form th:action="@{/bookCartConfirm}" method="get" class="menua"> -->
-            <a th:href="@{/bookCartConfirm}" class="menua">
+            <a th:href="@{/bookCartConfirm}" class="menua me-2">
               <div class="button-065" id="cartLendingList_size">
                 <span th:text="${cartLendingList.size()}"></span>
               </div>
               <p>カート</p>
+            </a>
+            <!-- </form> -->
+          </li>
+        </div>
+
+        <div class="centerAlign">
+          <li class="nav-item menuList">
+            <!-- <form th:action="@{/bookCartConfirm}" method="get" class="menua"> -->
+            <a th:href="@{/bookRentalCheck}" class="menua me-2">
+              <div class="button-066" id="cartLendingList_size">
+                <span th:text="${rentalList.size()}"></span>
+              </div>
+              <p>借りている本</p>
             </a>
             <!-- </form> -->
           </li>

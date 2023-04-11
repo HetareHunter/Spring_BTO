@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" th:remove="tag">
+
 </head>
 
 <body>
@@ -11,7 +12,7 @@
 		<div id="searchTableStr" th:name="${searchStr}" type=hidden></div>
 		<table th:if="${bookList.size() > 0}" class="table table-bordered">
 			<thead>
-				<tr>
+				<tr class="table_th">
 					<th th:text=#{title}></th>
 					<th th:text=#{author}></th>
 					<th th:text=#{genre}></th>
@@ -31,7 +32,9 @@
 					<td th:text="*{bookNameId.author}"></td>
 					<td th:text="*{bookNameId.genre.name}"></td>
 					<td th:text="*{bookNameId.publisher}"></td>
-					<td th:text="*{bookNameId.img}"></td>
+					<td>
+						<img th:src="@{/images/{items} (items=*{bookNameId.img})}">
+					</td>
 					<td th:text="*{lendable}"></td>
 					<td th:text="*{bookNameId.detail}"></td>
 
