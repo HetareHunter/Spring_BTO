@@ -1,7 +1,15 @@
-.equal_table td {
-    white-space: normal;
+.table_td{
+    /* white-space: normal; */
+    background: rgb(178, 207, 226);
+    width: 350px;
+    word-wrap: break-word;
 }
 
-table_th {
+.table_th {
     white-space: nowrap;
+}
+
+img.size {
+    width: 141px;
+    height: 200px;
 }

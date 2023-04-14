@@ -33,10 +33,10 @@
 					<td th:text="*{bookNameId.genre.name}"></td>
 					<td th:text="*{bookNameId.publisher}"></td>
 					<td>
-						<img th:src="@{/images/{items} (items=*{bookNameId.img})}">
+						<img th:src="@{/images/{items} (items=*{bookNameId.img})}" class="size">
 					</td>
 					<td th:text="*{lendable}"></td>
-					<td th:text="*{bookNameId.detail}"></td>
+					<td th:text="*{bookNameId.detail}" class="table_td"></td>
 
 					<td th:block th:if="*{lendable}">
 						<div class="mr-10">
