@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,7 +18,7 @@ import lombok.Data;
 @Data
 @Entity
 //@SequenceGenerator(name = "LENDING_GENERATOR", sequenceName = "lendingSeq",
-//allocationSize = 1)
+// allocationSize = 1)
 @Table(name = "LENDINGS")
 public class Lending {
   @Id

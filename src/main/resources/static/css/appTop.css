@@ -69,7 +69,38 @@
 }
 
 .menuList {
+  display: flex;
   float: left;
+  align-items: center;
+  justify-content: center;
+  
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 8px;
+  margin-left: 8px;
+  color: #ffffff;
+}
+
+.menuTitle i{
+  margin-right: 10px;
+  margin-left: 8px;
+}
+
+.menuTitle{
+  display: flex;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #ffffff;
+}
+.menuTitle p{
+  overflow: hidden;
+  text-overflow: ellipsis; /* "..."を表示 */
+  white-space: nowrap;
+  width: 120px;
 }
 
 .menua {
@@ -77,12 +108,33 @@
   /* padding: 5px 5px; */
   /* align-self: start; */
   /* position: sticky; */
-  top: 8px;
   text-decoration: none;
   font-weight: bold;
-  margin-right: 8px;
-  margin-left: 8px;
   color: #ffffff;
+}
+
+/* .menua p{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 120px;
+} */
+
+/* ウィンドウの幅が max-width px 以下の場合にアイコンのみ表示 */
+@media (max-width: 600px) {
+  .menua p{
+    display: none;
+  }
+
+  .menuUser p{
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .menuTitle p{
+    display: none;
+    margin: 0;
+  }
 }
 
 .menuUser {

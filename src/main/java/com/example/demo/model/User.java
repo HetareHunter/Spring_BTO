@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +24,7 @@ import lombok.Data;
 @Data
 @Entity
 //@SequenceGenerator(name = "USER_GENERATOR", sequenceName = "testSeq",
-//allocationSize = 1)
+// allocationSize = 1)
 @Table(name = "USERS")
 public class User {
   @Id

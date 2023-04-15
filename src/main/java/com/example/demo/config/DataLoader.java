@@ -11,6 +11,7 @@ import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.util.Authority;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -32,27 +33,46 @@ public class DataLoader implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
-    var user = new User();
-    user.setFirst_name("かつまた");
-    user.setLast_name("管理人");
-    user.setEmail("admin@example");
-    user.setPassword(passwordEncoder.encode("password"));
-    user.setRole(Authority.ADMIN);
-    user.setName(user.getFirst_name() + " " + user.getLast_name());
-    user.setAdmin(true);
+    var users = new ArrayList<User>();
 
-    System.out.println(user.getFirst_name() + " " + user.getLast_name());
-    lendingInitRun();
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    var adminUser = new User();
+    adminUser.setFirst_name("かつまた");
+    adminUser.setLast_name("管理人");
+    adminUser.setEmail("admin@example");
+    adminUser.setPassword(passwordEncoder.encode("password"));
+    adminUser.setRole(Authority.ADMIN);
+    adminUser.setName(adminUser.getFirst_name() + " " +
+                      adminUser.getLast_name());
+    adminUser.setAdmin(true);
+    users.add(adminUser);
 
-    if (userMngRepository.findByEmail(user.getEmail()).isEmpty()) {
-      System.out.println("if文到達");
-      Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    System.out.println(adminUser.getName());
+    var testUser = new User();
+    testUser.setFirst_name("Test");
+    testUser.setLast_name("ユーザー");
+    testUser.setEmail("test@example");
+    testUser.setPassword(passwordEncoder.encode("test"));
+    testUser.setRole(Authority.USER);
+    testUser.setName(adminUser.getFirst_name() + " " +
+                     adminUser.getLast_name());
+    testUser.setAdmin(false);
+    users.add(testUser);
+
+    var registerUsers = new ArrayList<User>();
+    for (User user : users) {
       user.setCreated_at(timestamp);
       user.setUpdated_at(timestamp);
-      userMngRepository.save(user);
-      System.out.println(user.getFirst_name() + " " + user.getLast_name() +
-                         " を登録しました");
+      if (userMngRepository.findByEmail(user.getEmail()).isEmpty()) {
+        registerUsers.add(user);
+      }
     }
+    userMngRepository.saveAll(registerUsers);
+    for (User user : registerUsers) {
+      System.out.println(user.getName() + " を登録しました");
+    }
+
+    lendingInitRun();
     GenreInitRun();
     bookInitRun();
   }
