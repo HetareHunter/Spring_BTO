@@ -1,10 +1,6 @@
 package com.example.demo.model;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import com.example.demo.util.LendingState;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.sql.Date;
+import java.sql.Timestamp;
 import lombok.Data;
 
 /**
@@ -20,43 +18,36 @@ import lombok.Data;
  */
 @Data
 @Entity
-@SequenceGenerator(name = "LENDING_GENERATOR", sequenceName = "lendingSeq", allocationSize = 1)
+//@SequenceGenerator(name = "LENDING_GENERATOR", sequenceName = "lendingSeq",
+//allocationSize = 1)
 @Table(name = "LENDINGS")
-public class Lending
-{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "LENDING_GENERATOR")
-	@Column(name = "id")
-	private int id;
+public class Lending {
+  @Id
+  //@GeneratedValue(strategy = GenerationType.IDENTITY, generator =
+  //"LENDING_GENERATOR")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private int id;
 
-	@ManyToOne
-	private Book book;
+  @ManyToOne private Book book;
 
-	@ManyToOne
-	private User user;
+  @ManyToOne private User user;
 
-	// 貸し出し日
-	@Column(name = "lend_date")
-	private Date lendDate;
+  // 貸し出し日
+  @Column(name = "lend_date") private Date lendDate;
 
-	// 返却予定日
-	@Column(name = "return_due_date")
-	private Date returnDueDate;
+  // 返却予定日
+  @Column(name = "return_due_date") private Date returnDueDate;
 
-	// 返却日
-	@Column(name = "return_date")
-	private Date returnDate;
+  // 返却日
+  @Column(name = "return_date") private Date returnDate;
 
-	// 延滞日数
-	@Column(name = "overdue_date")
-	private int overdueDate;
+  // 延滞日数
+  @Column(name = "overdue_date") private int overdueDate;
 
-	@Column(name = "state")
-	private LendingState state = LendingState.CART;
+  @Column(name = "state") private LendingState state = LendingState.CART;
 
-	@Column(name = "created_at")
-	private Timestamp created_at;
+  @Column(name = "created_at") private Timestamp created_at;
 
-	@Column(name = "updated_at")
-	private Timestamp updated_at;
+  @Column(name = "updated_at") private Timestamp updated_at;
 }
