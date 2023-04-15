@@ -50,7 +50,7 @@ public class DataLoader implements ApplicationRunner {
     System.out.println(adminUser.getName());
     var testUser = new User();
     testUser.setFirst_name("Test");
-    testUser.setLast_name("ユーザー");
+    testUser.setLast_name("Account");
     testUser.setEmail("test@example");
     testUser.setPassword(passwordEncoder.encode("test"));
     testUser.setRole(Authority.USER);
@@ -73,7 +73,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     lendingInitRun();
-    GenreInitRun();
+    genreInitRun();
     bookInitRun();
   }
 
@@ -163,19 +163,9 @@ public class DataLoader implements ApplicationRunner {
     return bookName;
   }
 
-  void lendingInitRun() {
-    //		var lending = new Lending();
-    //		lending.setUser(userMngRepository.findById(401).get());
-    //		//book.setLending(new ArrayList<>());
-    //		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    //		lending.setCreated_at(timestamp);
-    //		lending.setUpdated_at(timestamp);
-    //		lendingRepository.save(lending);
+  void lendingInitRun() { lendingRepository.findAll(); }
 
-    lendingRepository.findAll();
-  }
-
-  void GenreInitRun() {
+  void genreInitRun() {
     var genre = new Genre();
     genre.setName("なし");
 
