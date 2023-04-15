@@ -6,11 +6,11 @@ import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
+import com.example.demo.service.BookSearchService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
-import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -30,6 +30,7 @@ public class BookIndexController {
   @Autowired private LendingService lendingService;
   @Autowired private BookRegisterService bookRegisterService;
   @Autowired private UserRegisterService userRegisterService;
+  @Autowired private BookSearchService bookSearchService;
 
   @GetMapping("/bookIndex")
   public String getBookIndex(Authentication user, Model model,
@@ -53,32 +54,12 @@ public class BookIndexController {
    * @param user
    * @param model
    * @param searchStr
-   * @return
+   * @return ページは読み直さずにテンプレートを差し替える
    */
   @GetMapping("/bookIndex_setSearch")
   public String getSearchBook(Authentication user, Model model,
                               @RequestParam("searchStr") String searchStr) {
-    var books = new ArrayList<Book>();
-    System.out.println("本のタイトル：" + searchStr);
-    try {
-      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
-      for (var bookName : bookNames) {
-        books.add(bookRepository.findByBookNameId(bookName).get());
-      }
-
-    } catch (Exception e) {
-      System.out.println(e.getCause() +
-                         " が BookIndexController.getTempLendingBook() で発生");
-    }
-    model.addAttribute("username", user.getName() + "でログインしています。");
-    model.addAttribute("bookList", books);
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-    model.addAttribute("searchStr", searchStr);
+    bookSearchService.setSearchBookModel(user, model, searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -89,87 +70,39 @@ public class BookIndexController {
    * @param user
    * @param model
    * @param searchStr
-   * @return
+   * @return 新しくページを読み直す
    */
   @GetMapping("/bookIndex_setSearchAnotherPage")
   public String
   getSearchBookAnotherPage(Authentication user, Model model,
                            @RequestParam("searchStr") String searchStr) {
-    var books = new ArrayList<Book>();
-    System.out.println("本のタイトル：" + searchStr);
-    try {
-      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
-      for (var bookName : bookNames) {
-        books.add(bookRepository.findByBookNameId(bookName).get());
-      }
-
-    } catch (Exception e) {
-      System.out.println(e.getCause() +
-                         " が BookIndexController.getTempLendingBook() で発生");
-    }
-    model.addAttribute("username", user.getName() + "でログインしています。");
-    model.addAttribute("bookList", books);
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    model.addAttribute("bookNameList", bookNameRepository.findAll());
-    model.addAttribute("bookState_CART", BookState.CART);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-    model.addAttribute("searchStr", searchStr);
+    bookSearchService.setSearchBookModel(user, model, searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearchAnotherPage にて検索完了");
     return "BookRental/bookIndex";
   }
 
   /**
-   * カートに入れるときの処理
+   * 選択した本をカートに入れるときの処理
    * @param user
-   * @param book
    * @param model
    * @param bookId
    * @return
    */
   @GetMapping("/bookIndex_setLending")
   public String
-  getTempLendingBook(Authentication user, @ModelAttribute Book book,
-                     Model model, @RequestParam("bookId") String bookId,
+  getTempLendingBook(Authentication user, Model model,
+                     @RequestParam("bookId") String bookId,
                      @RequestParam("searchStr") String searchStr) {
     System.out.println("本のID：" + bookId);
-    var books = new ArrayList<Book>();
-    try {
-      book = bookRepository.findById(Integer.parseInt(bookId)).get();
-      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
-      for (var bookName : bookNames) {
-        books.add(bookRepository.findByBookNameId(bookName).get());
-      }
-      if (!book.isLendable()) {
-        System.out.println("既に貸し出しされています");
-        return "BookRental/BookIndexFragment/bookTable :: tableReload";
-      }
-      bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
-      var userEntity = userRepository.findByEmail(user.getName()).get();
-      var lend = lendingService.setLendingCart(
-          book, userEntity); // カートに入れる状態にする
-      userEntity = userRegisterService.userSetCartLending(
-          userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
-
-    } catch (Exception e) {
-      System.out.println(e.getCause() +
-                         " が BookIndexController.getTempLendingBook() で発生");
+    var books = bookSearchService.findByTitleBookLike(searchStr);
+    var returnStr = bookSearchService.setLendingCartBook(user, bookId);
+    if (!returnStr.equals("")) {
+      System.out.println("returnStr：" + returnStr);
+      return "BookRental/BookIndexFragment/bookTable :: tableReload";
     }
-    model.addAttribute("bookList", books);
-    model.addAttribute("bookNameList", bookNameRepository.findAll());
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-    model.addAttribute("bookState_CART", BookState.CART);
+    bookSearchService.setLendingModel(user, model, books, searchStr);
     System.out.println("bookIndex_setLending の searchStr : " + searchStr);
-    model.addAttribute("searchStr", searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setLending にて更新完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -178,49 +111,23 @@ public class BookIndexController {
   /**
    * カートから取り出すときの処理
    * @param user
-   * @param book
    * @param model
    * @param bookId
    * @return
    */
   @GetMapping("/bookIndex_deleteLending")
   public String
-  getDeleteTempLendingBook(Authentication user, @ModelAttribute Book book,
-                           Model model, @RequestParam("bookId") String bookId,
+  getDeleteTempLendingBook(Authentication user, Model model,
+                           @RequestParam("bookId") String bookId,
                            @RequestParam("searchStr") String searchStr) {
     System.out.println("bookIndex_deleteLending");
-    var books = new ArrayList<Book>();
-    try {
-      book = bookRepository.findById(Integer.parseInt(bookId)).get();
-      var bookNames = bookNameRepository.findByTitleLike("%" + searchStr + "%");
-      for (var bookName : bookNames) {
-        books.add(bookRepository.findByBookNameId(bookName).get());
-      }
-      var lend =
-          lendingRepository.findByBookAndState(book, LendingState.CART).get();
-      var userEntity = userRepository.findByEmail(user.getName()).get();
-
-      bookRegisterService.bookLendableChange(
-          book, true, BookState.FREE); // bookの貸し出し状態を更新
-      userEntity = userRegisterService.userSetCartLending(
-          userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
-      lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
-
-    } catch (Exception e) {
-      System.out.println(
-          e.getCause() +
-          " が BookIndexController.getDeleteTempLendingBook() で発生");
+    var books = bookSearchService.findByTitleBookLike(searchStr);
+    var returnStr = bookSearchService.deleteLendingCartBook(user, bookId);
+    if (!returnStr.equals("")) {
+      System.out.println("returnStr：" + returnStr);
+      return "BookRental/BookIndexFragment/bookTable :: tableReload";
     }
-    model.addAttribute("bookList", books);
-    model.addAttribute("bookNameList", bookNameRepository.findAll());
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-    model.addAttribute("bookState_CART", BookState.CART);
-    model.addAttribute("searchStr", searchStr);
+    bookSearchService.setLendingModel(user, model, books, searchStr);
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
