@@ -38,7 +38,6 @@ public class BookIndexController {
                              @ModelAttribute String bookId) {
     model.addAttribute("username", user.getName() + "でログインしています。");
     model.addAttribute("bookList", bookRepository.findAll());
-    model.addAttribute("bookNameList", bookNameRepository.findAll());
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);

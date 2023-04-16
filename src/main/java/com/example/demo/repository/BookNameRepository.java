@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookNameRepository extends JpaRepository<BookName, Integer> {
   Optional<BookName> findByTitle(String title);
-  ArrayList<BookName> findByTitleLike(String title); //部分一致
+  ArrayList<BookName> findByTitleLikeOrderByTitle(String title); //部分一致
+  ArrayList<BookName> findAllByOrderByTitle();
 }
