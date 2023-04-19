@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 </head>
+
 <body>
 	<main layout:fragment="content" class="bg-image">
 		<div class="container">
@@ -12,32 +13,25 @@
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="本を返却しました"></h3>
-						<table class="table">
-
+						<table class="table table_th">
 							<tr th:text="*{username}"></tr>
 							<tr>
 								<th th:text=#{title}></th>
 								<th th:text=#{author}></th>
 								<th th:text=#{genre}></th>
 								<th th:text=#{publisher}></th>
-								<th th:text=#{img}></th>
-								<th th:text=#{detail}></th>
 							</tr>
 							<tr th:each="lending : ${lendingList}" th:object="${lending}">
 								<td th:text="*{book.bookNameId.title}"></td>
 								<td th:text="*{book.bookNameId.author}"></td>
 								<td th:text="*{book.bookNameId.genre.name}"></td>
 								<td th:text="*{book.bookNameId.publisher}"></td>
-								<td th:text="*{book.bookNameId.img}"></td>
-								<td th:text="*{book.bookNameId.detail}"></td>
 							</tr>
 
 							<tr>
 								<td>
-									<form th:action="@{/bookIndex}" th:object="${user}"
-										method="get">
-										<button class="btn btn-secondary btn-wide" type="submit"
-											th:text="戻る"></button>
+									<form th:action="@{/bookIndex}" th:object="${user}" method="get">
+										<button class="btn btn-secondary btn-wide" type="submit" th:text="戻る"></button>
 									</form>
 								</td>
 							</tr>
@@ -49,4 +43,5 @@
 	</main>
 	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
+
 </html>

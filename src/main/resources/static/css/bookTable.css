@@ -16,6 +16,13 @@ img.size {
     /* height: 200px; */
 }
 
+.table_img{
+  max-width: 17%;
+  min-width: 16%;
+  max-height: 20%;
+  min-height: 19%;
+}
+
 /* カードイメージ */
 * {
 	list-style: none;
