@@ -78,89 +78,23 @@ public class DataLoader implements ApplicationRunner {
   }
 
   void bookInitRun() {
-    var book = new Book();
-    book.setActive(true);
-    book.setLendable(true);
-    var bookName = bookNameInitRun1();
-    book.setBookNameId(
-        bookNameRepository.findByTitle(bookName.getTitle()).get());
-    System.out.println("bookRepository.save到達");
-    if (bookRepository
-            .findByBookNameId(
-                bookNameRepository.findByTitle(bookName.getTitle()).get())
-            .isEmpty()) {
+    bookRepository.deleteAll();
+    var books = new ArrayList<Book>();
+    // bookNameInitRun1();
+    // bookNameInitRun2();
+    var bookNames = bookNameRepository.findAll();
+    for (BookName bookName : bookNames) {
+      var book = new Book();
+      book.setActive(true);
+      book.setLendable(true);
+      book.setBookNameId(
+          bookNameRepository.findByTitle(bookName.getTitle()).get());
       Timestamp timestamp = new Timestamp(System.currentTimeMillis());
       book.setCreated_at(timestamp);
       book.setUpdated_at(timestamp);
-
-      bookRepository.save(book);
+      books.add(book);
     }
-
-    var book2 = new Book();
-    book2.setActive(true);
-    book2.setLendable(true);
-    var bookName2 = bookNameInitRun2();
-    book2.setBookNameId(
-        bookNameRepository.findByTitle("スッキリわかるJava入門").get());
-    System.out.println("bookRepository.save到達");
-    if (bookRepository
-            .findByBookNameId(
-                bookNameRepository.findByTitle(bookName2.getTitle()).get())
-            .isEmpty()) {
-      Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-      book2.setCreated_at(timestamp);
-      book2.setUpdated_at(timestamp);
-
-      bookRepository.save(book2);
-    }
-  }
-
-  BookName bookNameInitRun1() {
-    var bookName = new BookName();
-    bookName.setTitle("test");
-    bookName.setAuthor("testAuthor");
-    bookName.setDetail("testDetail");
-    bookName.setPublisher("testPublisher");
-    bookName.setGenre(genreRepository.findByName(setPreGenre).get());
-    bookName.setImg("testImg");
-    bookName.setActive(true);
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    bookName.setCreated_at(timestamp);
-    bookName.setUpdated_at(timestamp);
-
-    System.out.println("bookNameInitRun save到達");
-    System.out.println("bookName.id:" + bookName.getId());
-
-    if (bookNameRepository.findByTitle(bookName.getTitle()).isEmpty()) {
-
-      bookNameRepository.save(bookName);
-    }
-    System.out.println("bookNameInitRun save完了");
-    return bookName;
-  }
-
-  BookName bookNameInitRun2() {
-    var bookName = new BookName();
-    bookName.setTitle("スッキリわかるJava入門");
-    bookName.setAuthor("中山清喬, 国本大悟");
-    bookName.setDetail(
-        "本書ではJavaでドラクエ風RPGの制作することをテーマとすることで、読者に楽しそうなイメージを持ってもらい、途中で挫折せずにJavaを学べるよう配慮すると共に、肝心のオブジェクト指向についてもRPG風のイラストを多用して直感的に分かりやすく理解できるよう工夫しました。");
-    bookName.setPublisher("インプレスジャパン");
-    bookName.setGenre(genreRepository.findByName(setPreGenre).get());
-    bookName.setImg("Javasukkiri.png");
-    bookName.setActive(true);
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    bookName.setCreated_at(timestamp);
-    bookName.setUpdated_at(timestamp);
-    System.out.println("bookNameInitRun save到達");
-    System.out.println("bookName.id:" + bookName.getId());
-
-    if (bookNameRepository.findByTitle(bookName.getTitle()).isEmpty()) {
-
-      bookNameRepository.save(bookName);
-    }
-    System.out.println("bookNameInitRun save完了");
-    return bookName;
+    bookRepository.saveAll(books);
   }
 
   void lendingInitRun() { lendingRepository.findAll(); }
