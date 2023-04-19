@@ -36,15 +36,7 @@ public class BookIndexController {
   public String getBookIndex(Authentication user, Model model,
                              @ModelAttribute Book book,
                              @ModelAttribute String bookId) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
-    model.addAttribute("bookList", bookRepository.findAll());
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-    model.addAttribute("bookState_CART", BookState.CART);
+    bookSearchService.setSearchBookModel(user, model, "");
     return "BookRental/bookIndex";
   }
 
