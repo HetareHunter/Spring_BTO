@@ -15,25 +15,27 @@
 			<div class="bl_media_container">
 				<th:block th:each="book: ${bookList}" th:object="${book}" id="bookList">
 					<div class="card shadow bl_media_itemWrapper">
-						<div class="card-body">
+						<div class=" card-body">
 							<div class="bl_media_item">
+								<p class="title" th:text="*{bookNameId.title}"></p>
 								<div class="flex">
+
 									<figure class="image"><img th:src="@{/images/{items} (items=*{bookNameId.img})}"
 											alt="">
 									</figure>
 									<div class="right">
-										<p class="title" th:text="*{bookNameId.title}"></p>
-										<p class="text" th:text="*{bookNameId.author}"></p>
+
+										<p class="text" th:text="#{author} + *{bookNameId.author}"></p>
 										<p class="text" th:text="*{bookNameId.genre.name}"></p>
-										<p class="text" th:text="*{bookNameId.publisher}"></p>
+										<p class="text" th:text="#{publisher} + *{bookNameId.publisher}"></p>
 										<p class="detail" th:text="*{bookNameId.detail}"></p>
 										<div class="flex">
-											<p>貸し出し：</p>
+											<p class="text" th:text=#{renralActivate}></p>
 											<th:block th:if="*{lendable}">
 												<div style='font-size: 0em;'>
 													<svg xmlns="http://www.w3.org/2000/svg"
 														xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,256,256"
-														width="64px" height="64px" fill-rule="nonzero">
+														width="42px" height="42px" fill-rule="nonzero">
 														<g fill="none" fill-rule="nonzero" stroke="none"
 															stroke-width="1" stroke-linecap="butt"
 															stroke-linejoin="miter" stroke-miterlimit="10"
@@ -68,7 +70,7 @@
 												<div style='font-size: 0em;'>
 													<svg xmlns="http://www.w3.org/2000/svg"
 														xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,256,256"
-														width="64px" height="64px" fill-rule="nonzero">
+														width="42px" height="42px" fill-rule="nonzero">
 														<g fill="none" fill-rule="nonzero" stroke="none"
 															stroke-width="1" stroke-linecap="butt"
 															stroke-linejoin="miter" stroke-miterlimit="10"
