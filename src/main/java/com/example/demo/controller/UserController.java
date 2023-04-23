@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.WeatherEntity;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
+import com.example.demo.service.weather.WeatherService;
 import com.example.demo.util.LendingState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
   @Autowired private UserMngRepository userRepository;
   @Autowired private LendingRepository lendingRepository;
+  @Autowired private WeatherService weatherService;
 
   // -------------------------メインサイト-------------------------
   @GetMapping("/")
@@ -41,6 +44,9 @@ public class UserController {
     var rentalList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("rentalList", rentalList);
+
+    WeatherEntity weatherEntity = new WeatherEntity();
+    weatherEntity = weatherService.setWeatherInfo(weatherEntity);
     return "main";
   }
 

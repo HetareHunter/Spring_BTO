@@ -8,6 +8,8 @@
 	<script src="/js/book/overlay.js" type="module"></script>
 	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
 	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
+
+	<link th:href="@{/css/weather.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -26,6 +28,18 @@
 							<table class="table">
 								<tr th:text="*{username}"></tr>
 							</table>
+							<h3>東京の天気</h3>
+							<section class="forecasts-area">
+								<div class="card1">
+									<h5 class="forecast__dateLabel">今日</h5>
+									<span class="forecast__date">2月12日(日)</span>
+									<span class="forecast__telop">晴後曇</span>
+									<span class="forecast__chanceOfRain">
+										<span>降水確率</span>
+										<span class="T00_06">--%</span>
+									</span>
+								</div>
+							</section>
 						</div>
 					</div>
 				</div>

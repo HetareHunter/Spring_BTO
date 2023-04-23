@@ -1,0 +1,76 @@
+/* * {
+    background-color: #E5EFFF;
+    padding: 0 2.5rem;
+    color: #666;
+} */
+ 
+/* メインの表題 */
+h3 {
+    font-size: 1.8rem;
+}
+ 
+/* 天気予報表示エリア */
+.forecasts-area {
+    display: flex;
+    padding: 0 1.2rem;
+}
+ 
+/* カード要素 .cord1～3 */
+[class^="card"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid gray;
+    background-color: white;
+    padding: 0.5rem 1.5rem 1rem;
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+ 
+/* カード要素 .cord1～2 */
+[class^="card"]:not(:last-child) {
+    margin-right: 1.7rem;
+}
+ 
+/* カード子要素の初期化 */
+[class^="card"]>* {
+    margin-bottom: 0.3rem;
+}
+ 
+/* 日付ラベル */
+.forecast__dateLabel {
+    font-size: 1.5rem;
+    margin: 0 0 -0.2rem 0;
+    font-weight: normal;
+}
+ 
+/* 日付 */
+.forecast__date {
+    margin-bottom: 0.5rem;
+}
+ 
+/* 予報テロップ */
+.forecast__telop {
+    margin-bottom: 1rem;
+}
+ 
+/* 降水確率 */
+.forecast__chanceOfRain {
+    display: flex;
+    justify-content: space-between;
+    width: 8rem;
+}
+ 
+/* 気温の間にあるスラッシュの要素 */
+.forecast__temperature>*:nth-child(2) {
+    margin: 0 0.4rem;
+}
+ 
+/* 最低気温 */
+.forecast__temperature .min {
+    color: blue;
+}
+ 
+/* 最高気温 */
+.forecast__temperature .max {
+    color: red;
+}
