@@ -29,6 +29,18 @@
   background-color: rgb(73, 73, 73);
 }
 
+.nav_color{
+  background-color: rgb(73, 73, 73);
+}
+
+.dropDownrgb{
+  background-color: rgb(73, 73, 73);
+}
+
+.offcanvas--extend{
+offcanvas-horizontal-width: 200px;
+}
+
 .ul_top {
   display: flex;
 }
@@ -130,7 +142,7 @@
 }
 
 /* ウィンドウの幅が max-width px 以下の場合にアイコンのみ表示 */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .menua p{
     display: none;
   }
@@ -138,7 +150,7 @@
   .menuUser p{
     display: none;
   }
-}
+} */
 /* @media (max-width: 700px) {
   .menuTitle p{
     display: none;
@@ -174,9 +186,9 @@
 .search-form-005 {
   display: flex;
   position: sticky;
-  /* width: 15%; */
+  /* width: 100%; */
   /* align-items: center; */
-  min-width :80px;
+  /* min-width :80px; */
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 3px;
@@ -186,7 +198,8 @@
 }
 
 .search-form-005 input {
-  width: 250px;
+  max-width: 250px;
+  min-width: 120px;
   height: 40px;
   padding: 5px 10px;
 

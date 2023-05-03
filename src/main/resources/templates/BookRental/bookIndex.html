@@ -25,62 +25,64 @@
 			</div>
 		</div>
 		<div id="searchStr" th:name="${searchStr}" type="hidden"></div>
-		<div class="container-fluid">
+		<div class="container">
+
 			<!-- トグルボタン -->
 			<!-- <div th:replace="~{fragments/sidebar :: toggler}"></div> -->
-			<!-- <div class="row">
-				<div class="col"> -->
-			<!-- <div class="card shadow">
+			<div class="row">
+				<!-- <div class="col"> -->
+				<!-- <div class="card shadow">
 						<div class="card-header"> -->
-			<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
-			<div class="mb-3">
-				<!-- <div class="card-body"> -->
-				<p th:text="*{username}"></p>
-				<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
-				<div id="ajaxReload">
-					<div th:replace="~{BookRental/BookIndexFragment/bookTable :: tableReload}">
+				<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
+				<div class="mb-3">
+					<!-- <div class="card-body"> -->
+					<p th:text="*{username}"></p>
+					<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
+					<div id="ajaxReload">
+						<div th:replace="~{BookRental/BookIndexFragment/bookTable :: tableReload}">
+						</div>
 					</div>
+					<!-- </div> -->
+
+					<table class="table">
+						<tr>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookReturnRegister}" method="get">
+										<button class="w-40 btn btn-primary" type="submit" th:text="本の返却"></button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="mr-10">
+									<form th:action="@{/bookRentalCheck}" method="get">
+										<button class="w-40 btn btn-primary" type="submit" th:text="貸し出し状況"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+								<div class="mr-10">
+									<form th:action="@{/bookAdminMain}" method="get">
+										<button class="w-40 btn btn-primary" type="submit" th:text="管理者メニュー"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+								<div class="mr-10">
+									<form th:action="@{/deleteLending}" method="get">
+										<button class="w-40 btn btn-danger" type="submit"
+											th:text="全ての貸し借り状態の削除"></button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</div>
 				<!-- </div> -->
-
-				<table class="table">
-					<tr>
-						<td>
-							<div class="mr-10">
-								<form th:action="@{/bookReturnRegister}" method="get">
-									<button class="w-40 btn btn-primary" type="submit" th:text="本の返却"></button>
-								</form>
-							</div>
-						</td>
-						<td>
-							<div class="mr-10">
-								<form th:action="@{/bookRentalCheck}" method="get">
-									<button class="w-40 btn btn-primary" type="submit" th:text="貸し出し状況"></button>
-								</form>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-							<div class="mr-10">
-								<form th:action="@{/bookAdminMain}" method="get">
-									<button class="w-40 btn btn-primary" type="submit" th:text="管理者メニュー"></button>
-								</form>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-							<div class="mr-10">
-								<form th:action="@{/deleteLending}" method="get">
-									<button class="w-40 btn btn-danger" type="submit" th:text="全ての貸し借り状態の削除"></button>
-								</form>
-							</div>
-						</td>
-					</tr>
-				</table>
-				<!-- </div>
-						</div> -->
 				<!-- </div>
 				</div> -->
 			</div>
