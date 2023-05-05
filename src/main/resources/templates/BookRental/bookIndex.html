@@ -14,8 +14,9 @@
 </head>
 
 <body>
-
-	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+	<div id="ajaxReloadTopbar">
+		<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+	</div>
 
 	<main layout:fragment="content" class="bg-light">
 		<!-- ↓非同期処理の待機画面の挿入 -->
@@ -42,7 +43,6 @@
 						<div th:replace="~{BookRental/BookIndexFragment/bookTable :: tableReload}">
 						</div>
 					</div>
-					<!-- </div> -->
 
 					<table class="table">
 						<tr>
@@ -81,10 +81,8 @@
 							</td>
 						</tr>
 					</table>
+					<button th:onclick="addBookNum();">数を増やす</button>
 				</div>
-				<!-- </div> -->
-				<!-- </div>
-				</div> -->
 			</div>
 		</div>
 	</main>

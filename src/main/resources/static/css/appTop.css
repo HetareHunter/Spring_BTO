@@ -31,14 +31,16 @@
 
 .nav_color{
   background-color: rgb(73, 73, 73);
+  /* position: fixed; */
 }
 
 .dropDownrgb{
   background-color: rgb(73, 73, 73);
 }
 
-.offcanvas--extend{
-offcanvas-horizontal-width: 200px;
+/* bootstrapのnavbarで隠れないように調整 */
+main{
+margin-top: 40px;
 }
 
 .ul_top {
@@ -82,7 +84,7 @@ offcanvas-horizontal-width: 200px;
 
 .menuList {
   /* display: flex; */
-  float: left;
+  /* float: left; */
   align-items: center;
   justify-content: center;
   
