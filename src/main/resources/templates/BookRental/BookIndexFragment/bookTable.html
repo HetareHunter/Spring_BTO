@@ -136,7 +136,8 @@
 										<form method="get" th:id="'book_cart_'+${book.Id}">
 											<button class="w-80 btn btn-primary cartButtonSet_" type="button"
 												th:name="${book.id}" th:text="カートに入れる"
-												th:id="'cartButtonSet_'+${book.Id}" th:onclick="addBookNum();"></button>
+												th:id="'cartButtonSet_'+${book.Id}"
+												th:onclick="changeBookNum(1);"></button>
 										</form>
 									</div>
 								</th:block>
@@ -148,7 +149,7 @@
 													<button class="w-60 btn btn-primary book_cartDelete_" type="button"
 														th:name="${book.id}" th:text="カートから取り出す"
 														th:id="'cartButtonDelete_'+${book.Id}"
-														th:onclick="subBookNum();"></button>
+														th:onclick="changeBookNum(-1);"></button>
 												</form>
 											</div>
 										</td>
