@@ -187,24 +187,23 @@ margin-top: 40px;
 /* 検索機能のレイアウト */
 .search-form-005 {
   display: flex;
-  position: sticky;
-  /* width: 100%; */
+  /* position: sticky;
+  width: 50%; */
   /* align-items: center; */
   /* min-width :80px; */
   overflow: hidden;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   border-radius: 3px;
-  padding: 5px 1px;
+  /* padding: 3px 1px; */
+  margin: 10px 5px;
   /* 検索バーの上下の高さ調整 */
   /* padding-bottom: 1%; */
 }
 
 .search-form-005 input {
-  max-width: 250px;
-  min-width: 120px;
+  width: 100%;
   height: 40px;
   padding: 5px 10px;
-
   border: none;
   border-radius: 3px 0 0 3px;
   box-sizing: border-box;
@@ -221,8 +220,8 @@ margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position:relative;
-  overflow:visible;
+  /* position:relative;
+  overflow:visible; */
   width: 35px;
   min-width :35px;
   height: 40px;

@@ -69,6 +69,14 @@
                 </li>
               </div>
 
+              <!-- 検索バー -->
+              <form class="search-form-005">
+                <label>
+                  <input type="text" placeholder="本のタイトル" id="bookSearch">
+                </label>
+                <button class="bookSearch" type="button" aria-label="検索"></button>
+              </form>
+
               <div class="centerAlign">
                 <li class="nav-item menuList">
                   <a th:href="@{/bookCartConfirm}" class="menua">
@@ -147,13 +155,7 @@
             <p>本のレンタル</p>
           </a>
         </h4>
-        <!-- 検索バー -->
-        <form class="search-form-005">
-          <label>
-            <input type="text" placeholder="本のタイトル" id="bookSearch">
-          </label>
-          <button class="bookSearch" type="button" aria-label="検索"></button>
-        </form>
+
       </div>
     </nav>
   </div>
