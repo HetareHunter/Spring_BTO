@@ -46,8 +46,8 @@ public class WeatherService {
         "\"weather\":\\[\\{\"id\":\\d+,\"main\":\"([^\"]+)\",\"description\":\"([^\"]+)\"");
     Matcher matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
-      weatherEntity.setWeatherType(matcher.group(1) + " (" + matcher.group(2) +
-                                   ")");
+      weatherEntity.setWeatherType(matcher.group(1));
+      weatherEntity.setWeatherdescription(matcher.group(2));
     }
 
     pattern = Pattern.compile("\"humidity\":(\\d+)");
@@ -75,6 +75,7 @@ public class WeatherService {
     weatherEntity.setDateStr(dtf.format(nowTime));
     System.out.println("日付：" + weatherEntity.getDateStr());
     System.out.println("天気：" + weatherEntity.getWeatherType());
+    System.out.println("天気詳細：" + weatherEntity.getWeatherdescription());
     System.out.println("湿度：" + weatherEntity.getHumidity());
     System.out.println("最高気温：" + weatherEntity.getMaxTemperature());
     System.out.println("最低気温：" + weatherEntity.getMinTemperature());

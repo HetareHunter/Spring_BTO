@@ -8,6 +8,7 @@ public class WeatherEntity {
   private LocalDateTime date;
   private String dateStr;
   private String weatherType;
+  private String weatherdescription;
   private String humidity;
   private String maxTemperature;
   private String minTemperature;

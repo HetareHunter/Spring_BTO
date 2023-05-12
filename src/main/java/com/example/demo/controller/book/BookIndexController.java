@@ -8,6 +8,7 @@ import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.BookSearchService;
 import com.example.demo.service.LendingService;
+import com.example.demo.service.TopbarService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
@@ -31,12 +32,15 @@ public class BookIndexController {
   @Autowired private BookRegisterService bookRegisterService;
   @Autowired private UserRegisterService userRegisterService;
   @Autowired private BookSearchService bookSearchService;
+  @Autowired private TopbarService topbarService;
 
   @GetMapping("/bookIndex")
   public String getBookIndex(Authentication user, Model model,
                              @ModelAttribute Book book,
                              @ModelAttribute String bookId) {
-    bookSearchService.setSearchBookModel(user, model, "");
+    bookSearchService.setSearchBookModel(model, "");
+    topbarService.setTopbarModel(user, model);
+
     return "BookRental/bookIndex";
   }
 
@@ -50,7 +54,9 @@ public class BookIndexController {
   @GetMapping("/bookIndex_setSearch")
   public String getSearchBook(Authentication user, Model model,
                               @RequestParam("searchStr") String searchStr) {
-    bookSearchService.setSearchBookModel(user, model, searchStr);
+    bookSearchService.setSearchBookModel(model, searchStr);
+    topbarService.setTopbarModel(user, model);
+
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearch にて検索完了");
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
@@ -67,14 +73,16 @@ public class BookIndexController {
   public String
   getSearchBookAnotherPage(Authentication user, Model model,
                            @RequestParam("searchStr") String searchStr) {
-    bookSearchService.setSearchBookModel(user, model, searchStr);
+    bookSearchService.setSearchBookModel(model, searchStr);
+    topbarService.setTopbarModel(user, model);
+
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setSearchAnotherPage にて検索完了");
     return "BookRental/bookIndex";
   }
 
   /**
-   * 選択した本をカートに入れるときの処理
+   * 選択した本をカートに入れるときの処理。ajaxで呼び出される一部更新
    * @param user
    * @param model
    * @param bookId
@@ -86,6 +94,7 @@ public class BookIndexController {
                      @RequestParam("bookId") String bookId,
                      @RequestParam("searchStr") String searchStr) {
     System.out.println("本のID：" + bookId);
+
     var books = bookSearchService.findByTitleBookLike(searchStr);
     var returnStr = bookSearchService.setLendingCartBook(user, bookId);
     if (!returnStr.equals("")) {
@@ -104,7 +113,7 @@ public class BookIndexController {
   }
 
   /**
-   * カートから取り出すときの処理
+   * カートから取り出すときの処理。ajaxで呼び出される一部更新
    * @param user
    * @param model
    * @param bookId
@@ -156,30 +165,11 @@ public class BookIndexController {
 
   @GetMapping("/bookAdminMain")
   public String getBookAdminMain(Authentication user, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
+    topbarService.setTopbarModel(user, model);
+
     model.addAttribute("bookList", bookRepository.findAll());
     model.addAttribute("bookNameList", bookNameRepository.findAll());
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
     model.addAttribute("bookState_CART", BookState.CART);
     return "BookRental/Admin/bookRentalAdminMain";
-  }
-
-  @GetMapping("/reloadTopbar")
-  public String getReloadTopbar(Authentication user, Model model) {
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
-
-    System.out.println("reloadTopbar の cartLendingList : " +
-                       cartLendingList.size());
-    return "fragments/topbar :: topbar";
   }
 }

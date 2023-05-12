@@ -32,18 +32,10 @@ public class BookSearchService {
    * @param model
    * @param searchStr
    */
-  public void setSearchBookModel(Authentication user, Model model,
-                                 String searchStr) {
+  public void setSearchBookModel(Model model, String searchStr) {
     var books = findByTitleBookLike(searchStr);
 
-    model.addAttribute("username", user.getName() + "でログインしています。");
     model.addAttribute("bookList", books);
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
     model.addAttribute("searchStr", searchStr);
   }
 
