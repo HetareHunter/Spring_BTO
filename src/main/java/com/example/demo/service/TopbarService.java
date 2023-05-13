@@ -51,5 +51,6 @@ public class TopbarService {
     //天気情報の取得、セット
     WeatherEntity weatherEntity = new WeatherEntity();
     weatherEntity = weatherService.setWeatherInfo(weatherEntity);
+    model.addAttribute("weather", weatherEntity);
   }
 }
