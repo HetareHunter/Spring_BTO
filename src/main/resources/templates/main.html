@@ -5,11 +5,16 @@
 <head>
 	<meta charset="UTF-8" th:remove="tag">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 	<script src="/js/book/overlay.js" type="module"></script>
 	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
 	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
 
-	<link th:href="@{/css/weather.css}" rel="stylesheet">
+
+	<link th:href="@{/css/main_BookSlicker.css}" rel="stylesheet">
+	<link th:href="@{/css/main_returnBookInfo.css}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -17,35 +22,58 @@
 	<!-- トップバーの表示 -->
 	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
 
-	<div>
-		<!-- コンテンツの表示 -->
-		<main layout:fragment="content" class="bg-light">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col">
-						<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
-						<div class="mb-3">
-							<table class="table">
-								<tr th:text="*{username}"></tr>
+	<!-- コンテンツの表示 -->
+	<main layout:fragment="content" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="sumahoActive mb-5"></div>
+				<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
+				<p th:text="*{username}"></p>
+				<div class="col-md-12 col-sm-12 col-xs-12 mb-5">
+					<ul class="slider">
+						<li><img th:src="@{/images/{items} (items=Javasukkiri.png)}" alt=""></li>
+						<li><img th:src="@{/images/{items} (items=dokusyuJava.jpg)}" alt=""></li>
+						<li><img th:src="@{/images/{items} (items=springbootettei.jpg)}" alt=""></li>
+						<li><img th:src="@{/images/{items} (items=springboot2nyumon.jpg)}" alt=""></li>
+						<li><img th:src="@{/images/{items} (items=javasilverse11.jpg)}" alt=""></li>
+					</ul>
+					<script src="/js/mainSite/slicker.js"></script>
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="card shadow">
+						<div class="card-body">
+							<h4 class="border-bottom my-3" th:text="貸し出し状況"></h4>
+							<table class="table table-bordered">
+								<thead>
+									<tr class="table_th">
+										<th th:text=#{title}></th>
+										<th th:text=#{author}></th>
+										<th class="sumahoNone" th:text=#{genre}></th>
+										<th class="sumahoNone" th:text=#{publisher}></th>
+										<th>返却期限</th>
+									</tr>
+								</thead>
+								<tbody>
+									<th:block th:if="${rentalList.size() > 0}">
+										<tr th:each="lending : ${rentalList}" th:object="${lending}">
+											<td th:text="*{book.bookNameId.title}"></td>
+											<td th:text="*{book.bookNameId.author}"></td>
+											<td class="sumahoNone" th:text="*{book.bookNameId.genre.name}"></td>
+											<td class="sumahoNone" th:text="*{book.bookNameId.publisher}"></td>
+											<td th:text="*{returnDueDate}"></td>
+										</tr>
+									</th:block>
+								</tbody>
 							</table>
-							<!-- <h3>東京の天気</h3>
-							<section class="forecasts-area">
-								<div class="card1">
-									<h5 class="forecast__dateLabel">今日</h5>
-									<span class="forecast__date">2月12日(日)</span>
-									<span class="forecast__telop">晴後曇</span>
-									<span class="forecast__chanceOfRain">
-										<span>降水確率</span>
-										<span class="T00_06">--%</span>
-									</span>
-								</div>
-							</section> -->
+							<th:block th:if="${rentalList.size() == 0}">
+								<p th:text="該当データなし"></p>
+							</th:block>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>
-	</div>
+		</div>
+	</main>
 </body>
 
 </html>

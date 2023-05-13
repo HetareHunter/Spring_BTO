@@ -27,16 +27,9 @@
 		</div>
 		<div id="searchStr" th:name="${searchStr}" type="hidden"></div>
 		<div class="container">
-
-			<!-- トグルボタン -->
-			<!-- <div th:replace="~{fragments/sidebar :: toggler}"></div> -->
 			<div class="row">
-				<!-- <div class="col"> -->
-				<!-- <div class="card shadow">
-						<div class="card-header"> -->
 				<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
 				<div class="mb-3">
-					<!-- <div class="card-body"> -->
 					<p th:text="*{username}"></p>
 					<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
 					<div id="ajaxReload">

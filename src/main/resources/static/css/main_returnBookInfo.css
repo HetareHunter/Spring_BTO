@@ -1,0 +1,7 @@
+@media screen and (max-width: 460px){
+    .sumahoNone {display:none}
+    }
+
+@media screen and (min-width: 300px){
+    .sumahoActive {display:none}
+    }

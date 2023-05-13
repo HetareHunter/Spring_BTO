@@ -26,9 +26,9 @@
 										</figure>
 										<div class="right">
 
-											<p class="text" th:text="#{author} + *{bookNameId.author}"></p>
+											<p class="text" th:text="#{author} + '：' + *{bookNameId.author}"></p>
 											<p class="text" th:text="*{bookNameId.genre.name}"></p>
-											<p class="text" th:text="#{publisher} + *{bookNameId.publisher}"></p>
+											<p class="text" th:text="#{publisher} + '：' + *{bookNameId.publisher}"></p>
 
 											<div class="flex">
 												<p class="text" th:text=#{renralActivate}></p>
