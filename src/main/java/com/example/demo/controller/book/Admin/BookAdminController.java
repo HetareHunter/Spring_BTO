@@ -5,6 +5,7 @@ import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
+import com.example.demo.service.TopbarService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
@@ -19,26 +20,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 @Controller
 public class BookAdminController {
-  @Autowired private UserMngRepository userRepository;
   @Autowired private BookRepository bookRepository;
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
   @Autowired private BookRegisterService bookRegisterService;
   @Autowired private UserRegisterService userRegisterService;
+  @Autowired private TopbarService topbarService;
 
   @GetMapping("/bookLendingAdmin")
   public String getBookLendingAdmin(Authentication user, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
+    topbarService.setTopbarModel(user, model);
     model.addAttribute("bookList", bookRepository.findAll());
     model.addAttribute("lendingList", lendingRepository.findAll());
     model.addAttribute("bookState_CART", BookState.CART);
     model.addAttribute("lendingState", LendingState.RETURN);
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-    var rentalList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("rentalList", rentalList);
     return "BookRental/Admin/bookLendingAdmin";
   }
 

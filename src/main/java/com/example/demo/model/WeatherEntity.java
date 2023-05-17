@@ -10,6 +10,7 @@ public class WeatherEntity {
   private String weatherType;
   private String weatherdescription;
   private String humidity;
+  private String temperature;
   private String maxTemperature;
   private String minTemperature;
 }

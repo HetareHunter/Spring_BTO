@@ -28,8 +28,9 @@
 			<div class="row">
 				<div class="sumahoActive mb-5"></div>
 				<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
-				<p th:text="*{username}"></p>
+				<p class="mb-5" th:text="*{username}"></p>
 				<div class="col-md-12 col-sm-12 col-xs-12 mb-5">
+					<h2>新着</h2>
 					<ul class="slider">
 						<li><img th:src="@{/images/{items} (items=Javasukkiri.png)}" alt=""></li>
 						<li><img th:src="@{/images/{items} (items=dokusyuJava.jpg)}" alt=""></li>
@@ -39,22 +40,25 @@
 					</ul>
 					<script src="/js/mainSite/slicker.js"></script>
 				</div>
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-12 col-sm-12 col-xs-12 mb-5">
 					<div class="card shadow">
 						<div class="card-body">
 							<h4 class="border-bottom my-3" th:text="貸し出し状況"></h4>
-							<table class="table table-bordered">
-								<thead>
-									<tr class="table_th">
-										<th th:text=#{title}></th>
-										<th th:text=#{author}></th>
-										<th class="sumahoNone" th:text=#{genre}></th>
-										<th class="sumahoNone" th:text=#{publisher}></th>
-										<th>返却期限</th>
-									</tr>
-								</thead>
-								<tbody>
-									<th:block th:if="${rentalList.size() > 0}">
+							<th:block th:if="${rentalList.size() == 0}">
+								<p th:text="該当データなし"></p>
+							</th:block>
+							<th:block th:if="${rentalList.size() > 0}">
+								<table class="table table-bordered">
+									<thead>
+										<tr class="table_th">
+											<th th:text=#{title}></th>
+											<th th:text=#{author}></th>
+											<th class="sumahoNone" th:text=#{genre}></th>
+											<th class="sumahoNone" th:text=#{publisher}></th>
+											<th>返却期限</th>
+										</tr>
+									</thead>
+									<tbody>
 										<tr th:each="lending : ${rentalList}" th:object="${lending}">
 											<td th:text="*{book.bookNameId.title}"></td>
 											<td th:text="*{book.bookNameId.author}"></td>
@@ -62,11 +66,8 @@
 											<td class="sumahoNone" th:text="*{book.bookNameId.publisher}"></td>
 											<td th:text="*{returnDueDate}"></td>
 										</tr>
-									</th:block>
-								</tbody>
-							</table>
-							<th:block th:if="${rentalList.size() == 0}">
-								<p th:text="該当データなし"></p>
+									</tbody>
+								</table>
 							</th:block>
 						</div>
 					</div>

@@ -8,7 +8,7 @@
 <body>
   <!-- トップバー -->
   <div id="header" th:fragment="topbar" class="menu-bar">
-
+    <!-- navbar-expand-xx でトグルボタンがどの画面サイズになったらでてくるか調整している。bootstrap公式で定義 -->
     <nav class="navbar navbar-expand-lg navbar-dark nav_color fixed-top">
       <div class="container-fluid">
 
@@ -219,6 +219,7 @@
                 <th:blovk th:text="${weather.weatherType}">
               </div>
             </th:block>
+            <p th:text="${weather.temperature.substring(0,2)} +'℃'"></p>
           </li>
         </div>
       </div>
