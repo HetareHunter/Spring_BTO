@@ -75,7 +75,7 @@ margin-top: 40px;
 
 .menu-bar ul {
   list-style: none;
-  margin: 0;
+  margin: 0px;
   padding: 5px 5px;
   display: flex;
 }
@@ -121,12 +121,14 @@ margin-top: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom:0px;
 }
 
 .menuUser p{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom:0px;
 }
 
 .menuUser {
