@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/mainLayout}">
+	layout:decorate="~{layout/layout}">
 
 <head>
 	<meta charset="UTF-8">
@@ -20,7 +20,7 @@
 							<tr class="table_th">
 								<th th:text=#{title}></th>
 								<th th:text=#{author}></th>
-								<th th:text=#{genre}></th>
+								<th class="tabletNoneElement" th:text=#{genre}></th>
 								<th th:text=#{publisher}></th>
 								<th>返却期限</th>
 							</tr>
@@ -28,7 +28,7 @@
 								<tr th:each="lending : ${lendingList}" th:object="${lending}">
 									<td th:text="*{book.bookNameId.title}"></td>
 									<td th:text="*{book.bookNameId.author}"></td>
-									<td th:text="*{book.bookNameId.genre.name}"></td>
+									<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
 									<td th:text="*{book.bookNameId.publisher}"></td>
 									<td th:text="*{returnDueDate}"></td>
 									<td><input type="hidden" name="checks" th:id="${lending.id}"

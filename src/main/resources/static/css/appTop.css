@@ -37,10 +37,7 @@
   background-color: rgb(73, 73, 73);
 }
 
-/* bootstrapのnavbarで隠れないように調整 */
-main{
-margin-top: 40px;
-}
+
 
 .ul_top {
   display: flex;
@@ -81,6 +78,8 @@ margin-top: 40px;
 }
 
 .menuList {
+  font-size: 3vmin;
+  white-space: nowrap;
   align-items: center;
   justify-content: center;
   text-decoration: none;
@@ -151,6 +150,20 @@ margin-top: 40px;
 
 .centerAlign {
   text-align: center;
+}
+
+/* トグルになるときの各項目の高さ調整用　2カラム */
+@media screen and (max-width: 992px) {
+	.media_marginTop {
+		margin-top: 15px;
+	}
+}
+
+	/* bootstrapのnavbarで隠れないように調整 */
+@media screen and (max-width: 300px) {
+main{
+  margin-top: 40px;
+  }
 }
 
 /* 検索機能のレイアウト */

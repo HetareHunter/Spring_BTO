@@ -21,16 +21,14 @@
 								<th th:text=#{author}></th>
 								<th th:text=#{genre}></th>
 								<th th:text=#{publisher}></th>
-								<th th:text=#{img}></th>
-								<th th:text=#{detail}></th>
+								<th class="tabletNoneElement" th:text=#{detail}></th>
 							</tr>
 							<tr th:each="lending : ${cartLendingList}" th:object="${lending}">
 								<td th:text="*{book.bookNameId.title}"></td>
 								<td th:text="*{book.bookNameId.author}"></td>
 								<td th:text="*{book.bookNameId.genre.name}"></td>
 								<td th:text="*{book.bookNameId.publisher}"></td>
-								<td th:text="*{book.bookNameId.img}"></td>
-								<td th:text="*{book.bookNameId.detail}"></td>
+								<td class="tabletNoneElement" th:text="*{book.bookNameId.detail}"></td>
 							</tr>
 
 							<tr>

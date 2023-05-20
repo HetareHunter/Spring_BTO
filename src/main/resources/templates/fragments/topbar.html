@@ -43,7 +43,7 @@
                 </li>
               </div>
 
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item menuList">
                   <a th:href="@{/index}" class="menua">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -56,9 +56,9 @@
                 </li>
               </div>
 
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li class="nav-item menuList">
-                  <a th:href="@{/bookIndex}" class="menua">
+                  <a th:href=" @{/bookIndex}" class="menua">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-book-fill" viewBox="0 0 16 16">
                       <path
@@ -70,18 +70,18 @@
               </div>
 
               <!-- 検索バー -->
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li class="nav-item menuList">
-                  <form class="search-form-005">
+                  <form class=" search-form-005">
                     <input type="text" placeholder="本のタイトル" id="bookSearch">
                     <button class="bookSearch" aria-label="検索" id="bookSearch"></button>
                   </form>
                 </li>
               </div>
 
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li class="nav-item menuList">
-                  <a th:href="@{/bookCartConfirm}" class="menua">
+                  <a th:href=" @{/bookCartConfirm}" class="menua">
                     <div class="button-065" id="cartLendingList_size">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-cart-fill" viewBox="0 0 16 16">
@@ -103,9 +103,9 @@
                 </li>
               </div>
 
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li class="nav-item menuList">
-                  <a th:href="@{/bookRentalCheck}" class="menua">
+                  <a th:href=" @{/bookRentalCheck}" class="menua">
                     <div class="button-066" id="cartLendingList_size">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-shop-window" viewBox="0 0 16 16">
@@ -119,7 +119,7 @@
                 </li>
               </div>
 
-              <div class="centerAlign">
+              <div class="centerAlign media_marginTop">
                 <li sec:authorize="isAuthenticated()" class="nav-item menuList">
                   <a th:href="@{/logout}" class="menuUser">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -148,15 +148,17 @@
             </ul>
           </div>
         </div>
-        <h4 id="offcanvasScrolling">
-          <a th:href="@{/}" class="navbar-brand menuTitle">
-            <div class="d-inline-block" style="transform: rotate(-15deg)">
-              <i class="bi bi-credit-card-2-front-fill">
-              </i>
-            </div>
-            <p>本のレンタル</p>
-          </a>
-        </h4>
+        <div class="centerAlign">
+          <h4 id="offcanvasScrolling">
+            <a th:href="@{/}" class="navbar-brand menuTitle">
+              <div class="d-inline-block" style="transform: rotate(-15deg)">
+                <i class="bi bi-credit-card-2-front-fill">
+                </i>
+              </div>
+              <p>本のレンタル</p>
+            </a>
+          </h4>
+        </div>
         <!-- 天気情報 -->
         <div class="centerAlign">
           <li class="nav-item menuList">

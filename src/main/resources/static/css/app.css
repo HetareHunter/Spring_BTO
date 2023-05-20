@@ -28,10 +28,9 @@
   height: 100%;
 }
 
-@media (min-width: 992px) {
-  .offcanvas {
-    transform: none;
-    visibility: visible !important;
+@media (max-width: 992px) {
+  .tabletNoneElement {
+    display: none;
   }
 
   .offcanvas-outside {

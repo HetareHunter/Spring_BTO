@@ -120,13 +120,13 @@ img.size {
 	font-size: 1.5vw;
 }
 /* タブレット　2カラム */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
 	.bl_media_itemWrapper {
 		width: calc(100% / 2 - 30px);
 	}
 }
 /* スマホ 1カラム*/
-@media screen and (max-width: 599px) {
+@media screen and (max-width: 770px) {
 	.bl_media_itemWrapper {
 		width: calc(100% / 1 - 30px);
 	}
