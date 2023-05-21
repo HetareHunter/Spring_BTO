@@ -32,6 +32,14 @@
 							</tr>
 
 							<tr>
+								<th:block th:if="${cartLendingList.size()}>0">
+									<td>
+										<form th:action="@{/bookRental}" method="get">
+											<button class="btn btn-primary btn-wide" th:text="借りる"></button>
+										</form>
+									</td>
+								</th:block>
+
 								<td>
 									<button class="btn btn-secondary btn-wide" onclick="history.back()"
 										th:text="戻る"></button>

@@ -78,7 +78,7 @@
 }
 
 .menuList {
-  font-size: 3vmin;
+  /* font-size: 3vmin; */
   white-space: nowrap;
   align-items: center;
   justify-content: center;

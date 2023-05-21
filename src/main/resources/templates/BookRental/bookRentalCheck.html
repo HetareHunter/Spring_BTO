@@ -32,6 +32,13 @@
 							</tr>
 
 							<tr>
+								<th:block th:if="${rentalList.size()}>0">
+									<td>
+										<form th:action="@{/bookReturnRegister}" method="get">
+											<button class="btn btn-primary btn-wide" th:text="本の返却"></button>
+										</form>
+									</td>
+								</th:block>
 								<td>
 									<button class="btn btn-secondary btn-wide" onclick="history.back()"
 										th:text="戻る"></button>
