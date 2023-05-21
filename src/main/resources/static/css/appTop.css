@@ -162,7 +162,7 @@
 	/* bootstrapのnavbarで隠れないように調整 */
 @media screen and (max-width: 300px) {
 main{
-  margin-top: 40px;
+  margin-top: 60px;
   }
 }
 
