@@ -6,6 +6,7 @@ import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
+import com.example.demo.service.SetRentalInfoService;
 import com.example.demo.service.UserRegisterService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
@@ -27,6 +28,7 @@ public class BookRentalController {
   @Autowired private LendingService lendingService;
   @Autowired BookRegisterService bookRegisterService;
   @Autowired UserRegisterService userRegisterService;
+  @Autowired SetRentalInfoService setRentalInfoService;
 
   @GetMapping("/bookRental")
   public String getBookRentalConfirm(Authentication user,
@@ -40,8 +42,7 @@ public class BookRentalController {
 
   @GetMapping("/bookRentalComplete")
   public String getBookRentalComplete(Authentication user, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
-
+    setRentalInfoService.setUserCartLendModel(user, model);
     var books = new ArrayList<Book>();
     books = bookRepository.findByState(BookState.CART);
     for (Book book : books) {
@@ -59,10 +60,6 @@ public class BookRentalController {
         System.out.println(e + " が postBookIndex() で発生");
       }
     }
-    var lendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
-    model.addAttribute("lendingList", lendingList);
-
     return "BookRental/bookRentalComplete";
   }
 }

@@ -24,11 +24,11 @@
 								</tr>
 							</thead>
 							<tbody class="tbodyFontSize"></tbody>
-							<tr th:each="lending : ${lendingList}" th:object="${lending}">
-								<td th:text="*{book.bookNameId.title}"></td>
-								<td th:text="*{book.bookNameId.author}"></td>
-								<td th:text="*{book.bookNameId.genre.name}"></td>
-								<td th:text="*{book.bookNameId.publisher}"></td>
+							<tr th:each="lending : ${cartLendingList}" th:object="${cartLendingList}">
+								<td th:text="${lending.book.bookNameId.title}"></td>
+								<td th:text="${lending.book.bookNameId.author}"></td>
+								<td th:text="${lending.book.bookNameId.genre.name}"></td>
+								<td th:text="${lending.book.bookNameId.publisher}"></td>
 							</tr>
 							</tbody>
 						</table>
