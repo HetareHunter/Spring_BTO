@@ -43,7 +43,7 @@
 								</tr>
 								<tr class="table_th">
 									<td>
-										<button class="btn btn-secondary btn-wide" type="submit" th:text="返却"
+										<button class="custom-btn btn-Rental" type="submit" th:text="返却"
 											id="returnBook"></button>
 									</td>
 									<script>
@@ -52,16 +52,13 @@
 											$("#returnBook").prop("disabled", true);
 											// チェックボックスの状態が変わったら（クリックされたら）
 											$("input[type='checkbox']").on('change', function () {
-												target = document.getElementById("returnBook");
 												// チェックされているチェックボックスの数
 												if ($(".checks:checked").length > 0) {
 													// ボタン有効
 													$("#returnBook").prop("disabled", false);
-													target.className = "btn btn-primary btn-wide";
 												} else {
 													// ボタン無効
 													$("#returnBook").prop("disabled", true);
-													target.className = "btn btn-secondary btn-wide";
 												}
 											});
 										});
@@ -72,7 +69,7 @@
 							<tr>
 								<td>
 									<form th:action="@{/bookIndex}" method="get">
-										<button class="btn btn-secondary btn-wide" type="submit" th:text="戻る"></button>
+										<button class="custom-btn btn-Back" type="submit" th:text="戻る"></button>
 									</form>
 								</td>
 							</tr>

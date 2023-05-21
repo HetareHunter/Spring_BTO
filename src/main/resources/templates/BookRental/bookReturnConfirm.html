@@ -13,9 +13,7 @@
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="以下の本を返却します"></h3>
-
 						<table class="table">
-
 							<tr th:text="${username}"></tr>
 							<tr class="table_th">
 								<th th:text=#{title}></th>
@@ -36,20 +34,16 @@
 										<label th:for="${lending.id}" class="checks"></label>
 									</td>
 								</tr>
-
 								<tr>
-
-									<td th:if="${lendingList.size() != 0}"><button class="btn btn-primary btn-wide"
+									<td th:if="${lendingList.size() != 0}"><button class="custom-btn btn-Rental"
 											type="submit" th:text="返却"></button>
 									</td>
-
-
 								</tr>
 							</form>
 							<tr>
 								<td>
 									<form th:action="@{/bookReturnRegister}" th:object="${form}" method="get">
-										<button class="btn btn-secondary btn-wide" type="submit" th:text="戻る"></button>
+										<button class="custom-btn btn-Back" type="submit" th:text="戻る"></button>
 									</form>
 								</td>
 							</tr>
