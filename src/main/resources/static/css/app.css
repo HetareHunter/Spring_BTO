@@ -100,3 +100,8 @@ a {
 .is-hide {
   display: none;
 }
+
+/* 文字フォント */
+.notBack{
+  white-space: nowrap;
+}

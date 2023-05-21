@@ -1,0 +1,63 @@
+/* ボタンデザイン */
+.custom-btn {
+    width: auto;
+    height: 40px;
+    color: #fff;
+    border-radius: 7px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+  
+  /* CartIn */
+  .btn-CartIn {
+    background: rgb(6,14,131);
+    background: linear-gradient(0deg, rgba(6,14,131,1) 0%, rgba(12,25,180,1) 100%);
+    border: none;
+  }
+  .btn-CartIn:hover {
+     background: rgb(0,3,255);
+  background: linear-gradient(0deg, rgba(0,3,255,1) 0%, rgba(2,126,251,1) 100%);
+  }
+
+  /* BookRental */
+  .btn-Rental {
+    background: rgb(14, 138, 175);
+    background: linear-gradient(0deg, rgb(2, 130, 168) 0%, rgb(57, 176, 197) 100%);
+    border: none;
+  }
+  .btn-Rental:hover {
+     background: rgb(21, 140, 161);
+  background: linear-gradient(0deg, rgb(0, 180, 224) 0%, rgb(122, 231, 250) 100%);
+  }
+
+  /* BookReturn */
+  .btn-Return {
+    background: rgb(14, 175, 135);
+    background: linear-gradient(0deg, rgb(2, 168, 118) 0%, rgb(57, 197, 150) 100%);
+    border: none;
+  }
+  .btn-Return:hover {
+     background: rgb(21, 161, 84);
+  background: linear-gradient(0deg, rgb(0, 224, 86) 0%, rgb(122, 250, 143)100%);
+  }
+
+  /* backButton */
+  .btn-Back {
+    background: rgb(90, 90, 90);
+    background: linear-gradient(0deg, rgb(83, 83, 83) 0%, rgb(56, 56, 56) 100%);
+    border: none;
+  }
+  .btn-Back:hover {
+     background: rgb(187, 187, 187);
+  background: linear-gradient(0deg, rgb(158, 158, 158) 0%, rgb(136, 136, 136)100%);
+  }

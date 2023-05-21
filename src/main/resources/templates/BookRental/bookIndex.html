@@ -40,18 +40,18 @@
 					<table class="table">
 						<tr>
 							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-								<div class="mr-10">
+								<div class="mt-5">
 									<form th:action="@{/bookAdminMain}" method="get">
-										<button class="w-40 btn btn-primary" type="submit" th:text="管理者メニュー"></button>
+										<button class="w-auto btn btn-primary" type="submit" th:text="管理者メニュー"></button>
 									</form>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-								<div class="mr-10">
+								<div class="mt-5">
 									<form th:action="@{/deleteLending}" method="get">
-										<button class="w-40 btn btn-danger" type="submit"
+										<button class="w-auto btn btn-danger" type="submit"
 											th:text="全ての貸し借り状態の削除"></button>
 									</form>
 								</div>

@@ -30,15 +30,6 @@ img.size {
 	margin: 0;
 	padding: 0;
 }
-/* img {
-	width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-	vertical-align: bottom;
-} */
-/* 横並び */
 
 .flex {
     display: flex; /*横並び*/
