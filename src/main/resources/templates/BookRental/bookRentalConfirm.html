@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/mainLayout}">
+	layout:decorate="~{layout/layout}">
 
 <head>
 	<meta charset="UTF-8">
@@ -14,32 +14,32 @@
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="借りる本の確認"></h3>
 						<table class="table">
-							<tr th:text="*{username}"></tr>
-							<tr class="table_th">
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-							</tr>
-							<tr th:each="lending : ${lendingList}" th:object="${lending}">
-								<td th:text="*{book.bookNameId.title}"></td>
-								<td th:text="*{book.bookNameId.author}"></td>
-								<td th:text="*{book.bookNameId.genre.name}"></td>
-								<td th:text="*{book.bookNameId.publisher}"></td>
-							</tr>
-							<tr class="table_th">
-								<td>
-									<form th:action="@{/bookRentalComplete}" th:object="${user}" method="get">
-										<button class="custom-btn btn-CartIn notBack" type="submit"
-											th:text="借りる"></button>
-									</form>
-								</td>
-								<td>
-									<button class="custom-btn btn-Back notBack" onclick="history.back()"
-										th:text="戻る"></button>
-								</td>
-							</tr>
+							<thead class="thFontSize notBack">
+								<tr th:text="*{username}"></tr>
+								<tr>
+									<th th:text=#{title}></th>
+									<th th:text=#{author}></th>
+									<th th:text=#{genre}></th>
+									<th th:text=#{publisher}></th>
+								</tr>
+							</thead>
+							<tbody class="tbodyFontSize">
+								<tr th:each="lending : ${lendingList}" th:object="${lending}">
+									<td th:text="*{book.bookNameId.title}"></td>
+									<td th:text="*{book.bookNameId.author}"></td>
+									<td th:text="*{book.bookNameId.genre.name}"></td>
+									<td th:text="*{book.bookNameId.publisher}"></td>
+								</tr>
+							</tbody>
 						</table>
+						<div class="lineSide">
+							<div class="mr-3">
+								<form th:action="@{/bookRentalComplete}" th:object="${user}" method="get">
+									<button class="custom-btn btn-CartIn notBack" type="submit" th:text="借りる"></button>
+								</form>
+							</div>
+							<button class="custom-btn btn-Back notBack" onclick="history.back()" th:text="戻る"></button>
+						</div>
 					</div>
 				</div>
 			</div>

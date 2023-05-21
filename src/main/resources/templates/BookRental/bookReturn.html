@@ -14,68 +14,59 @@
 				<div class="card shadow">
 					<div class=" card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="本の返却"></h3>
-
-						<table class="table">
-
-							<tr th:text="${username}"></tr>
-							<tr class="table_th">
-								<th>返却する本</th>
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th class="tabletNoneElement" th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-								<th>返却期限</th>
-							</tr>
+						<div>
 							<form th:action="@{/bookReturnConfirm}" th:object="${form}" method="post">
-								<tr th:each="lending : ${lendingList}" th:object="${lending}">
-									<td>
-										<label th:for="${lending.id}">
-											<input type="checkbox" name="checks" th:id="${lending.id}"
-												th:value="${lending.id}"
-												th:checked="${form.checks.contains(lending.id)}" class="checks" />
-										</label>
-									</td>
-									<td th:text="*{book.bookNameId.title}"></td>
-									<td th:text="*{book.bookNameId.author}"></td>
-									<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
-									<td th:text="*{book.bookNameId.publisher}"></td>
-									<td th:text="*{returnDueDate}"></td>
-								</tr>
-								<tr class="table_th">
-									<td>
-										<button class="custom-btn btn-Rental" type="submit" th:text="返却"
-											id="returnBook"></button>
-									</td>
-									<script>
-										$(function () {
-											// 初期状態のボタンは無効
-											$("#returnBook").prop("disabled", true);
-											// チェックボックスの状態が変わったら（クリックされたら）
-											$("input[type='checkbox']").on('change', function () {
-												// チェックされているチェックボックスの数
-												if ($(".checks:checked").length > 0) {
-													// ボタン有効
-													$("#returnBook").prop("disabled", false);
-												} else {
-													// ボタン無効
-													$("#returnBook").prop("disabled", true);
-												}
-											});
+								<table class="table thFontSize">
+
+									<tr th:text="${username}"></tr>
+									<tr class="table_th autoFontSize">
+										<th>返却する本</th>
+										<th th:text=#{title}></th>
+										<th th:text=#{author}></th>
+										<th class="tabletNoneElement" th:text=#{genre}></th>
+										<th th:text=#{publisher}></th>
+										<th>返却期限</th>
+									</tr>
+
+									<tr th:each="lending : ${lendingList}" th:object="${lending}" class="autoFontSize">
+										<td>
+											<label th:for="${lending.id}">
+												<input type="checkbox" name="checks" th:id="${lending.id}"
+													th:value="${lending.id}"
+													th:checked="${form.checks.contains(lending.id)}" class="checks" />
+											</label>
+										</td>
+										<td th:text="*{book.bookNameId.title}"></td>
+										<td th:text="*{book.bookNameId.author}"></td>
+										<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
+										<td th:text="*{book.bookNameId.publisher}"></td>
+										<td th:text="*{returnDueDate}"></td>
+									</tr>
+								</table>
+								<button class="custom-btn btn-Rental" type="submit" th:text="返却"
+									id="returnBook"></button>
+								<script>
+									$(function () {
+										// 初期状態のボタンは無効
+										$("#returnBook").prop("disabled", true);
+										// チェックボックスの状態が変わったら（クリックされたら）
+										$("input[type='checkbox']").on('change', function () {
+											// チェックされているチェックボックスの数
+											if ($(".checks:checked").length > 0) {
+												// ボタン有効
+												$("#returnBook").prop("disabled", false);
+											} else {
+												// ボタン無効
+												$("#returnBook").prop("disabled", true);
+											}
 										});
-									</script>
-								</tr>
+									});
+								</script>
 							</form>
-
-							<tr>
-								<td>
-									<form th:action="@{/bookIndex}" method="get">
-										<button class="custom-btn btn-Back" type="submit" th:text="戻る"></button>
-									</form>
-								</td>
-							</tr>
-
-						</table>
-
+							<form th:action="@{/bookIndex}" method="get">
+								<button class="custom-btn btn-Back notBack mt-3" type="submit" th:text="戻る"></button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

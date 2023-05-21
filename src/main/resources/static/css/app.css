@@ -101,7 +101,33 @@ a {
   display: none;
 }
 
+@media screen and (max-width: 780px) {
+	.thFontSize{
+    font-size: 2vw;
+  }
+
+  .tbodyFontSize{
+    font-size: 2vw;
+  }
+}
+
+@media screen and (max-width: 360px) {
+	.thFontSize{
+    font-size: 1vw;
+  }
+
+  .tbodyFontSize{
+    font-size: 1vw;
+  }
+}
 /* 文字フォント */
+
+
 .notBack{
   white-space: nowrap;
+}
+
+.lineSide{
+  display: flex;
+  justify-content: space-evenly;
 }

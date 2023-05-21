@@ -13,41 +13,40 @@
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="以下の本を返却します"></h3>
-						<table class="table">
-							<tr th:text="${username}"></tr>
-							<tr class="table_th">
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th class="tabletNoneElement" th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-								<th>返却期限</th>
-							</tr>
-							<form th:action="@{/bookReturnComplete}" th:object="${form}" method="post">
-								<tr th:each="lending : ${lendingList}" th:object="${lending}">
-									<td th:text="*{book.bookNameId.title}"></td>
-									<td th:text="*{book.bookNameId.author}"></td>
-									<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
-									<td th:text="*{book.bookNameId.publisher}"></td>
-									<td th:text="*{returnDueDate}"></td>
-									<td><input type="hidden" name="checks" th:id="${lending.id}"
-											th:value="${lending.id}" th:checked="${form.checks.contains(lending.id)}" />
-										<label th:for="${lending.id}" class="checks"></label>
-									</td>
-								</tr>
-								<tr>
-									<td th:if="${lendingList.size() != 0}"><button class="custom-btn btn-Rental"
-											type="submit" th:text="返却"></button>
-									</td>
-								</tr>
-							</form>
-							<tr>
-								<td>
-									<form th:action="@{/bookReturnRegister}" th:object="${form}" method="get">
-										<button class="custom-btn btn-Back" type="submit" th:text="戻る"></button>
-									</form>
-								</td>
-							</tr>
-						</table>
+						<form th:action="@{/bookReturnComplete}" th:object="${form}" method="post">
+							<table class="table thFontSize">
+								<thead>
+									<tr th:text="${username}"></tr>
+									<tr class="table_th autoFontSize">
+										<th th:text=#{title}></th>
+										<th th:text=#{author}></th>
+										<th class="tabletNoneElement" th:text=#{genre}></th>
+										<th th:text=#{publisher}></th>
+										<th>返却期限</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="lending : ${lendingList}" th:object="${lending}" class="autoFontSize">
+										<td th:text="*{book.bookNameId.title}"></td>
+										<td th:text="*{book.bookNameId.author}"></td>
+										<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
+										<td th:text="*{book.bookNameId.publisher}"></td>
+										<td th:text="*{returnDueDate}"></td>
+										<td><input type="hidden" name="checks" th:id="${lending.id}"
+												th:value="${lending.id}"
+												th:checked="${form.checks.contains(lending.id)}" />
+											<label th:for="${lending.id}" class="checks"></label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div th:if="${lendingList.size() != 0}">
+								<button class="custom-btn btn-Rental notBack" type="submit" th:text="返却"></button>
+							</div>
+						</form>
+						<form th:action="@{/bookReturnRegister}" th:object="${form}" method="get">
+							<button class="custom-btn btn-Back notBack mt-3" type="submit" th:text="戻る"></button>
+						</form>
 					</div>
 				</div>
 			</div>

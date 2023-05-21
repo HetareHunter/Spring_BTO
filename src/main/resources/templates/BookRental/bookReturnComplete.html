@@ -13,36 +13,33 @@
 				<div class="card shadow" style="max-width: 960px;">
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="本を返却しました"></h3>
-						<table class="table table_th">
-							<tr th:text="*{username}"></tr>
-							<tr>
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-							</tr>
-							<tr th:each="lending : ${lendingList}" th:object="${lending}">
-								<td th:text="*{book.bookNameId.title}"></td>
-								<td th:text="*{book.bookNameId.author}"></td>
-								<td th:text="*{book.bookNameId.genre.name}"></td>
-								<td th:text="*{book.bookNameId.publisher}"></td>
-							</tr>
-
-							<tr>
-								<td>
-									<form th:action="@{/bookIndex}" th:object="${user}" method="get">
-										<button class="custom-btn btn-Rental" type="submit"
-											th:text="本の借り入れページへ戻る"></button>
-									</form>
-								</td>
-							</tr>
+						<table class="table thFontSize">
+							<thead>
+								<tr th:text="*{username}"></tr>
+								<tr>
+									<th th:text=#{title}></th>
+									<th th:text=#{author}></th>
+									<th th:text=#{genre}></th>
+									<th th:text=#{publisher}></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="lending : ${lendingList}" th:object="${lending}">
+									<td th:text="*{book.bookNameId.title}"></td>
+									<td th:text="*{book.bookNameId.author}"></td>
+									<td th:text="*{book.bookNameId.genre.name}"></td>
+									<td th:text="*{book.bookNameId.publisher}"></td>
+								</tr>
+							</tbody>
 						</table>
+						<form th:action="@{/bookIndex}" th:object="${user}" method="get">
+							<button class="custom-btn btn-Rental" type="submit" th:text="本の借り入れページへ戻る"></button>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</main>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>
