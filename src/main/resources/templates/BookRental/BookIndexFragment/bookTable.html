@@ -132,7 +132,6 @@
 								<th:block th:if="*{lendable}">
 									<div class="mr-10">
 										<div th:id="debug+${book.id}" th:name="*{lendable}"></div>
-										<!-- デバッグ用divタグ -->
 										<form method="get" th:id="'book_cart_'+${book.Id}">
 											<button class="w-80 btn btn-primary cartButtonSet_" type="button"
 												th:name="${book.id}" th:text="カートに入れる"
@@ -156,10 +155,6 @@
 									</th:block>
 								</th:block>
 							</div>
-
-
-
-
 						</div>
 					</th:block>
 				</div>
@@ -168,15 +163,28 @@
 				<p>該当データがありません</p>
 			</div>
 			<th:block th:if="${cartLendingList.size() >= 1}">
-				<div class="mr-10">
+				<div class="mb-2">
 					<form th:action="@{/bookRental}" method="get">
 						<button class="w-25 btn btn-primary" type="submit" th:text="本を借りる"></button>
 					</form>
 				</div>
 			</th:block>
 			<th:block th:unless="${cartLendingList.size() >= 1}">
-				<div class="mr-10">
+				<div class="mb-2">
 					<button class="w-25 btn btn-secondary" type="submit" th:text="本を借りる" disabled></button>
+				</div>
+			</th:block>
+
+			<th:block th:if="${rentalList.size() >= 1}">
+				<div class="mb-2">
+					<form th:action="@{/bookReturnRegister}" method="get">
+						<button class="w-25 btn btn-primary" type="submit" th:text="本の返却"></button>
+					</form>
+				</div>
+			</th:block>
+			<th:block th:unless="${rentalList.size() >= 1}">
+				<div class="mb-2">
+					<button class="w-25 btn btn-secondary" type="submit" th:text="本の返却" disabled></button>
 				</div>
 			</th:block>
 		</div>

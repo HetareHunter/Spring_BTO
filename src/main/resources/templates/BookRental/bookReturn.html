@@ -4,6 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 
 <body>
@@ -27,9 +28,12 @@
 							</tr>
 							<form th:action="@{/bookReturnConfirm}" th:object="${form}" method="post">
 								<tr th:each="lending : ${lendingList}" th:object="${lending}">
-									<td><input type="checkbox" name="checks" th:id="${lending.id}"
-											th:value="${lending.id}" th:checked="${form.checks.contains(lending.id)}" />
-										<label th:for="${lending.id}" class="checks"></label>
+									<td>
+										<label th:for="${lending.id}">
+											<input type="checkbox" name="checks" th:id="${lending.id}"
+												th:value="${lending.id}"
+												th:checked="${form.checks.contains(lending.id)}" class="checks" />
+										</label>
 									</td>
 									<td th:text="*{book.bookNameId.title}"></td>
 									<td th:text="*{book.bookNameId.author}"></td>
@@ -39,11 +43,26 @@
 								</tr>
 								<tr class="table_th">
 									<td>
-										<button class="btn btn-primary btn-wide" type="submit" th:text="返却"></button>
+										<button class="btn btn-primary btn-wide" type="submit" th:text="返却"
+											id="returnBook"></button>
 									</td>
-									<td>
-
-									</td>
+									<script>
+										$(function () {
+											// 初期状態のボタンは無効
+											$("#returnBook").prop("disabled", true);
+											// チェックボックスの状態が変わったら（クリックされたら）
+											$("input[type='checkbox']").on('change', function () {
+												// チェックされているチェックボックスの数
+												if ($(".checks:checked").length > 0) {
+													// ボタン有効
+													$("#returnBook").prop("disabled", false);
+												} else {
+													// ボタン無効
+													$("#returnBook").prop("disabled", true);
+												}
+											});
+										});
+									</script>
 								</tr>
 							</form>
 
