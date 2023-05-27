@@ -23,13 +23,9 @@ import lombok.Data;
  */
 @Data
 @Entity
-//@SequenceGenerator(name = "USER_GENERATOR", sequenceName = "testSeq",
-// allocationSize = 1)
 @Table(name = "USERS")
 public class User {
   @Id
-  //@GeneratedValue(strategy = GenerationType.IDENTITY, generator =
-  //"USER_GENERATOR")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;

@@ -1,16 +1,9 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.User;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.User;
-
-public interface UserMngRepository extends JpaRepository<User, Integer>
-{
-	//Optional<User> findByName(String name);
-	Optional<User> findByEmail(String email);
-	
-//	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.lending WHERE u.id = :id")
-//    Optional<User> findByIdFetchLending(@Param("id") String id);
+public interface UserMngRepository extends JpaRepository<User, Integer> {
+  Optional<User> findByEmail(String email);
 }

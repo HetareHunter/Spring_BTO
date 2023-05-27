@@ -1,11 +1,8 @@
 package com.example.demo.service.weather;
 
 import com.example.demo.model.WeatherEntity;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -15,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherService {
+  /**
+   * 天気情報を取得する
+   * @param weatherEntity
+   * @return
+   */
   public WeatherEntity setWeatherInfo(WeatherEntity weatherEntity) {
     String weatherStr = "";
     try {
@@ -79,6 +81,7 @@ public class WeatherService {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM月dd日(E)");
     weatherEntity.setDate(nowTime);
     weatherEntity.setDateStr(dtf.format(nowTime));
+    weatherEntity.setId(1);
 
     System.out.println("日付：" + weatherEntity.getDateStr());
     System.out.println("天気：" + weatherEntity.getWeatherType());
