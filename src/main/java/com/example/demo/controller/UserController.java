@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.WeatherEntity;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.TopbarService;
@@ -10,8 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+@SessionAttributes(names = "topbar")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -21,7 +25,8 @@ public class UserController {
 
   // -------------------------メインサイト-------------------------
   @GetMapping("/")
-  public String mainSite(Authentication user, Model model) {
+  public String mainSite(Authentication user, Model model,
+                         @ModelAttribute WeatherEntity weatherEntity) {
     topbarService.setTopbarModel(user, model);
     return "main";
   }
@@ -48,8 +53,10 @@ public class UserController {
 
   // -------------------------管理者画面-------------------------
   @GetMapping("/index")
-  public String getindex(Authentication user, Model model) {
+  public String getindex(Authentication user, Model model,
+                         @ModelAttribute WeatherEntity weatherEntity) {
     topbarService.setTopbarModel(user, model);
+
     model.addAttribute("userList", userRepository.findAll());
     return "index";
   }

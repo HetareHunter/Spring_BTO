@@ -10,7 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+@SessionAttributes(names = "topbar")
 @Service
 public class TopbarService {
   @Autowired private UserMngRepository userRepository;
@@ -48,7 +50,6 @@ public class TopbarService {
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("rentalList", rentalList);
 
-    //天気情報の取得、セット
     WeatherEntity weatherEntity = new WeatherEntity();
     weatherEntity = weatherService.setWeatherInfo(weatherEntity);
     model.addAttribute("weather", weatherEntity);
