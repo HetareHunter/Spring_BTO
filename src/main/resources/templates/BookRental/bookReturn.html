@@ -17,30 +17,34 @@
 						<div>
 							<form th:action="@{/bookReturnConfirm}" th:object="${form}" method="post">
 								<table class="table thFontSize">
-									<tr th:text="${username}"></tr>
-									<tr class="table_th autoFontSize">
-										<th>返却する本</th>
-										<th th:text=#{title}></th>
-										<th th:text=#{author}></th>
-										<th class="tabletNoneElement" th:text=#{genre}></th>
-										<th th:text=#{publisher}></th>
-										<th>返却期限</th>
-									</tr>
-
-									<tr th:each="lending : ${lendingList}" th:object="${lending}" class="autoFontSize">
-										<td>
-											<label th:for="${lending.id}">
-												<input type="checkbox" name="checks" th:id="${lending.id}"
-													th:value="${lending.id}"
-													th:checked="${form.checks.contains(lending.id)}" class="checks" />
-											</label>
-										</td>
-										<td th:text="*{book.bookNameId.title}"></td>
-										<td th:text="*{book.bookNameId.author}"></td>
-										<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
-										<td th:text="*{book.bookNameId.publisher}"></td>
-										<td th:text="*{returnDueDate}"></td>
-									</tr>
+									<thead class="thFontSize notBack">
+										<tr class="table_th autoFontSize">
+											<th>返却する本</th>
+											<th th:text=#{title}></th>
+											<th th:text=#{author}></th>
+											<th class="tabletNoneElement" th:text=#{genre}></th>
+											<th th:text=#{publisher}></th>
+											<th>返却期限</th>
+										</tr>
+									</thead>
+									<tbody class="tbodyFontSize tableBodyText">
+										<tr th:each="lending : ${lendingList}" th:object="${lending}"
+											class="autoFontSize">
+											<td>
+												<label th:for="${lending.id}">
+													<input type="checkbox" name="checks" th:id="${lending.id}"
+														th:value="${lending.id}"
+														th:checked="${form.checks.contains(lending.id)}"
+														class="checks" />
+												</label>
+											</td>
+											<td th:text="*{book.bookNameId.title}"></td>
+											<td th:text="*{book.bookNameId.author}"></td>
+											<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
+											<td th:text="*{book.bookNameId.publisher}"></td>
+											<td th:text="*{returnDueDate}"></td>
+										</tr>
+									</tbody>
 								</table>
 								<button class="custom-btn btn-Rental" type="submit" th:text="返却"
 									id="returnBook"></button>

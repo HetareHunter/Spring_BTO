@@ -40,14 +40,19 @@
 										</figure>
 										<div class="right">
 
-											<p class="text" th:text="#{author} + '：' + *{bookNameId.author}"></p>
+											<p class="elementTitle" th:text="#{author} + '
+											'"></p>
+											<p class="text" th:text="*{bookNameId.author}"></p>
+											<p class="elementTitle" th:text="'本のジャンル'+'
+											'"></p>
 											<p class="text" th:text="*{bookNameId.genre.name}"></p>
-											<p class="text" th:text="#{publisher} + '：' + *{bookNameId.publisher}"></p>
-
-											<div class="flex">
-												<p class="text" th:text=#{renralActivate}></p>
+											<p class="elementTitle" th:text="#{publisher} + '
+											'"></p>
+											<p class="text" th:text="*{bookNameId.publisher}"></p>
+											<div>
+												<p class="elementTitle" th:text="#{renralActivate}"></p>
 												<th:block th:if="*{lendable}">
-													<div style='font-size: 0em;'>
+													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
 															viewBox="0,0,256,256" width="42px" height="42px"
@@ -83,7 +88,7 @@
 													</div>
 												</th:block>
 												<th:block th:if="*{!lendable}">
-													<div style='font-size: 0em;'>
+													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
 															viewBox="0,0,256,256" width="42px" height="42px"

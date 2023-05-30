@@ -14,37 +14,36 @@
 					<div class="card-body">
 						<h3 class="card-title mb-3 text-center text-navy" th:text="貸し出し状況"></h3>
 						<table class="table">
-
-							<tr th:text="*{username}"></tr>
-							<tr class="table_th">
-								<th th:text=#{title}></th>
-								<th th:text=#{author}></th>
-								<th th:text=#{genre}></th>
-								<th th:text=#{publisher}></th>
-								<th>返却期限</th>
-							</tr>
-							<tr th:each="lending : ${rentalList}" th:object="${lending}">
-								<td th:text="*{book.bookNameId.title}"></td>
-								<td th:text="*{book.bookNameId.author}"></td>
-								<td th:text="*{book.bookNameId.genre.name}"></td>
-								<td th:text="*{book.bookNameId.publisher}"></td>
-								<td th:text="*{returnDueDate}"></td>
-							</tr>
-
-							<tr>
-								<th:block th:if="${rentalList.size()}>0">
-									<td>
-										<form th:action="@{/bookReturnRegister}" method="get">
-											<button class="custom-btn btn-CartIn notBack" th:text="本の返却"></button>
-										</form>
-									</td>
-								</th:block>
-								<td>
-									<button class="custom-btn btn-Back notBack" onclick="history.back()"
-										th:text="戻る"></button>
-								</td>
-							</tr>
+							<thead class="thFontSize notBack">
+								<tr class="table_th">
+									<th th:text=#{title}></th>
+									<th th:text=#{author}></th>
+									<th th:text=#{genre}></th>
+									<th th:text=#{publisher}></th>
+									<th>返却期限</th>
+								</tr>
+							</thead>
+							<tbody class="tbodyFontSize tableBodyText">
+								<tr th:each="lending : ${rentalList}" th:object="${lending}">
+									<td th:text="*{book.bookNameId.title}"></td>
+									<td th:text="*{book.bookNameId.author}"></td>
+									<td th:text="*{book.bookNameId.genre.name}"></td>
+									<td th:text="*{book.bookNameId.publisher}"></td>
+									<td th:text="*{returnDueDate}"></td>
+								</tr>
+							</tbody>
 						</table>
+						<div class="tableButtonPosition tableButtonSize">
+							<th:block th:if="${rentalList.size()}>0">
+								<form th:action="@{/bookReturnRegister}" method="get">
+									<button class="custom-btn btn-CartIn notBack" th:text="本の返却"></button>
+								</form>
+							</th:block>
+							<div>
+								<button class="custom-btn btn-Back notBack" onclick="history.back()"
+									th:text="戻る"></button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

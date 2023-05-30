@@ -54,16 +54,27 @@ img.size {
     font-size: 24px;
     white-space: pre-line;
   }
-  .flex .text {
+
+  .flex .elementTitle {
     margin: 10px 0 0;
     padding: 0;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: clamp(10px,3.9vw,18px);
     white-space: pre-line;
+    white-space: nowrap;
+  }
+
+  .flex .text {
+    margin: 0 8px 0;
+    padding: 0;
+    font-size: clamp(6px,3.0vw,16px);
+    white-space: pre-line;
+    overflow-wrap: normal;
   }
   .flex .detail {
     margin: 10px 0 0;
     padding: 0;
-    font-size: 14px;
+    font-size: clamp(6px,3.0vw,16px);
     white-space: pre-line;
   }
 
@@ -73,6 +84,9 @@ img.size {
     white-space: pre-line;
   }
   
+  p{
+    margin: 0px;
+  }
   /* 画像を天地中央表示 */
   
   .flex .image {
@@ -118,6 +132,12 @@ img.size {
 }
 /* スマホ 1カラム*/
 @media screen and (max-width: 770px) {
+	.bl_media_itemWrapper {
+		width: calc(100% / 1 - 30px);
+	}
+}
+
+@media screen and (max-width: px) {
 	.bl_media_itemWrapper {
 		width: calc(100% / 1 - 30px);
 	}

@@ -15,7 +15,6 @@
 						<h3 class="card-title mb-3 text-center text-navy" th:text="以下の本を借りました"></h3>
 						<table class="table">
 							<thead class="thFontSize notBack">
-								<tr th:text="*{username}"></tr>
 								<tr>
 									<th th:text=#{title}></th>
 									<th th:text=#{author}></th>
@@ -23,18 +22,21 @@
 									<th th:text=#{publisher}></th>
 								</tr>
 							</thead>
-							<tbody class="tbodyFontSize"></tbody>
-							<tr th:each="lending : ${cartLendingList}" th:object="${cartLendingList}">
-								<td th:text="${lending.book.bookNameId.title}"></td>
-								<td th:text="${lending.book.bookNameId.author}"></td>
-								<td th:text="${lending.book.bookNameId.genre.name}"></td>
-								<td th:text="${lending.book.bookNameId.publisher}"></td>
-							</tr>
+							<tbody class="tbodyFontSize tableBodyText">
+								<tr th:each="lending : ${cartLendingList}" th:object="${cartLendingList}">
+									<td th:text="${lending.book.bookNameId.title}"></td>
+									<td th:text="${lending.book.bookNameId.author}"></td>
+									<td th:text="${lending.book.bookNameId.genre.name}"></td>
+									<td th:text="${lending.book.bookNameId.publisher}"></td>
+								</tr>
 							</tbody>
 						</table>
-						<form th:action="@{/bookIndex}" th:object="${user}" method="get">
-							<button class="custom-btn btn-CartIn notBack" type="submit" th:text="本の貸し出しページに戻る"></button>
-						</form>
+						<div>
+							<form th:action="@{/bookIndex}" th:object="${user}" method="get">
+								<button class="custom-btn btn-CartIn notBack" type="submit"
+									th:text="本の貸し出しページに戻る"></button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

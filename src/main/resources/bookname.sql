@@ -6,7 +6,8 @@ INSERT INTO BOOK_NAMES(ID,ACTIVE,AUTHOR,CREATED_AT,DETAIL,IMG,PUBLISHER,TITLE,UP
  VALUES(
     1,
     TRUE,
-    '中山清喬, 国本大悟',
+    '中山 清喬
+    国本 大悟',
     CURRENT_TIMESTAMP,
     '本書ではJavaでドラクエ風RPGの制作することをテーマとすることで、
     読者に楽しそうなイメージを持ってもらい、途中で挫折せずにJavaを学べるよう配慮すると共に、肝心のオブジェクト指向についてもRPG風のイラストを多用して直感的に分かりやすく理解できるよう工夫しました。',
@@ -42,7 +43,9 @@ INSERT INTO BOOK_NAMES(ID,ACTIVE,AUTHOR,CREATED_AT,DETAIL,IMG,PUBLISHER,TITLE,UP
     (
     4,
     TRUE,
-    '原田 けいと,竹田 甘地,Robert Segawa',
+    '原田 けいと
+    竹田 甘地
+    Robert Segawa',
     CURRENT_TIMESTAMP,
     '本書は、Spring Boot 2.7（+ 3.0 両対応）の入門書です。
     Spring Bootアプリケーションをいくつか作成しながら、主要な機能について解説しています。ご興味がありましたら、是非一読ください。',
