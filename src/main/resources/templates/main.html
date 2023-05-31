@@ -11,10 +11,8 @@
 	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
 	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
 
-
 	<link th:href="@{/css/main_BookSlicker.css}" rel="stylesheet">
 	<link th:href="@{/css/main_returnBookInfo.css}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -26,7 +24,6 @@
 	<main layout:fragment="content" class="bg-light">
 		<div class="container">
 			<div class="row">
-				<div class="sumahoActive mb-5"></div>
 				<h4 class="border-bottom my-3" th:text="メインサイト"></h4>
 				<p class="mb-5" th:text="*{username}"></p>
 				<div class="col-md-12 col-sm-12 col-xs-12 mb-5">
@@ -40,30 +37,30 @@
 					</ul>
 					<script src="/js/mainSite/slicker.js"></script>
 				</div>
-				<div class="col-md-12 col-sm-12 col-xs-12 mb-5">
+				<div class="mb-5">
 					<div class="card shadow">
-						<div class="card-body">
+						<div class="card-body" style="overflow: auto;">
 							<h4 class="border-bottom my-3" th:text="貸し出し状況"></h4>
 							<th:block th:if="${rentalList.size() == 0}">
 								<p th:text="該当データなし"></p>
 							</th:block>
 							<th:block th:if="${rentalList.size() > 0}">
-								<table class="table table-bordered">
-									<thead>
-										<tr class="table_th">
+								<table class="table">
+									<thead class="tableTitleText">
+										<tr>
 											<th th:text=#{title}></th>
 											<th th:text=#{author}></th>
-											<th class="sumahoNone" th:text=#{genre}></th>
-											<th class="sumahoNone" th:text=#{publisher}></th>
+											<th th:text=#{genre}></th>
+											<th th:text=#{publisher}></th>
 											<th>返却期限</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody class="tableBodyText">
 										<tr th:each="lending : ${rentalList}" th:object="${lending}">
 											<td th:text="*{book.bookNameId.title}"></td>
 											<td th:text="*{book.bookNameId.author}"></td>
-											<td class="sumahoNone" th:text="*{book.bookNameId.genre.name}"></td>
-											<td class="sumahoNone" th:text="*{book.bookNameId.publisher}"></td>
+											<td th:text="*{book.bookNameId.genre.name}"></td>
+											<td th:text="*{book.bookNameId.publisher}"></td>
 											<td th:text="*{returnDueDate}"></td>
 										</tr>
 									</tbody>

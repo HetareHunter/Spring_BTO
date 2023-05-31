@@ -12,7 +12,7 @@
 		<div class="container">
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow">
-					<div class="card-body" style="overflow: scroll;">
+					<div class="card-body" style="overflow: auto;">
 						<h3 class="card-title text-center text-navy" th:text="本の返却"></h3>
 						<div>
 							<form th:action="@{/bookReturnConfirm}" th:object="${form}" method="post">
