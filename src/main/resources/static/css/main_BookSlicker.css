@@ -55,6 +55,7 @@
 .slick-dots {
     text-align:center;
   margin:20px 0 0 0;
+  padding: 0;
 }
 
 .slick-dots li {
