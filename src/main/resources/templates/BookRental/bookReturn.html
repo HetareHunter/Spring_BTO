@@ -12,24 +12,23 @@
 		<div class="container">
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow">
-					<div class=" card-body">
-						<h3 class="card-title mb-3 text-center text-navy" th:text="本の返却"></h3>
+					<div class="card-body" style="overflow: scroll;">
+						<h3 class="card-title text-center text-navy" th:text="本の返却"></h3>
 						<div>
 							<form th:action="@{/bookReturnConfirm}" th:object="${form}" method="post">
-								<table class="table thFontSize">
-									<thead class="thFontSize notBack">
-										<tr class="table_th autoFontSize">
-											<th>返却する本</th>
+								<table class="table">
+									<thead class="tableTitleText">
+										<tr>
+											<th th:text="返却する本"></th>
+											<th>返却期限</th>
 											<th th:text=#{title}></th>
 											<th th:text=#{author}></th>
 											<th class="tabletNoneElement" th:text=#{genre}></th>
 											<th th:text=#{publisher}></th>
-											<th>返却期限</th>
 										</tr>
 									</thead>
-									<tbody class="tbodyFontSize tableBodyText">
-										<tr th:each="lending : ${lendingList}" th:object="${lending}"
-											class="autoFontSize">
+									<tbody class="tableBodyText">
+										<tr th:each="lending : ${lendingList}" th:object="${lending}">
 											<td>
 												<label th:for="${lending.id}">
 													<input type="checkbox" name="checks" th:id="${lending.id}"
@@ -38,11 +37,11 @@
 														class="checks" />
 												</label>
 											</td>
+											<td th:text="*{returnDueDate}"></td>
 											<td th:text="*{book.bookNameId.title}"></td>
 											<td th:text="*{book.bookNameId.author}"></td>
 											<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
 											<td th:text="*{book.bookNameId.publisher}"></td>
-											<td th:text="*{returnDueDate}"></td>
 										</tr>
 									</tbody>
 								</table>

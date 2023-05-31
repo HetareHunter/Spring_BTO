@@ -78,10 +78,13 @@ a {
 
 .tableBodyText td{
   word-break: break-word;
-  /* white-space: nowrap; */
-  /* width: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis; */
+  white-space: pre-line;
+  font-size: clamp(6px,2vw,16px);
+}
+
+.tableTitleText th{
+  white-space: nowrap;
+  font-size: clamp(6px,2vw,18px);
 }
 
 /*読み込み中等のオーバーレイのCSS*/
@@ -126,18 +129,27 @@ a {
     font-size: 2vw;
   }
 
-  .tbodyFontSize{
+  /* .tbodyFontSize{
     font-size: 2vw;
-  }
+  } */
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 420px) {
 	.thFontSize{
     font-size: 1vw;
   }
 
-  .tbodyFontSize{
-    font-size: 1vw;
+  .tableTitleText th{
+    /* white-space: nowrap; */
+    width: 70px;
+    /* word-break: break-word; */
+    font-size: 10px;
+  }
+
+  .tableBodyText td{
+    word-break: break-word;
+    white-space: pre-line;
+    font-size: clamp(6px,1vw,16px);
   }
 }
 

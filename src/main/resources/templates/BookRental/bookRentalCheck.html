@@ -11,11 +11,11 @@
 		<div class="container">
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow" style="max-width: 1080px;">
-					<div class="card-body">
-						<h3 class="card-title mb-3 text-center text-navy" th:text="貸し出し状況"></h3>
+					<div class="card-body" style="overflow: scroll;">
+						<h3 class="card-title text-center text-navy" th:text="貸し出し状況"></h3>
 						<table class="table">
-							<thead class="thFontSize notBack">
-								<tr class="table_th">
+							<thead class="tableTitleText">
+								<tr>
 									<th th:text=#{title}></th>
 									<th th:text=#{author}></th>
 									<th th:text=#{genre}></th>
@@ -23,7 +23,7 @@
 									<th>返却期限</th>
 								</tr>
 							</thead>
-							<tbody class="tbodyFontSize tableBodyText">
+							<tbody class="tableBodyText">
 								<tr th:each="lending : ${rentalList}" th:object="${lending}">
 									<td th:text="*{book.bookNameId.title}"></td>
 									<td th:text="*{book.bookNameId.author}"></td>
