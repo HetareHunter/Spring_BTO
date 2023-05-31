@@ -149,7 +149,7 @@ a {
   .tableBodyText td{
     word-break: break-word;
     white-space: pre-line;
-    font-size: clamp(6px,1vw,16px);
+    font-size: 12px;
   }
 }
 
