@@ -29,7 +29,7 @@
 									</thead>
 									<tbody class="tableBodyText">
 										<tr th:each="lending : ${lendingList}" th:object="${lending}">
-											<td>
+											<td style="white-space: normal;">
 												<label th:for="${lending.id}">
 													<input type="checkbox" name="checks" th:id="${lending.id}"
 														th:value="${lending.id}"
