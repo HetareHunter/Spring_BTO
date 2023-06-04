@@ -19,6 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+/**
+ * 本を借りるときの処理を実装する
+ */
 @RequiredArgsConstructor
 @Controller
 public class BookRentalController {
@@ -30,16 +33,28 @@ public class BookRentalController {
   @Autowired UserRegisterService userRegisterService;
   @Autowired SetRentalInfoService setRentalInfoService;
 
+  /**
+   * 借りる内容が正しいか確認する
+   * @param user
+   * @param book
+   * @param model
+   * @return
+   */
   @GetMapping("/bookRental")
   public String getBookRentalConfirm(Authentication user,
                                      @ModelAttribute Book book, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     var lendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("lendingList", lendingList);
     return "BookRental/bookRentalConfirm";
   }
 
+  /**
+   * 借りる処理を実行する
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/bookRentalComplete")
   public String getBookRentalComplete(Authentication user, Model model) {
     setRentalInfoService.setUserCartLendModel(user, model);
@@ -47,14 +62,16 @@ public class BookRentalController {
     books = bookRepository.findByState(BookState.CART);
     for (Book book : books) {
       try {
-        bookRegisterService.bookRentalSave(book); // bookの貸し出し状態を更新
+        // bookの貸し出し状態を更新
+        bookRegisterService.bookRentalSave(book);
         var userEntity = userRepository.findByEmail(user.getName()).get();
         var cartLendings = lendingRepository.findListByUserAndState(
             userEntity, LendingState.CART);
-        var lendings = lendingService.setLendingRental(
-            cartLendings); // 借りている状態にする
-        userEntity = userRegisterService.userSetRentalLending(
-            userEntity, lendings); // ユーザーエンティティの貸し出し状態を更新
+        // 借りている状態にする
+        var lendings = lendingService.setLendingRental(cartLendings);
+        // ユーザーエンティティの貸し出し状態を更新
+        userEntity =
+            userRegisterService.userSetRentalLending(userEntity, lendings);
 
       } catch (Exception e) {
         System.out.println(e + " が postBookIndex() で発生");

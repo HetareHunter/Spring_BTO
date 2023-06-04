@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * 開発者が新しく本を登録するためのフォーム用の処理を実装する
+ */
 @RequiredArgsConstructor
 @Controller
 public class BookRegisterController {
   @Autowired private BookNameRepository bookNameRepository;
   @Autowired private GenreRepository genreRepository;
-
   @Autowired private BookRegisterService bookRegisterService;
 
   private ErrorUtil errorUtil = new ErrorUtil();

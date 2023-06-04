@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * 返却処理を実装する
+ */
 @RequiredArgsConstructor
 @Controller
 public class BookReturnController {
@@ -23,11 +26,18 @@ public class BookReturnController {
   @Autowired private LendingService lendingService;
   @Autowired private UserRegisterService userRegisterService;
 
+  /**
+   * 返却する本を登録する。
+   * 登録するには対象の本の横にあるチェックボックスをチェックする
+   * @param user
+   * @param form
+   * @param model
+   * @return
+   */
   @GetMapping("/bookReturnRegister")
   public String getBookReturnRegister(Authentication user,
                                       @ModelAttribute("form") FormEntity form,
                                       Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     var lendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("lendingList", lendingList);
@@ -38,29 +48,46 @@ public class BookReturnController {
     return "BookRental/bookReturn";
   }
 
+  /**
+   * 返却する本を確認する
+   * @param user
+   * @param form
+   * @param model
+   * @return
+   */
   @PostMapping("/bookReturnConfirm")
   public String postBookReturnConfirm(Authentication user,
                                       @ModelAttribute("form") FormEntity form,
                                       Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     var returnList = lendingRepository.findAllById(form.getChecks());
     model.addAttribute("lendingList", returnList);
     return "BookRental/bookReturnConfirm";
   }
 
+  /**
+   * 返却する処理を実行する
+   * @param user
+   * @param form
+   * @param model
+   * @return
+   */
   @PostMapping("/bookReturnComplete")
   public String postBookReturnComplete(Authentication user,
                                        @ModelAttribute("form") FormEntity form,
                                        Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     for (var id : form.getChecks()) {
       System.out.println("form.getId(): " + id);
     }
     var returnList = lendingRepository.findAllById(form.getChecks());
-    lendingService.setLendingReturn(returnList); // 返却リストの更新
+
+    // 返却リストの更新
+    lendingService.setLendingReturn(returnList);
+
+    // ユーザーエンティティの貸し出し状態を更新
     var userEntity = userRepository.findByEmail(user.getName()).get();
-    userEntity = userRegisterService.userSetRentalLending(
-        userEntity, returnList); // ユーザーエンティティの貸し出し状態を更新
+    userEntity =
+        userRegisterService.userSetRentalLending(userEntity, returnList);
+
     model.addAttribute("lendingList", returnList);
     return "BookRental/bookReturnComplete";
   }

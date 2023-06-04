@@ -19,7 +19,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * @author umaib 本システムにログインできるユーザ、パスワードを管理する
+ * 本システムにログインできるユーザ、パスワードを管理する
  */
 @Data
 @Entity
@@ -40,12 +40,24 @@ public class User {
   @Column(name = "last_name")
   private String last_name;
 
+  /**
+   * ログインIDとなる値
+   */
   @NotBlank @Email @UniqueLogin @Column(name = "email") private String email;
 
+  /**
+   * ログイン時に使用するパスワード。BCryptPasswordEncoderを使い暗号化する
+   */
   @NotBlank @Size(max = 255) @Column(name = "password") private String password;
 
+  /**
+   * ユーザーの権限。現状ADMINとUSERの2つのみ
+   */
   @Column(name = "role") private Authority role;
 
+  /**
+   * 本の貸し借り状況
+   */
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
   @Column(name = "lending")
   private List<Lending> lendings = new ArrayList<Lending>();

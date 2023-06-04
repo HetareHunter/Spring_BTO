@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Book;
+import com.example.demo.model.Lending;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -82,20 +83,33 @@ public class BookSearchService {
     model.addAttribute("searchStr", searchStr);
   }
 
+  /**
+   * 本を借りれない状態、
+   * lendingエンティティをカートに入れる状態、
+   * ユーザーの本の貸し出し状態にlendingエンティティを追加する処理を実施
+   * @param user
+   * @param bookId
+   * @return
+   */
   public String setLendingCartBook(Authentication user, String bookId) {
     try {
       var book = bookRepository.findById(Integer.parseInt(bookId)).get();
 
+      //既に貸し出しされている場合は借りれないようにする(暫定)
       if (!book.isLendable()) {
         System.out.println("既に貸し出しされています");
         return "BookRental/BookIndexFragment/bookTable :: tableReload";
       }
-      bookRegisterService.bookCartSave(book); // bookの貸し出し状態を更新
+
+      // bookの貸し出し状態を更新する
+      bookRegisterService.bookCartSave(book);
       var userEntity = userRepository.findByEmail(user.getName()).get();
-      var lend = lendingService.setLendingCart(
-          book, userEntity); // カートに入れる状態にする
-      userEntity = userRegisterService.userSetCartLending(
-          userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+
+      // 貸し借り状態をカートに入れている状態にする
+      var lend = lendingService.setLendingCart(book, userEntity);
+
+      // ユーザーエンティティの貸し出し状態に反映する
+      userEntity = userRegisterService.userSetCartLending(userEntity, lend);
 
     } catch (Exception e) {
       System.out.println(e.getCause() +
@@ -105,25 +119,35 @@ public class BookSearchService {
     return "";
   }
 
-  public String deleteLendingCartBook(Authentication user, String bookId) {
+  /**
+   * 本を借りれる状態、
+   * lendingエンティティをカートに入れる状態、
+   * ユーザーの本の貸し出し状態にlendingエンティティを追加する処理を実施
+   * lendingエンティティを削除する
+   * @param user
+   * @param bookId
+   */
+  public void deleteLendingCartBook(Authentication user, String bookId) {
     try {
+
       var book = bookRepository.findById(Integer.parseInt(bookId)).get();
+
       var lend =
           lendingRepository.findByBookAndState(book, LendingState.CART).get();
       var userEntity = userRepository.findByEmail(user.getName()).get();
 
       bookRegisterService.bookLendableChange(
           book, true, BookState.FREE); // bookの貸し出し状態を更新
-      userEntity = userRegisterService.userSetCartLending(
-          userEntity, lend); // ユーザーエンティティの貸し出し状態を更新
+
+      // ユーザーエンティティの貸し出し状態を更新
+      userEntity = userRegisterService.userDeleteCartLending(userEntity, lend);
+
       lendingService.deleteLending(lend.getId()); // 貸し出し情報の削除
 
     } catch (Exception e) {
       System.out.println(
           e.getCause() +
-          " が BookIndexController.getDeleteTempLendingBook() で発生");
+          " が BookSearchService.deleteLendingCartBook() で発生");
     }
-
-    return "";
   }
 }

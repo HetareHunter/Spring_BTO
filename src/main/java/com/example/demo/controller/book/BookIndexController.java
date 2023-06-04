@@ -1,6 +1,5 @@
 package com.example.demo.controller.book;
 
-import com.example.demo.model.Book;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -18,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -105,15 +103,12 @@ public class BookIndexController {
     System.out.println("本のID：" + bookId);
 
     var books = bookSearchService.findByTitleBookLike(searchStr);
+    // 戻り値が空でない場合は後の処理を行わずそのまま本のテーブルを返す
     var returnStr = bookSearchService.setLendingCartBook(user, bookId);
     if (!returnStr.equals("")) {
       System.out.println("returnStr：" + returnStr);
-      return "BookRental/BookIndexFragment/bookTable :: tableReload";
+      return returnStr;
     }
-    var cartLendingList = lendingRepository.findListByUserAndState(
-        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
-    model.addAttribute("cartLendingList", cartLendingList);
-
     bookSearchService.setLendingModel(user, model, books, searchStr);
     System.out.println("bookIndex_setLending の searchStr : " + searchStr);
     System.out.println(
@@ -122,7 +117,7 @@ public class BookIndexController {
   }
 
   /**
-   * カートから取り出すときの処理。ajaxで呼び出される一部更新処理(本のテーブル)
+   * 選択した本をカートから取り出すときの処理。ajaxで呼び出される一部更新処理(本のテーブル)
    * 本を検索した情報はそのままとする
    * @param user
    * @param model
@@ -137,18 +132,19 @@ public class BookIndexController {
                            @RequestParam("searchStr") String searchStr) {
     System.out.println("bookIndex_deleteLending");
     var books = bookSearchService.findByTitleBookLike(searchStr);
-    var returnStr = bookSearchService.deleteLendingCartBook(user, bookId);
-    if (!returnStr.equals("")) {
-      System.out.println("returnStr：" + returnStr);
-      return "BookRental/BookIndexFragment/bookTable :: tableReload";
-    }
+    bookSearchService.deleteLendingCartBook(user, bookId);
     bookSearchService.setLendingModel(user, model, books, searchStr);
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
+  /**
+   * カートの確認ページに遷移
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/bookCartConfirm")
   public String getBookCartConfirm(Authentication user, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
@@ -156,9 +152,14 @@ public class BookIndexController {
     return "BookRental/bookCartConfirm";
   }
 
+  /**
+   * 借りるか確認するページに遷移
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/bookRentalCheck")
   public String getBookRentalConfirm(Authentication user, Model model) {
-    model.addAttribute("username", user.getName() + "でログインしています。");
     var rentalList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("rentalList", rentalList);
@@ -166,6 +167,12 @@ public class BookIndexController {
     return "BookRental/bookRentalCheck";
   }
 
+  /**
+   * 開発環境で開発者が全ての貸し借り関係を削除する処理を行う
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/deleteLending")
   public String getDeleteLending(Authentication user, Model model) {
     lendingService.deleteAllLending();
@@ -174,6 +181,12 @@ public class BookIndexController {
     return "redirect:/bookIndex";
   }
 
+  /**
+   * 管理者用ページに遷移
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/bookAdminMain")
   public String getBookAdminMain(Authentication user, Model model) {
     topbarService.setTopbarModel(user, model);
