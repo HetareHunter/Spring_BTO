@@ -1,6 +1,6 @@
 package com.example.demo.util;
 
-public enum Authority
-{
-	ADMIN, USER
-}
+/**
+ * ユーザーの権限
+ */
+public enum Authority { ADMIN, USER }

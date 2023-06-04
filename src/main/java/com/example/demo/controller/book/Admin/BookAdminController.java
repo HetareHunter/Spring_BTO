@@ -2,11 +2,10 @@ package com.example.demo.controller.book.Admin;
 
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
-import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.TopbarService;
-import com.example.demo.service.UserRegisterService;
+import com.example.demo.service.UserLendingService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class BookAdminController {
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
   @Autowired private BookRegisterService bookRegisterService;
-  @Autowired private UserRegisterService userRegisterService;
+  @Autowired private UserLendingService userRegisterService;
   @Autowired private TopbarService topbarService;
 
   @GetMapping("/bookLendingAdmin")

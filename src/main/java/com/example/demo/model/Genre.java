@@ -10,8 +10,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 /**
- * @author umaib
- *書籍の貸し出し状況を管理する。
+ * 書籍のジャンルを格納する
  */
 @Data
 @Entity

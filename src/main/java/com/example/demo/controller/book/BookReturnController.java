@@ -4,7 +4,7 @@ import com.example.demo.model.FormEntity;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.LendingService;
-import com.example.demo.service.UserRegisterService;
+import com.example.demo.service.UserLendingService;
 import com.example.demo.util.LendingState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class BookReturnController {
   @Autowired private LendingRepository lendingRepository;
   @Autowired private UserMngRepository userRepository;
   @Autowired private LendingService lendingService;
-  @Autowired private UserRegisterService userRegisterService;
+  @Autowired private UserLendingService userRegisterService;
 
   /**
    * 返却する本を登録する。

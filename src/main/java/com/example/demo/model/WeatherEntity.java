@@ -7,10 +7,12 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Data;
 
+/**
+ * 天気情報を格納する
+ */
 @Data
 @Entity
 @Table(name = "WEATHER")
-
 public class WeatherEntity {
   @Id @Column(name = "id") private int id = 1;
   @Column(name = "date") private LocalDateTime date;

@@ -27,10 +27,9 @@ public class TopbarService {
    */
   public void setTopbarModel(Authentication user, Model model) {
 
-    //ログインしているかどうかの判定、セット
+    // ログインしているかどうかの判定、セット
     Authentication loginUser =
         SecurityContextHolder.getContext().getAuthentication();
-
     if (loginUser.getName().equals("anonymousUser")) {
       model.addAttribute("username", "ログインしていません。");
       model.addAttribute("isLogin", false);
@@ -43,13 +42,15 @@ public class TopbarService {
       model.addAttribute("isLogin", false);
     }
 
-    //ユーザーの貸し出し情報のセット
+    // ユーザーの貸し出し情報のセット
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
     var rentalList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("rentalList", rentalList);
+
+    // 天気情報のセット
     WeatherEntity weatherEntity = weatherRepository.findById(1).get();
     model.addAttribute("weather", weatherEntity);
   }

@@ -20,6 +20,7 @@ public class WeatherService {
   public WeatherEntity setWeatherInfo(WeatherEntity weatherEntity) {
     String weatherStr = "";
     try {
+      // OpenWeatherから天気情報を取得する
       String requestUrl =
           "https://api.openweathermap.org/data/2.5/weather?q=Tokyo,jp&APPID=5668b66baa1c8dd707dc6b35a935f6b6&units=metric&rain.3h";
 
@@ -28,10 +29,11 @@ public class WeatherService {
       connection.setRequestMethod("GET");
       connection.connect();
 
+      // 接続状態を格納する
       int responseCode = connection.getResponseCode();
 
+      // OpenWeatherに正常に接続できた場合にJSON形式で天気情報を取得する
       if (responseCode == HttpURLConnection.HTTP_OK) {
-
         Scanner scanner = new Scanner(url.openStream());
 
         weatherStr = scanner.nextLine();
@@ -44,6 +46,7 @@ public class WeatherService {
       e.printStackTrace();
     }
 
+    // 天気の名前を正規表現で切り分ける
     Pattern pattern = Pattern.compile(
         "\"weather\":\\[\\{\"id\":\\d+,\"main\":\"([^\"]+)\",\"description\":\"([^\"]+)\"");
     Matcher matcher = pattern.matcher(weatherStr);
@@ -52,24 +55,28 @@ public class WeatherService {
       weatherEntity.setWeatherdescription(matcher.group(2));
     }
 
+    // 湿度を正規表現で切り分ける
     pattern = Pattern.compile("\"humidity\":(\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setHumidity((matcher.group(1)));
     }
 
+    // 温度を正規表現で切り分ける
     pattern = Pattern.compile("\"temp\":(\\d+\\.\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setTemperature(matcher.group(1));
     }
 
+    // 最高気温を正規表現で切り分ける
     pattern = Pattern.compile("\"temp_max\":(\\d+\\.\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setMaxTemperature(matcher.group(1));
     }
 
+    // 最低気温を正規表現で切り分ける
     pattern = Pattern.compile("\"temp_min\":(\\d+\\.\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {

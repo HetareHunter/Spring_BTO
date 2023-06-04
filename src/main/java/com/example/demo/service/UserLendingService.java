@@ -11,12 +11,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * ユーザーの貸し借り状態の変更処理
+ */
 @RequiredArgsConstructor
 @Service
-public class UserRegisterService {
+public class UserLendingService {
   @Autowired UserMngRepository userRepository;
   @Autowired LendingRepository lendingRepository;
 
+  /**
+   * カートに入れたときのユーザーの貸し借り状態設定
+   * @param user
+   * @param lend
+   * @return
+   */
   public User userSetCartLending(User user, Lending lend) {
     var lendings = user.getLendings();
     lendings.add(lend);
@@ -28,6 +37,12 @@ public class UserRegisterService {
     return user;
   }
 
+  /**
+   * カートから取り出したときのユーザーの貸し借り状態設定
+   * @param user
+   * @param lend
+   * @return
+   */
   public User userDeleteCartLending(User user, Lending lend) {
     var lendings = user.getLendings();
     lendings.remove(lend);
@@ -39,6 +54,12 @@ public class UserRegisterService {
     return user;
   }
 
+  /**
+   * 借り入れたときのユーザーの貸し借り状態設定
+   * @param user
+   * @param lendings
+   * @return
+   */
   public User userSetRentalLending(User user, List<Lending> lendings) {
     user.setLendings(lendings);
 
@@ -49,6 +70,9 @@ public class UserRegisterService {
     return user;
   }
 
+  /**
+   * 全てのユーザーの本の貸し借り関係を削除したときの処理
+   */
   public void deleteAllLendingRelationship() {
     var users = userRepository.findAll();
     var lendings = new ArrayList<Lending>();
@@ -61,6 +85,11 @@ public class UserRegisterService {
     System.out.println("全てのユーザーの本の貸し借り関係を削除した");
   }
 
+  /**
+   * 特定のユーザーの本の貸し借り関係を削除したときの処理
+   * @param user
+   * @param lend
+   */
   public void deleteLendingRelationship(User user, Lending lend) {
     var lendings = user.getLendings();
     lendings.remove(lend.getId());

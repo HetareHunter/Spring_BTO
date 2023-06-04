@@ -13,6 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * 貸し借りの状態に関する処理を実装
+ * カートに入れる、取り出す
+ * 正式に借りる
+ * 返却する
+ * クローズする
+ * 管理者が削除する機能
+ */
 @RequiredArgsConstructor
 @Service
 public class LendingService {

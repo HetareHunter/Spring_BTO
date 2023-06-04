@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Book;
-import com.example.demo.model.Lending;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -15,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+/**
+ * 本の検索機能に関する処理を定義する
+ */
 @RequiredArgsConstructor
 @Service
 public class BookSearchService {
@@ -24,7 +26,7 @@ public class BookSearchService {
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
   @Autowired private BookRegisterService bookRegisterService;
-  @Autowired private UserRegisterService userRegisterService;
+  @Autowired private UserLendingService userRegisterService;
 
   /**
    * controller側で同じ処理をして戻り値のみ違うメソッドがあるので

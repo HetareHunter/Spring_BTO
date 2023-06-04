@@ -8,7 +8,7 @@ import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.BookSearchService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.TopbarService;
-import com.example.demo.service.UserRegisterService;
+import com.example.demo.service.UserLendingService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class BookIndexController {
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
   @Autowired private BookRegisterService bookRegisterService;
-  @Autowired private UserRegisterService userRegisterService;
+  @Autowired private UserLendingService userRegisterService;
   @Autowired private BookSearchService bookSearchService;
   @Autowired private TopbarService topbarService;
 

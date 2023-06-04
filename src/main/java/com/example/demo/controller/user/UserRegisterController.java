@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * ユーザー登録処理
+ */
 @RequiredArgsConstructor
 @Controller
 public class UserRegisterController {
@@ -25,26 +28,40 @@ public class UserRegisterController {
 
   private final PasswordEncoder passwordEncoder;
 
-  private String editHeadline = "";
   private ErrorUtil errorUtil = new ErrorUtil();
 
-  // ユーザーの新規登録
+  /**
+   * ユーザーの新規登録
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/register")
   public String register(@ModelAttribute User user, Model model) {
-    editHeadline = "新規登録";
-    model.addAttribute("headline", editHeadline);
+    model.addAttribute("headline", "新規登録");
     return "register";
   }
 
-  // ユーザー情報の変更
+  /**
+   * ユーザー情報の変更
+   * @param id
+   * @param model
+   * @return
+   */
   @GetMapping("/register/{id}")
   public String editUser(@PathVariable int id, Model model) {
     model.addAttribute("user", userRepository.findById(id));
-    editHeadline = "ユーザー情報編集";
-    model.addAttribute("headline", editHeadline);
+    model.addAttribute("headline", "ユーザー情報の編集");
     return "Auth/Alter/alterUserInfo";
   }
 
+  /**
+   * ユーザー情報の削除
+   * @param id
+   * @param loginUser
+   * @param model
+   * @return
+   */
   @GetMapping("/delete/{id}")
   public String deleteUser(@PathVariable int id, Authentication loginUser,
                            Model model) {
@@ -53,42 +70,72 @@ public class UserRegisterController {
     return "redirect:/index";
   }
 
+  /**
+   * ユーザー情報登録内容の確認
+   * @param user
+   * @param result
+   * @param model
+   * @return
+   *     登録内容に問題がある場合登録画面に戻る。問題なければ確認画面に遷移する
+   */
   @PostMapping("/confirm")
   public String confirm(@Validated @ModelAttribute User user,
                         BindingResult result, Model model) {
+    // 入力内容に問題がある場合、registerに戻る
     if (result.hasErrors()) {
       errorUtil.printErrorLog(result);
-      model.addAttribute("headline", editHeadline);
+      model.addAttribute("headline", "新規登録");
       return "register";
     }
 
+    // パスワードは暗号化する
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    if (user.isAdmin()) {
-      user.setRole(Authority.ADMIN);
-    } else {
-      user.setRole(Authority.USER);
-    }
+
+    // 管理者権限はフォームから設定できないようにしている
+    user.setRole(Authority.USER);
+    // if (user.isAdmin()) {
+    //   user.setRole(Authority.ADMIN);
+    // } else {
+    //   user.setRole(Authority.USER);
+    // }
 
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     user.setCreated_at(timestamp);
     user.setUpdated_at(timestamp);
+
+    model.addAttribute("headline", "変更内容の確認");
     return "confirm";
   }
 
+  /**
+   * 既に登録されているユーザー情報の編集内容の確認ページの処理
+   * @param user
+   * @param result
+   * @param model
+   * @return
+   */
   @PostMapping("/alterConfirm")
   public String alterConfirm(@Validated @ModelAttribute User user,
                              BindingResult result, Model model) {
 
+    // 入力内容に問題がある場合、alterUserInfoに戻る
     if (result.hasErrors() && !errorUtil.isOnlyEmailError(result)) {
-      model.addAttribute("headline", editHeadline);
+      model.addAttribute("headline", "ユーザー情報の編集");
       return "Auth/Alter/alterUserInfo";
     }
 
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     user.setUpdated_at(timestamp);
+
+    model.addAttribute("headline", "変更内容の確認");
     return "Auth/Alter/alterConfirm";
   }
 
+  /**
+   * 新規登録内容を登録する処理
+   * @param user
+   * @return
+   */
   @PostMapping("/complete")
   public String complete(@ModelAttribute User user) {
     user.setName(user.getFirst_name() + " " + user.getLast_name());
@@ -98,6 +145,13 @@ public class UserRegisterController {
     return "redirect:/login";
   }
 
+  /**
+   * 既に登録されているユーザー情報の編集内容を登録する処理
+   * @param user
+   * @param loginUser
+   * @param model
+   * @return
+   */
   @PostMapping("/alterComplete")
   public String alterComplete(@ModelAttribute User user,
                               Authentication loginUser, Model model) {

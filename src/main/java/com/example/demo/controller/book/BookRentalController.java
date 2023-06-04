@@ -6,8 +6,8 @@ import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
 import com.example.demo.service.LendingService;
-import com.example.demo.service.SetRentalInfoService;
-import com.example.demo.service.UserRegisterService;
+import com.example.demo.service.TopbarService;
+import com.example.demo.service.UserLendingService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ public class BookRentalController {
   @Autowired private UserMngRepository userRepository;
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
+  @Autowired private TopbarService topbarService;
   @Autowired BookRegisterService bookRegisterService;
-  @Autowired UserRegisterService userRegisterService;
-  @Autowired SetRentalInfoService setRentalInfoService;
+  @Autowired UserLendingService userRegisterService;
 
   /**
    * 借りる内容が正しいか確認する
@@ -57,7 +57,7 @@ public class BookRentalController {
    */
   @GetMapping("/bookRentalComplete")
   public String getBookRentalComplete(Authentication user, Model model) {
-    setRentalInfoService.setUserCartLendModel(user, model);
+    topbarService.setTopbarModel(user, model);
     var books = new ArrayList<Book>();
     books = bookRepository.findByState(BookState.CART);
     for (Book book : books) {

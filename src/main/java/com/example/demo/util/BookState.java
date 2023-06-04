@@ -1,6 +1,6 @@
 package com.example.demo.util;
 
-public enum BookState
-{
-	FREE, CART, RENTAL
-}
+/**
+ * 本の状態
+ */
+public enum BookState { FREE, CART, RENTAL }
