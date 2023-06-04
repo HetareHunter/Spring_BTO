@@ -17,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * 本の貸し出しの管理者用ページのコントローラー
+ */
 @RequiredArgsConstructor
 @Controller
 public class BookAdminController {

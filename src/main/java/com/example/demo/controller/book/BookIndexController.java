@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * ユーザーが借りたい本を検索し、カートに入れるページ移動等の処理を担う
+ */
 @RequiredArgsConstructor
 @Controller
 public class BookIndexController {
@@ -34,10 +37,14 @@ public class BookIndexController {
   @Autowired private BookSearchService bookSearchService;
   @Autowired private TopbarService topbarService;
 
+  /**
+   * 本の検索をせずにアクセスするときのメソッド
+   * @param user
+   * @param model
+   * @return
+   */
   @GetMapping("/bookIndex")
-  public String getBookIndex(Authentication user, Model model,
-                             @ModelAttribute Book book,
-                             @ModelAttribute String bookId) {
+  public String getBookIndex(Authentication user, Model model) {
     bookSearchService.setSearchBookModel(model, "");
     topbarService.setTopbarModel(user, model);
 
@@ -45,10 +52,10 @@ public class BookIndexController {
   }
 
   /**
-   * 本の検索処理
+   * bookIndex(本の貸し出しページ)から本の検索をしてアクセスするときの処理
    * @param user
    * @param model
-   * @param searchStr
+   * @param searchStr 検索した文字列
    * @return ページは読み直さずにテンプレートを差し替える
    */
   @GetMapping("/bookIndex_setSearch")
@@ -63,10 +70,10 @@ public class BookIndexController {
   }
 
   /**
-   * 本の貸し出しページ外からの本の検索処理
+   * bookIndex(本の貸し出しページ)外から本の検索をしてアクセスするときの処理
    * @param user
    * @param model
-   * @param searchStr
+   * @param searchStr 検索した文字列
    * @return 新しくページを読み直す
    */
   @GetMapping("/bookIndex_setSearchAnotherPage")
@@ -82,10 +89,12 @@ public class BookIndexController {
   }
 
   /**
-   * 選択した本をカートに入れるときの処理。ajaxで呼び出される一部更新
+   * 選択した本をカートに入れるときの処理。ajaxで呼び出される一部更新処理(本のテーブル)
+   * 本を検索した情報はそのままとする
    * @param user
    * @param model
-   * @param bookId
+   * @param bookId カートに入れる本のID
+   * @param searchStr 検索した文字列
    * @return
    */
   @GetMapping("/bookIndex_setLending")
@@ -113,10 +122,12 @@ public class BookIndexController {
   }
 
   /**
-   * カートから取り出すときの処理。ajaxで呼び出される一部更新
+   * カートから取り出すときの処理。ajaxで呼び出される一部更新処理(本のテーブル)
+   * 本を検索した情報はそのままとする
    * @param user
    * @param model
-   * @param bookId
+   * @param bookId カートに入れる本のID
+   * @param searchStr 検索した文字列
    * @return
    */
   @GetMapping("/bookIndex_deleteLending")

@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * タスクスケジューラーを定義、設定するクラス
+ */
 @Component
 public class ScheduledTasks {
-  /**
-   * 天気情報を定期的に更新するメソッド。現在は5分間隔
-   */
   @Autowired WeatherService weatherService;
   @Autowired WeatherRepository weatherrepository;
-  @Scheduled(fixedDelay = 300000)
+
+  /**
+   * 天気情報を定期的に更新するメソッド。現在は10分間隔
+   */
+  @Scheduled(fixedDelay = 600000)
   public void updateWeatherInfo() {
     WeatherEntity weatherEntity = new WeatherEntity();
     weatherEntity = weatherService.setWeatherInfo(weatherEntity);

@@ -10,9 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-@SessionAttributes(names = "topbar")
+/**
+ * 各ページの一番上にあるメニューの各種処理を担う
+ */
 @Service
 public class TopbarService {
   @Autowired private UserMngRepository userRepository;
