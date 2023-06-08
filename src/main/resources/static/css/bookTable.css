@@ -51,7 +51,7 @@ img.size {
     margin: 0;
     padding: 0;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.5rem;
     white-space: pre-line;
   }
 
@@ -105,7 +105,7 @@ img.size {
     left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
+    margin: 10px 0 0 0;
   }
   
 /* ここからカードレイアウトのスタイリング */
@@ -125,7 +125,7 @@ img.size {
 	font-size: 1.5vw;
 }
 /* タブレット　2カラム */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
 	.bl_media_itemWrapper {
 		width: calc(100% / 2 - 30px);
 	}

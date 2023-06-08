@@ -52,6 +52,7 @@
 											<div>
 												<p class="elementTitle" th:text="#{renralActivate}"></p>
 												<th:block th:if="*{lendable}">
+													<p class="text" th:text="貸し出し可能です"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -88,6 +89,7 @@
 													</div>
 												</th:block>
 												<th:block th:if="*{!lendable}">
+													<p class="text" th:text="貸し出しできません"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -148,20 +150,26 @@
 								</div>
 							</div>
 							<div class="card-footer">
-								<th:block th:if="*{lendable}">
-									<div class="mr-10">
-										<div th:id="debug+${book.id}" th:name="*{lendable}"></div>
-										<form method="get" th:id="'book_cart_'+${book.Id}">
-											<button class="custom-btn btn-CartIn cartButtonSet_" type="button"
-												th:name="${book.id}" th:text="カートに入れる"
-												th:id="'cartButtonSet_'+${book.Id}"
-												th:onclick="changeBookNum(1);"></button>
-										</form>
-									</div>
-								</th:block>
-								<th:block th:each="lend : ${cartLendingList}">
-									<th:block th:if="${lend.book.id == book.id}">
-										<td>
+								<div style="display:flex;gap: 0px 8px; ">
+									<th:block th:if="*{lendable}">
+										<div class="mr-10">
+											<div th:id="debug+${book.id}" th:name="*{lendable}"></div>
+											<form method="get" th:id="'book_cart_'+${book.Id}">
+												<button class="custom-btn btn-CartIn cartButtonSet_" type="button"
+													th:name="${book.id}" th:text="カートに入れる"
+													th:id="'cartButtonSet_'+${book.Id}"
+													th:onclick="changeBookNum(1);"></button>
+											</form>
+										</div>
+									</th:block>
+									<th:block th:unless="*{lendable}">
+										<div class="mr-10">
+											<button class="custom-btn btn-CartInDisabled cartButtonSet_" type="submit"
+												th:text="カートに入れる" disabled="disabled"></button>
+										</div>
+									</th:block>
+									<th:block th:each="lend : ${cartLendingList}">
+										<th:block th:if="${lend.book.id == book.id}">
 											<div class="mr-10">
 												<form method="get" th:id="'book_cartDelete_'+${book.Id}">
 													<button class="custom-btn btn-CartIn  book_cartDelete_"
@@ -170,9 +178,9 @@
 														th:onclick="changeBookNum(-1);"></button>
 												</form>
 											</div>
-										</td>
+										</th:block>
 									</th:block>
-								</th:block>
+								</div>
 							</div>
 						</div>
 					</th:block>

@@ -100,13 +100,14 @@
   text-decoration: none;
   font-weight: bold;
   color: #ffffff;
+  padding:17px 0px;
 }
 
 .menuTitle p{
   overflow: hidden;
   text-overflow: ellipsis; /* "..."を表示 */
   white-space: nowrap;
-  margin: 10px 10px;
+  margin: 0px 10px;
 }
 
 .menua {
@@ -114,6 +115,7 @@
   text-decoration: none;
   font-weight: bold;
   color: #ffffff;
+  padding:5px 0px 5px 0px;
 }
 
 .menua p{
@@ -137,6 +139,7 @@
   text-decoration: none;
   font-weight: bold;
   color: #ffffff;
+  padding:5px 0px 5px 0px;
 }
 
 .menu-bar a:hover {
@@ -153,11 +156,11 @@
 }
 
 /* トグルになるときの各項目の高さ調整用　2カラム */
-@media screen and (max-width: 992px) {
+/* @media screen and (max-width: 992px) {
 	.media_marginTop {
 		margin-top: 15px;
 	}
-}
+} */
 
 	/* bootstrapのnavbarで隠れないように調整 */
 @media screen and (max-width: 333px) {

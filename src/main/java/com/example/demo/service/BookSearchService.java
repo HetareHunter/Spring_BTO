@@ -86,7 +86,7 @@ public class BookSearchService {
   }
 
   /**
-   * 本を借りれない状態、
+   * 本をカートに入れる状態にする、
    * lendingエンティティをカートに入れる状態、
    * ユーザーの本の貸し出し状態にlendingエンティティを追加する処理を実施
    * @param user
