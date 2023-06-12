@@ -11,20 +11,38 @@
 	<div th:fragment="tableReload">
 		<div id="searchTableStr" th:name="${searchStr}" type=hidden></div>
 		<div class="col-md-12 col-sm-12 col-xs-12">
-			<th:block th:if="${cartLendingList.size() >= 1}">
-				<div class="mb-2">
-					<form th:action="@{/bookRental}" method="get">
-						<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
-					</form>
-				</div>
-			</th:block>
-			<th:block th:if="${rentalList.size() >= 1}">
-				<div class="mb-2">
-					<form th:action="@{/bookReturnRegister}" method="get">
-						<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
-					</form>
-				</div>
-			</th:block>
+			<div class="menuButton">
+				<th:block th:if="${cartLendingList.size() >= 1}">
+					<div class="mb-3">
+						<form th:action="@{/bookRental}" method="get">
+							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:unless="${cartLendingList.size() >= 1}">
+					<div class="mb-3">
+						<form th:action="@{/bookRental}" method="get">
+							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"
+								disabled="disabled"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:if="${rentalList.size() >= 1}">
+					<div class="mb-2">
+						<form th:action="@{/bookReturnRegister}" method="get">
+							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:unless="${rentalList.size() >= 1}">
+					<div class="mb-2">
+						<form th:action="@{/bookReturnRegister}" method="get">
+							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"
+								disabled="disabled"></button>
+						</form>
+					</div>
+				</th:block>
+			</div>
 
 			<th:block th:if="${bookList.size() > 0}">
 				<div class="bl_media_container">
@@ -164,8 +182,8 @@
 									</th:block>
 									<th:block th:unless="*{lendable}">
 										<div class="mr-10">
-											<button class="custom-btn btn-CartInDisabled cartButtonSet_" type="submit"
-												th:text="カートに入れる" disabled="disabled"></button>
+											<button class="custom-btn btn-CartIn" type="submit" th:text="カートに入れる"
+												disabled="disabled"></button>
 										</div>
 									</th:block>
 									<th:block th:each="lend : ${cartLendingList}">
@@ -189,21 +207,38 @@
 			<div th:if="${bookList.size() == 0}">
 				<p>該当データがありません</p>
 			</div>
-			<th:block th:if="${cartLendingList.size() >= 1}">
-				<div class="mb-2">
-					<form th:action="@{/bookRental}" method="get">
-						<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
-					</form>
-				</div>
-			</th:block>
-
-			<th:block th:if="${rentalList.size() >= 1}">
-				<div class="mb-2">
-					<form th:action="@{/bookReturnRegister}" method="get">
-						<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
-					</form>
-				</div>
-			</th:block>
+			<div class="menuButton">
+				<th:block th:if="${cartLendingList.size() >= 1}">
+					<div class="mb-3">
+						<form th:action="@{/bookRental}" method="get">
+							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:unless="${cartLendingList.size() >= 1}">
+					<div class="mb-3">
+						<form th:action="@{/bookRental}" method="get">
+							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"
+								disabled="disabled"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:if="${rentalList.size() >= 1}">
+					<div class="mb-2">
+						<form th:action="@{/bookReturnRegister}" method="get">
+							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
+						</form>
+					</div>
+				</th:block>
+				<th:block th:unless="${rentalList.size() >= 1}">
+					<div class="mb-2">
+						<form th:action="@{/bookReturnRegister}" method="get">
+							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"
+								disabled="disabled"></button>
+						</form>
+					</div>
+				</th:block>
+			</div>
 		</div>
 	</div>
 

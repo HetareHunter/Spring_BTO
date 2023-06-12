@@ -30,17 +30,23 @@ public class TopbarService {
     // ログインしているかどうかの判定、セット
     Authentication loginUser =
         SecurityContextHolder.getContext().getAuthentication();
+    var userName =
+        userRepository.findByEmail(loginUser.getName()).get().getName();
     if (loginUser.getName().equals("anonymousUser")) {
       model.addAttribute("username", "ログインしていません。");
       model.addAttribute("isLogin", false);
     } else if (loginUser.isAuthenticated()) {
-      model.addAttribute("username",
-                         loginUser.getName() + "でログインしています。");
+      model.addAttribute("username", userName + " さん");
       model.addAttribute("isLogin", true);
     } else {
       model.addAttribute("username", "ログインしていません。");
       model.addAttribute("isLogin", false);
     }
+
+    // ユーザーID情報のセット
+    model.addAttribute(
+        "userID",
+        userRepository.findByEmail(loginUser.getName()).get().getId());
 
     // ユーザーの貸し出し情報のセット
     var cartLendingList = lendingRepository.findListByUserAndState(

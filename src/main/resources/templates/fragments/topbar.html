@@ -38,16 +38,16 @@
               aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
-            <ul class="navbar-nav" style="padding:0px;">
+            <ul class="navbar-nav" style="padding:0px; display: flex;">
               <!-- 検索バー -->
-              <div class="centerAlign media_marginTop">
-                <li class="nav-item menuList">
+              <li class="centerAlign media_marginTop">
+                <div class="nav-item menuList">
                   <form class="search-form-005">
                     <input type="text" placeholder="本のタイトル" id="bookSearch">
                     <button class="bookSearch" aria-label="検索" id="bookSearch"></button>
                   </form>
-                </li>
-              </div>
+                </div>
+              </li>
               <!-- <div class="centerAlign">
                 <li class=" menuList">
                   <a th:href="@{/}" class="menua">
@@ -62,8 +62,8 @@
                   </a>
                 </li>
               </div> -->
-              <div class="centerAlign media_marginTop">
-                <li class="nav-item menuList">
+              <li class="centerAlign media_marginTop">
+                <div class="nav-item menuList">
                   <a th:href=" @{/bookIndex}" class="menua">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-book-fill" viewBox="0 0 16 16">
@@ -72,10 +72,10 @@
                     </svg>
                     <p>本を探す</p>
                   </a>
-                </li>
-              </div>
-              <div class="centerAlign media_marginTop">
-                <li class="nav-item menuList">
+                </div>
+              </li>
+              <li class="centerAlign media_marginTop">
+                <div class="nav-item menuList">
                   <a th:href=" @{/bookCartConfirm}" class="menua">
                     <div class="button-065" id="cartLendingList_size">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -95,10 +95,10 @@
                     </div>
                     <p>　カート　</p>
                   </a>
-                </li>
-              </div>
-              <div class="centerAlign media_marginTop">
-                <li class="nav-item menuList">
+                </div>
+              </li>
+              <li class="centerAlign media_marginTop">
+                <div class="nav-item menuList">
                   <a th:href=" @{/bookRentalCheck}" class="menua">
                     <div class="button-066" id="cartLendingList_size">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -110,10 +110,10 @@
                     </div>
                     <p>借りている本</p>
                   </a>
-                </li>
-              </div>
-              <div class="centerAlign media_marginTop">
-                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item menuList">
+                </div>
+              </li>
+              <li class="centerAlign media_marginTop">
+                <div sec:authorize="hasAuthority('ADMIN')" class="nav-item menuList">
                   <a th:href="@{/index}" class="menua">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-table" viewBox="0 0 16 16">
@@ -122,9 +122,27 @@
                     </svg>
                     <p>ユーザ一覧</p>
                   </a>
-                </li>
-              </div>
-              <div class="centerAlign media_marginTop">
+                </div>
+              </li>
+              <li class="centerAlign media_marginTop nav-item dropdown" style="display: inline;">
+                <button class=" btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                  aria-expanded="false" th:text="*{username}" style="text-overflow:ellipsis;">
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-dark" style="top:30px;">
+                  <li sec:authorize="isAuthenticated()" class="nav-item menuList">
+                    <a class="menuUser" th:href="@{/register/{id}(id=${userID})}">
+                      <p>アカウント情報変更</p>
+                    </a>
+                  </li>
+                  <li sec:authorize="isAuthenticated()" class="nav-item menuList">
+                    <a th:href="@{/logout}" class="menuUser">
+                      <p>ログアウト</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- <div class="centerAlign media_marginTop">
                 <li sec:authorize="isAuthenticated()" class="nav-item menuList">
                   <a th:href="@{/logout}" class="menuUser">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -137,6 +155,7 @@
                     <p>ログアウト</p>
                   </a>
                 </li>
+
                 <li sec:authorize="!isAuthenticated()" class="nav-item menuList">
                   <a th:href="@{/login}" class="menuUser">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -149,7 +168,7 @@
                     <p>ログイン</p>
                   </a>
                 </li>
-              </div>
+              </div> -->
             </ul>
           </div>
         </div>

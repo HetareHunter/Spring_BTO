@@ -28,9 +28,8 @@
 		<div id="searchStr" th:name="${searchStr}" type="hidden"></div>
 		<div class="container">
 			<div class="row">
-				<h4 class="border-bottom my-3" th:text="本の貸し出し"></h4>
+				<h4 class="border-bottom my-3" th:text="本を探す"></h4>
 				<div class="mb-3">
-					<p th:text="*{username}"></p>
 					<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
 					<div id="ajaxReload">
 						<div th:replace="~{BookRental/BookIndexFragment/bookTable :: tableReload}">

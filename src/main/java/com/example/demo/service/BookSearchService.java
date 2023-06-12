@@ -51,8 +51,8 @@ public class BookSearchService {
     var books = new ArrayList<Book>();
     System.out.println("本のタイトル：" + searchStr);
     try {
-      var bookNames =
-          bookNameRepository.findByTitleLikeOrderByTitle("%" + searchStr + "%");
+      var bookNames = bookNameRepository.findByTitleIgnoreCaseLikeOrderByTitle(
+          "%" + searchStr + "%");
       for (var bookName : bookNames) {
         books.add(bookRepository.findByBookNameId(bookName).get());
       }
