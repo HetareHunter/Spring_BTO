@@ -78,7 +78,8 @@
 }
 
 .menuList {
-  /* font-size: 3vmin; */
+  font-weight: bold;
+  font-size: clamp(0.8rem, 0.3rem + 0.7vw, 1.0rem);
   white-space: nowrap;
   align-items: center;
   justify-content: center;
@@ -98,16 +99,18 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  font-size: clamp(1.2rem, 0.5rem + 0.8vw, 1.8rem);
   font-weight: bold;
   color: #ffffff;
-  padding:17px 0px;
+  padding:10px 0px;
+  margin-right: 0;
 }
 
 .menuTitle p{
   overflow: hidden;
   text-overflow: ellipsis; /* "..."を表示 */
   white-space: nowrap;
-  margin: 0px 10px;
+  margin: 0px 0px 0px 5px;
 }
 
 .menua {
@@ -189,16 +192,8 @@
   top: 50%;
   transform: translatey(-50%);
 }
-/* -------------------------------------------------- */
 
-	/* bootstrapのnavbarで隠れないように調整 */
-@media screen and (max-width: 333px) {
-main{
-  margin-top: 60px;
-  }
-}
-
-/* 検索機能のレイアウト */
+/* --------------検索機能のレイアウト-------------- */
 .search-form-005 {
   display: flex;
   overflow: hidden;
@@ -244,7 +239,7 @@ main{
   content: '';
 }
 
-/* カートのボタン */
+/* --------------カートのボタン-------------- */
 .button-065 {
   justify-content: center;
   align-items: center;
@@ -263,7 +258,7 @@ main{
   font-size: .9em;
 }
 
-/* 借り入れ中のボタン */
+/* --------------借り入れ中のボタン-------------- */
 .button-066 {
   justify-content: center;
   align-items: center;
@@ -282,7 +277,7 @@ main{
   font-size: .9em;
 }
 
-/* 読み込み中のオーバーレイ */
+/* --------------読み込み中のオーバーレイ-------------- */
 #overlay {
   /*オーバーレイのCSS*/
   position: fixed;
@@ -315,6 +310,17 @@ main{
     transform: rotate(360deg);
   }
 }
+
+/* -------------------------------------------------- */
+
+
+/* bootstrapのnavbarで隠れないように調整 */
+@media screen and (max-width: 333px) {
+  main{
+    margin-top: 60px;
+    }
+  }
+  
 
 .is-hide {
   display: none;
