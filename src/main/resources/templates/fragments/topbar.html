@@ -9,15 +9,17 @@
   <!-- トップバー -->
   <div id="header" th:fragment="topbar" class="menu-bar">
     <!-- navbar-expand-xx でトグルボタンがどの画面サイズになったらでてくるか調整している。bootstrap公式で定義 -->
-    <nav class="navbar navbar-expand-lg navbar-dark nav_color fixed-top" style="--bs-navbar-padding-y: 0rem;">
-      <div class="container-fluid" style="padding: 0px 5px;">
-
+    <nav class="navbar navbar-expand-md navbar-dark nav_color fixed-top" style="--bs-navbar-padding-y: 0rem;">
+      <!-- 下記divのstyleのdisplay: flex;flex-wrap: nowrap; overflow-x: auto; で画面を小さくしたとき、
+        各要素が縦に折り返さず画面をはみ出るようにしている -->
+      <div class="container-fluid" style="overflow: hidden; padding: 0px 5px; max-height: 60px;
+      display: flex; flex-wrap: nowrap; overflow-x: auto;">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNavDarkDropdown"
-          aria-controls="navbarNavDarkDropdown" style="padding: 7px 7px;max-width: 10%;">
-          <span class="navbar-toggler-icon" style="width:1.0rem; height:1.0rem;"></span>
+          aria-controls="navbarNavDarkDropdown" style="padding: 3px 5px;">
+          <span class="navbar-toggler-icon" style="width:1.5rem; height:1.5rem;"></span>
         </button>
-        <div class="centerAlign" style="max-width: 45%;">
-          <h4 id="offcanvasScrolling">
+        <div class="centerAlign">
+          <h4 id=" offcanvasScrolling">
             <a th:href="@{/}" class="navbar-brand menuTitle">
               <div class="d-inline-block" style="transform: rotate(-15deg)">
                 <i class="bi bi-credit-card-2-front-fill">
@@ -38,7 +40,7 @@
               aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
-            <ul class="navbar-nav" style="padding:0px; display: flex;">
+            <ul class="navbar-nav" style="padding:0px; display: flex; gap: 0 0;">
               <!-- 検索バー -->
               <li class="centerAlign media_marginTop">
                 <div class="nav-item menuList">
@@ -48,20 +50,6 @@
                   </form>
                 </div>
               </li>
-              <!-- <div class="centerAlign">
-                <li class=" menuList">
-                  <a th:href="@{/}" class="menua">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-card-heading" viewBox="0 0 16 16">
-                      <path
-                        d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
-                      <path
-                        d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z" />
-                    </svg>
-                    <p>メインサイト</p>
-                  </a>
-                </li>
-              </div> -->
               <li class="centerAlign media_marginTop">
                 <div class="nav-item menuList">
                   <a th:href=" @{/bookIndex}" class="menua">
@@ -157,7 +145,7 @@
         </div>
 
         <!-- 天気情報 -->
-        <input type="hidden" th:value="${weather}">
+        <!-- <input type="hidden" th:value="${weather}"> -->
 
         <!-- <div class="centerAlign" style="max-width: 20%;">
           <li class=" nav-item menuList" style="margin: 0 0;">
@@ -232,11 +220,28 @@
           </li>
         </div> -->
 
-        <li class="centerAlign media_marginTop nav-item dropdown" style="display: inline;max-width: 35%;">
+        <li class="centerAlign media_marginTop nav-item dropdown" style="display: inline;text-align: right;">
           <button class=" btn btn-secondary btn-sm dropdown-toggle menuList" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false" th:text="*{username}" style="text-overflow:ellipsis; white-space: pre-wrap;
-            width:11em; height: auto; padding:0 20px 0px 5px;">
+            aria-expanded="false" th:text="'アカウント
+'+*{username}" style="text-overflow:ellipsis; white-space: pre;font-size: clamp(0.7rem, 0.25rem + 0.6vw, 1.0rem);
+             width:auto; height: auto; padding:0 20px 0px 5px;max-width: 150px; font-size: small;">
           </button>
+          <script>$(function () {
+              $('.dropdown').on('show.bs.dropdown', function (e) {
+                var button = $(e.relatedTarget); // ドロップダウンボタン
+                var menu = $(this).find('.dropdown-menu'); // ドロップダウンメニュー
+
+                var buttonPosition = button.offset();
+                var buttonHeight = button.outerHeight();
+
+                // ドロップダウンメニューの位置を設定
+                menu.css({
+                  'position': 'fixed',
+                  'top': (buttonPosition.top + buttonHeight) + 'px', // ボタンの下に配置
+                  'left': buttonPosition.left + 'px' // ボタンと同じ左位置に配置
+                });
+              });
+            });</script>
 
           <ul class="dropdown-menu dropdown-menu-dark" style="top:25px;">
             <li sec:authorize="isAuthenticated()" class="nav-item menuList">
