@@ -60,8 +60,7 @@ public class DataLoader implements ApplicationRunner {
     testUser.setEmail("test@example");
     testUser.setPassword(passwordEncoder.encode("test"));
     testUser.setRole(Authority.USER);
-    testUser.setName(adminUser.getFirst_name() + " " +
-                     adminUser.getLast_name());
+    testUser.setName(testUser.getFirst_name() + " " + testUser.getLast_name());
     testUser.setAdmin(false);
     users.add(testUser);
 

@@ -8,6 +8,7 @@ import com.example.demo.util.LendingState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -30,17 +31,20 @@ public class TopbarService {
     // ログインしているかどうかの判定、セット
     Authentication loginUser =
         SecurityContextHolder.getContext().getAuthentication();
-    var userName =
-        userRepository.findByEmail(loginUser.getName()).get().getName();
-    if (loginUser.getName().equals("anonymousUser")) {
-      model.addAttribute("username", "ログインしていません。");
-      model.addAttribute("isLogin", false);
-    } else if (loginUser.isAuthenticated()) {
+    var principal = loginUser.getPrincipal();
+    if (principal instanceof UserDetails) {
+      var userPrincipal = ((UserDetails)principal);
+      System.out.println(userPrincipal.getUsername() + "でログインしています");
+      var userName = userRepository.findByEmail(userPrincipal.getUsername())
+                         .get()
+                         .getName();
       model.addAttribute("username", userName + " さん");
       model.addAttribute("isLogin", true);
+
     } else {
       model.addAttribute("username", "ログインしていません。");
       model.addAttribute("isLogin", false);
+      return;
     }
 
     // ユーザーID情報のセット
