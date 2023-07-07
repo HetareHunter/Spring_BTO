@@ -78,6 +78,15 @@
   /* display: flex; */
 }
 
+.menuListContainer{
+  overflow: hidden;
+  padding: 1px 8px 1px 8px;
+  max-height: 60px;
+  display: flex; 
+  flex-wrap: nowrap; 
+  overflow-x: auto;
+}
+
 .menuList {
   font-weight: bold;
   /* font-size: clamp(0.8rem, 0.25rem + 0.6vw, 1.0rem); */
@@ -101,15 +110,15 @@
   justify-content: center;
   text-decoration: none;
   color: #ffffff;
-  padding:10px 0px;
+  padding:17px 0px;
   margin-right: 0;
 }
 
-.menuTitle p{
+.menuTitle h5{
   overflow: hidden;
   text-overflow: ellipsis; /* "..."を表示 */
   white-space: nowrap;
-  font-size: 1.4rem;
+  /* font-size: 1.4rem; */
   font-weight: bold;
   margin: 0px 5px 0px 5px;
 }
@@ -201,6 +210,7 @@
   border-radius: 3px;
   /* 検索バーの上下の高さ調整 */
   margin: 10px 5px;
+  width: auto;
 }
 
 .search-form-005 input {
@@ -223,7 +233,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 35px;
+  width: 50px;
   min-width :35px;
   height: 40px;
   border: none;

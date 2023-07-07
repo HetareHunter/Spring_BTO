@@ -1,0 +1,8 @@
+[difftool "sourcetree"]
+	cmd = '' \"$LOCAL\" \"$REMOTE\"
+[mergetool "sourcetree"]
+	cmd = "'' "
+	trustExitCode = true
+[user]
+	name = desk_katsu
+	email = dai1nokira@gmail.com

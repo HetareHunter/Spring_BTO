@@ -12,7 +12,7 @@
 		<div id="searchTableStr" th:name="${searchStr}" type=hidden></div>
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="menuButton">
-				<th:block th:if="${cartLendingList.size() >= 1}">
+				<!-- <th:block th:if="${cartLendingList.size() >= 1}">
 					<div class="mb-3">
 						<form th:action="@{/bookRental}" method="get">
 							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
@@ -41,7 +41,7 @@
 								disabled="disabled"></button>
 						</form>
 					</div>
-				</th:block>
+				</th:block> -->
 			</div>
 
 			<th:block th:if="${bookList.size() > 0}">
@@ -70,7 +70,7 @@
 											<div>
 												<p class="elementTitle" th:text="#{renralActivate}"></p>
 												<th:block th:if="*{lendable}">
-													<p class="text" th:text="貸し出し可能です"></p>
+													<p class="text" th:text="貸し出し可能"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,7 +107,7 @@
 													</div>
 												</th:block>
 												<th:block th:if="*{!lendable}">
-													<p class="text" th:text="貸し出しできません"></p>
+													<p class="text" th:text="貸し出し不可"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
 															xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -208,36 +208,7 @@
 				<p>該当データがありません</p>
 			</div>
 			<div class="menuButton">
-				<th:block th:if="${cartLendingList.size() >= 1}">
-					<div class="mb-3">
-						<form th:action="@{/bookRental}" method="get">
-							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
-						</form>
-					</div>
-				</th:block>
-				<th:block th:unless="${cartLendingList.size() >= 1}">
-					<div class="mb-3">
-						<form th:action="@{/bookRental}" method="get">
-							<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"
-								disabled="disabled"></button>
-						</form>
-					</div>
-				</th:block>
-				<th:block th:if="${rentalList.size() >= 1}">
-					<div class="mb-2">
-						<form th:action="@{/bookReturnRegister}" method="get">
-							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
-						</form>
-					</div>
-				</th:block>
-				<th:block th:unless="${rentalList.size() >= 1}">
-					<div class="mb-2">
-						<form th:action="@{/bookReturnRegister}" method="get">
-							<button class="custom-btn btn-Return" type="submit" th:text="本の返却"
-								disabled="disabled"></button>
-						</form>
-					</div>
-				</th:block>
+
 			</div>
 		</div>
 	</div>

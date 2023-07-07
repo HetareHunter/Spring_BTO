@@ -28,7 +28,7 @@
 		<div id="searchStr" th:name="${searchStr}" type="hidden"></div>
 		<div class="container">
 			<div class="row">
-				<h4 class="border-bottom my-3" th:text="本を探す"></h4>
+				<h2 class="border-bottom my-3" th:text="本を探す"></h2>
 				<div class="mb-3">
 					<!-- ↓th:replaceでBookRental/BookIndexFragment/bookTableの<div th:fragment></div>のタグ内に定義されている内容を持ってくる -->
 					<div id="ajaxReload">
@@ -36,6 +36,37 @@
 						</div>
 					</div>
 
+					<hr>
+					<th:block th:if="${cartLendingList.size() >= 1}">
+						<div class="mb-3">
+							<form th:action="@{/bookRental}" method="get">
+								<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
+							</form>
+						</div>
+					</th:block>
+					<th:block th:unless="${cartLendingList.size() >= 1}">
+						<div class="mb-3">
+							<form th:action="@{/bookRental}" method="get">
+								<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"
+									disabled="disabled"></button>
+							</form>
+						</div>
+					</th:block>
+					<th:block th:if="${rentalList.size() >= 1}">
+						<div class="mb-2">
+							<form th:action="@{/bookReturnRegister}" method="get">
+								<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
+							</form>
+						</div>
+					</th:block>
+					<th:block th:unless="${rentalList.size() >= 1}">
+						<div class="mb-2">
+							<form th:action="@{/bookReturnRegister}" method="get">
+								<button class="custom-btn btn-Return" type="submit" th:text="本の返却"
+									disabled="disabled"></button>
+							</form>
+						</div>
+					</th:block>
 					<table class="table">
 						<tr>
 							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">

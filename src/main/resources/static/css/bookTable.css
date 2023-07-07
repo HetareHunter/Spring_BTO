@@ -91,7 +91,7 @@ img.size {
   p{
     margin: 0px;
   }
-  /* 画像を天地中央表示 */
+  /* 画像を上方揃え表示 */
   
   .flex .image {
     overflow: hidden;
