@@ -175,6 +175,11 @@
 	}
 } */
 
+.weatherStyle{
+  margin: 0 10px 0 0;
+  max-width: 20%;
+}
+
 /* --------------bootstrapのクラスを改造-------------- */
 .dropdown-toggle {
   /* font: normal normal normal 32px/48px Noto Sans CJK JP; */
@@ -203,13 +208,17 @@
   transform: translatey(-50%);
 }
 
+.offcanvas.offcanvas-start{
+  width: auto;
+}
+
 /* --------------検索機能のレイアウト-------------- */
 .search-form-005 {
   display: flex;
   overflow: hidden;
   border-radius: 3px;
   /* 検索バーの上下の高さ調整 */
-  margin: 10px 5px;
+  margin: 10px 0px;
   width: auto;
 }
 
@@ -332,6 +341,19 @@
     }
   }
    */
+
+@media screen and (max-width: 858px) {
+.tabletHidden{
+  display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .menuTitlePadding{
+    justify-content: center;
+  }
+}
+
 
 .is-hide {
   display: none;
