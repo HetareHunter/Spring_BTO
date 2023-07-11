@@ -9,12 +9,13 @@
   <!-- トップバー -->
   <div id="header" th:fragment="topbar" class="menu-bar">
     <!-- navbar-expand-xx でトグルボタンがどの画面サイズになったらでてくるか調整している。bootstrap公式で定義 -->
-    <nav class="navbar navbar-expand-md navbar-dark nav_color fixed-top" style="--bs-navbar-padding-y: 0rem;">
-      <!-- 下記divのstyleのdisplay: flex;flex-wrap: nowrap; overflow-x: auto; で画面を小さくしたとき、
-        各要素が縦に折り返さず画面をはみ出るようにしている -->
+    <!-- 下記navのstyleの flex-wrap: nowrap; overflow-x: auto; で画面を小さくしたとき、
+    各要素が縦に折り返さず画面をはみ出るようにしている。display:flexは.navbarの中に入っている -->
+    <nav class="navbar navbar-expand-md navbar-dark nav_color fixed-top"
+      style="--bs-navbar-padding-y: 0rem; flex-wrap: nowrap; overflow-x: auto;">
       <div class="container-fluid menuListContainer">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNavDarkDropdown"
-          aria-controls="navbarNavDarkDropdown" style="padding: 3px 5px;">
+          aria-controls="navbarNavDarkDropdown" style="padding: 3px 5px; ">
           <span class="navbar-toggler-icon" style="width:1.5rem; height:1.5rem;"></span>
         </button>
         <div class="centerAlign">
@@ -46,7 +47,6 @@
                     <input type="text" placeholder="本のタイトル" id="bookSearch">
                     <button class="bookSearch" aria-label="検索" id="bookSearch"></button>
                   </form>
-                  <!-- <script src="/js/book/topbarSearchForm.js"></script> -->
                 </div>
 
                 <script>
@@ -54,7 +54,6 @@
                     var windowWidth = $(this).width();
                     var coefficient = 800; // 元のウィンドウサイズに対する検索ボックスの大きさを調整する値
                     var formWidth = windowWidth - coefficient; // ウィンドウサイズと等速で大きさが変わる
-                    console.log(windowWidth);
                     var maxWidth = 600; // 最大幅
                     var minWidth = 80; //最小幅
 
@@ -186,23 +185,28 @@
                 var viewportWidth = $(window).width();
                 var viewportHeight = $(window).height();
 
+                var buttonPositionTopCon = 9.4;
+
                 // ドロップダウンメニューの初期位置を設定
                 var position = {
                   'position': 'fixed',
-                  'top': (buttonPosition.top + buttonHeight) + 'px',
+                  'top': (buttonPositionTopCon + buttonHeight) + 'px',
                   'left': buttonPosition.left + 'px'
                 };
 
                 // ドロップダウンメニューが右側で画面外に出る場合
                 if (buttonPosition.left + menuWidth > viewportWidth) {
+                  console.log('ドロップダウンが右側で画面外');
                   position.left = (viewportWidth - menuWidth) + 'px';
                 }
 
                 // ドロップダウンメニューが下側で画面外に出る場合
-                if (buttonPosition.top + buttonHeight + menuHeight > viewportHeight) {
-                  position.top = (buttonPosition.top - menuHeight) + 'px'; // ボタンの上に配置
+                if (buttonPositionTopCon + buttonHeight + menuHeight > viewportHeight) {
+                  console.log('ドロップダウンが下側で画面外');
+                  position.top = (buttonPositionTopCon - menuHeight) + 'px'; // ボタンの上に配置
                 }
-
+                console.log('buttonPosition.top: ' + buttonPosition.top);
+                console.log('buttonHeight: ' + buttonHeight);
                 // ドロップダウンメニューの位置を設定
                 menu.css(position);
               });
@@ -223,8 +227,6 @@
           </ul>
         </div>
         <!-- 天気情報 -->
-        <!-- <input type="hidden" th:value="${weather}"> -->
-
         <div class="centerAlign tabletHidden" style="max-width: 20%;">
           <li class=" nav-item menuList" style="margin: 0 5px;">
             <p th:text="今日の天気"></p>
