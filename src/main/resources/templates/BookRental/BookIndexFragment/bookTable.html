@@ -211,6 +211,22 @@
 
 			</div>
 		</div>
+
+		<hr>
+		<th:block th:if="${cartLendingList.size() >= 1}">
+			<div class="mb-3">
+				<form th:action="@{/bookRental}" method="get">
+					<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる"></button>
+				</form>
+			</div>
+		</th:block>
+		<th:block th:unless="${cartLendingList.size() >= 1}">
+			<div class="mb-3">
+				<form th:action="@{/bookRental}" method="get">
+					<button class="custom-btn btn-Rental" type="submit" th:text="本を借りる" disabled="disabled"></button>
+				</form>
+			</div>
+		</th:block>
 	</div>
 
 </body>
