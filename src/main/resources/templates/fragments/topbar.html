@@ -39,7 +39,7 @@
               aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
-            <ul class="navbar-nav" style="display: flex;">
+            <ul class="navbar-nav">
               <!-- 検索バー -->
               <li class="centerAlign media_marginTop">
                 <div class="nav-item menuList">
@@ -49,13 +49,13 @@
                   </form>
                 </div>
 
-                <script>
+                <!-- <script>
                   $(window).on('load resize', function searchForm() {
                     var windowWidth = $(this).width();
                     var coefficient = 800; // 元のウィンドウサイズに対する検索ボックスの大きさを調整する値
                     var formWidth = windowWidth - coefficient; // ウィンドウサイズと等速で大きさが変わる
-                    var maxWidth = 600; // 最大幅
-                    var minWidth = 80; //最小幅
+                    var maxWidth = 600; // 最大幅(px)
+                    var minWidth = 80; //最小幅(px)
 
                     if (formWidth > maxWidth) {
                       formWidth = maxWidth;
@@ -71,7 +71,7 @@
 
                     $('#search-form').css('width', formWidth + 'px');
                   });
-                </script>
+                </script> -->
               </li>
               <li class="centerAlign media_marginTop">
                 <div class="nav-item menuList">

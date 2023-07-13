@@ -206,8 +206,31 @@
   border-radius: 3px;
   /* 検索バーの上下の高さ調整 */
   margin: 10px 0px;
-  width: auto;
+  width: 600px;
 }
+
+/* 検索ボックスの幅調整用 */
+@media screen and (max-width: 1420px) {
+  .search-form-005{
+    display: flex;
+    overflow: hidden;
+    border-radius: 3px;
+    margin: 10px 0px;
+    width: calc(100vw - 820px);
+    }
+  }
+
+@media screen and (max-width: 900px) {
+  .search-form-005{
+    display: flex;
+    overflow: hidden;
+    border-radius: 3px;
+    margin: 10px 0px;
+    width: 80px;
+    }
+  }
+
+/* ---------------------- */
 
 .search-form-005 input {
   width: 100%;
