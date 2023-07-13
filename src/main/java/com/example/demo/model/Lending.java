@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 import lombok.Data;
@@ -17,26 +18,22 @@ import lombok.Data;
  */
 @Data
 @Entity
-//@SequenceGenerator(name = "LENDING_GENERATOR", sequenceName = "lendingSeq",
-// allocationSize = 1)
 @Table(name = "LENDINGS")
 public class Lending {
   @Id
-  //@GeneratedValue(strategy = GenerationType.IDENTITY, generator =
-  //"LENDING_GENERATOR")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @ManyToOne private Book book;
+  @NotNull @ManyToOne private Book book;
 
-  @ManyToOne private User user;
+  @NotNull @ManyToOne private User user;
 
   // 貸し出し日
-  @Column(name = "lend_date") private Date lendDate;
+  @NotNull @Column(name = "lend_date") private Date lendDate;
 
   // 返却予定日
-  @Column(name = "return_due_date") private Date returnDueDate;
+  @NotNull @Column(name = "return_due_date") private Date returnDueDate;
 
   // 返却日
   @Column(name = "return_date") private Date returnDate;
@@ -44,9 +41,11 @@ public class Lending {
   // 延滞日数
   @Column(name = "overdue_date") private int overdueDate;
 
-  @Column(name = "state") private LendingState state = LendingState.CART;
+  @NotNull
+  @Column(name = "state")
+  private LendingState state = LendingState.CART;
 
-  @Column(name = "created_at") private Timestamp created_at;
+  @NotNull @Column(name = "created_at") private Timestamp created_at;
 
-  @Column(name = "updated_at") private Timestamp updated_at;
+  @NotNull @Column(name = "updated_at") private Timestamp updated_at;
 }
