@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueLoginValidator.class)
 public @interface UniqueLogin {
-  String message() default "このユーザーIDは既に登録されています。";
+  String message() default "このメールアドレスは既に登録されています";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
 }

@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.util.Authority;
 import com.example.demo.validator.UniqueLogin;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,30 +31,41 @@ public class User {
   @Column(name = "id")
   private int id;
 
+  @NotNull
   @NotBlank
-  @Size(max = 128)
+  @Size(max = 127)
   @Column(name = "first_name")
   private String first_name;
 
+  @NotNull
   @NotBlank
-  @Size(max = 128)
+  @Size(max = 127)
   @Column(name = "last_name")
   private String last_name;
 
   /**
    * ログインIDとなる値
    */
-  @NotBlank @Email @UniqueLogin @Column(name = "email") private String email;
+  @NotNull
+  @NotBlank
+  @Email
+  @UniqueLogin
+  @Column(name = "email")
+  private String email;
 
   /**
    * ログイン時に使用するパスワード。BCryptPasswordEncoderを使い暗号化する
    */
-  @NotBlank @Size(max = 255) @Column(name = "password") private String password;
+  @NotNull
+  @NotBlank
+  @Size(max = 255)
+  @Column(name = "password")
+  private String password;
 
   /**
    * ユーザーの権限。現状ADMINとUSERの2つのみ
    */
-  @Column(name = "role") private Authority role;
+  @NotNull @Column(name = "role") private Authority role;
 
   /**
    * 本の貸し借り状況
@@ -62,9 +74,9 @@ public class User {
   @Column(name = "lending")
   private List<Lending> lendings = new ArrayList<Lending>();
 
-  @Column(name = "created_at") private Timestamp created_at;
+  @NotNull @Column(name = "created_at") private Timestamp created_at;
 
-  @Column(name = "updated_at") private Timestamp updated_at;
+  @NotNull @Column(name = "updated_at") private Timestamp updated_at;
 
   private String name;
   private boolean admin;
