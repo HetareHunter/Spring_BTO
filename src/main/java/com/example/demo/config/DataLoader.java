@@ -8,6 +8,7 @@ import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.UserMngRepository;
+import com.example.demo.service.FileLoader;
 import com.example.demo.util.Authority;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,11 +18,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 /**
  * ApplicationRunnerインターフェースを実装しているので
  * アプリケーション起動前に実行される。run関数でoverrideしている
@@ -37,6 +39,7 @@ public class DataLoader implements ApplicationRunner {
   private final String filePath =
       "src\\main\\resources\\static\\data\\SpringBTO_data.csv";
   private final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+  @Autowired private FileLoader fileLoader;
 
   /**
    * userエンティティのspringのパスワードエンコーダーで暗号化するためここで初期設定をする
@@ -134,8 +137,15 @@ public class DataLoader implements ApplicationRunner {
   void bookNameInitRun() {
     var bookNames = new ArrayList<BookName>();
     List<String> strArray = null;
+    var resource = fileLoader.load("SpringBTO_data.csv");
     try {
-      strArray = CSVLoader(filePath);
+      System.out.println("ファイル名：" + resource.getFile().toPath());
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
+
+    try {
+      strArray = CSVLoader(resource);
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }
@@ -143,13 +153,6 @@ public class DataLoader implements ApplicationRunner {
       return;
     for (String bookNameStr : strArray) {
       var bookNameElements = bookNameStr.split(",");
-      for (int i = 0; i < bookNameElements.length; i++) {
-        if (i == 0) {
-          System.out.println(i + " : " + removeSpaces(bookNameElements[i]));
-        } else {
-          System.out.println(i + " : " + bookNameElements[i]);
-        }
-      }
       var bookName = new BookName();
       bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
       bookName.setTitle(bookNameElements[1]);
@@ -197,11 +200,11 @@ public class DataLoader implements ApplicationRunner {
    * @param filePath
    * @return
    */
-  List<String> CSVLoader(String filePath) throws IOException {
+  List<String> CSVLoader(Resource filePath) throws IOException {
     String content = "";
     List<String> returnList;
     try {
-      content = new String(Files.readAllBytes(Paths.get(filePath)));
+      content = new String(Files.readAllBytes(filePath.getFile().toPath()));
     } catch (IOException e) {
       System.err.println("Error reading file: " + e.getMessage());
     } finally {
