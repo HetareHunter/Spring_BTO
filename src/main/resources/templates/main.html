@@ -28,15 +28,19 @@
 					<div class="mb-3"></div>
 					<h2 class="border-bottom my-3">新着</h2>
 					<ul class="slider" style="padding-left: 1rem;">
-						<li><img th:src="@{/images/{items} (items=Javasukkiri.png)}" alt="Javasukkiri"></li>
-						<li><img th:src="@{/images/{items} (items=dokusyuJava.jpg)}" alt="dokusyuJava"></li>
-						<li><img th:src="@{/images/{items} (items=springbootettei.jpg)}" alt="springbootettei"></li>
-						<li><img th:src="@{/images/{items} (items=springboot2nyumon.jpg)}" alt="springboot2nyumon"></li>
-						<li><img th:src="@{/images/{items} (items=javasilverse11.jpg)}" alt="javasilverse11"></li>
+						<th:block th:if="${newBook.size() > 0}">
+							<th:block th:each="book: ${newBook}" th:object="${book}" id="newBookList">
+								<li>
+									<a href="/bookIndex_setSearchAnotherPage"
+										th:href="@{/bookIndex_setSearchAnotherPage?searchStr={isbn}(isbn=${book.bookNameId.title})}"><img
+											th:src="@{/images/{items} (items=*{bookNameId.img})}"
+											th:alt="*{bookNameId.title}"></a>
+								</li>
+							</th:block>
+						</th:block>
 					</ul>
 					<script src="/js/mainSite/slicker.js"></script>
 				</div>
-				<!-- <div class="flex"> -->
 				<div class="mb-5">
 					<div class="card shadow">
 						<div class="card-body" style="overflow: auto;">
@@ -69,7 +73,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- </div> -->
 				<!-- 天気情報 -->
 				<!-- <input type="hidden" th:value="${weather}">
 

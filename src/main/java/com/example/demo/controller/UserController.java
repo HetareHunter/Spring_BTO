@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.WeatherEntity;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.TopbarService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
   @Autowired private UserMngRepository userRepository;
   @Autowired private LendingRepository lendingRepository;
+  @Autowired private BookRepository bookRepository;
   @Autowired private TopbarService topbarService;
 
   // -------------------------メインサイト-------------------------
@@ -26,6 +28,7 @@ public class UserController {
   public String mainSite(Authentication user, Model model,
                          @ModelAttribute WeatherEntity weatherEntity) {
     topbarService.setTopbarModel(user, model);
+    model.addAttribute("newBook", bookRepository.findAll());
     return "main";
   }
 
