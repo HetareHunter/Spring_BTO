@@ -54,7 +54,7 @@
 									<div class="flex">
 
 										<figure class="image"><img th:src="@{/images/{items} (items=*{bookNameId.img})}"
-												alt="">
+												th:alt="*{bookNameId.title}">
 										</figure>
 										<div class="right">
 
