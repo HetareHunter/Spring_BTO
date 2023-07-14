@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.BookName;
+import com.example.demo.model.Genre;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
@@ -92,7 +93,7 @@ public class DataLoader implements ApplicationRunner {
     for (User user : registerUsers) {
       System.out.println(user.getName() + " を登録しました");
     }
-
+    genreInitRun();
     bookInitRun();
   }
 
@@ -165,6 +166,30 @@ public class DataLoader implements ApplicationRunner {
     }
     bookNameRepository.saveAll(bookNames);
     return;
+  }
+
+  void genreInitRun() {
+    var genre = new Genre();
+    var genreList = new ArrayList<Genre>();
+    genre.setCreated_at(timestamp);
+    genre.setUpdated_at(timestamp);
+    genre.setId(1);
+    genre.setName("なし");
+    genreList.add(genre);
+
+    genre.setId(2);
+    genre.setName("技術書");
+    genreList.add(genre);
+
+    genre.setId(3);
+    genre.setName("経済書");
+    genreList.add(genre);
+
+    genre.setId(4);
+    genre.setName("雑誌");
+    genreList.add(genre);
+
+    genreRepository.saveAll(genreList);
   }
 
   /**

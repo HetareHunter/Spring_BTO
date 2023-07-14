@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+_netrc
+.bash_history
+.config/heroku/config.json
