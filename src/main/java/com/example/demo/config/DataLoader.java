@@ -5,10 +5,16 @@ import com.example.demo.model.BookName;
 import com.example.demo.model.User;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.util.Authority;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,6 +32,10 @@ public class DataLoader implements ApplicationRunner {
   private final UserMngRepository userMngRepository;
   private final BookRepository bookRepository;
   private final BookNameRepository bookNameRepository;
+  private final GenreRepository genreRepository;
+  private final String filePath =
+      "src\\main\\resources\\static\\data\\SpringBTO_data.csv";
+  private final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
   /**
    * userエンティティのspringのパスワードエンコーダーで暗号化するためここで初期設定をする
@@ -91,8 +101,9 @@ public class DataLoader implements ApplicationRunner {
    */
   void bookInitRun() {
     var books = new ArrayList<Book>();
+    bookNameInitRun();
+    // var bookNames = bookNameInitRun();
     var bookNames = bookNameRepository.findAll();
-    var timestamp = new Timestamp(System.currentTimeMillis());
 
     for (BookName bookName : bookNames) {
       var book = new Book();
@@ -114,4 +125,65 @@ public class DataLoader implements ApplicationRunner {
     }
     bookRepository.saveAll(books);
   }
+
+  /**
+   * BookNameデータを初期化する
+   * @return
+   */
+  void bookNameInitRun() {
+    var bookNames = new ArrayList<BookName>();
+    List<String> strArray = null;
+    try {
+      strArray = CSVLoader(filePath);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
+    if (strArray == null)
+      return;
+    for (String bookNameStr : strArray) {
+      var bookNameElements = bookNameStr.split(",");
+      for (int i = 0; i < bookNameElements.length; i++) {
+        if (i == 0) {
+          System.out.println(i + " : " + removeSpaces(bookNameElements[i]));
+        } else {
+          System.out.println(i + " : " + bookNameElements[i]);
+        }
+      }
+      var bookName = new BookName();
+      bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
+      bookName.setTitle(bookNameElements[1]);
+      bookName.setAuthor(bookNameElements[2]);
+      bookName.setDetail(bookNameElements[3]);
+      bookName.setPublisher(bookNameElements[4]);
+      bookName.setGenre(genreRepository.findByName(bookNameElements[5]).get());
+      bookName.setImg(bookNameElements[6]);
+      bookName.setActive(Boolean.valueOf(bookNameElements[7]));
+      bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
+      bookName.setCreated_at(timestamp);
+      bookName.setUpdated_at(timestamp);
+      bookNames.add(bookName);
+    }
+    bookNameRepository.saveAll(bookNames);
+    return;
+  }
+
+  /**
+   * 外部のCSVファイルを読み込むための関数
+   * @param filePath
+   * @return
+   */
+  List<String> CSVLoader(String filePath) throws IOException {
+    String content = "";
+    List<String> returnList;
+    try {
+      content = new String(Files.readAllBytes(Paths.get(filePath)));
+    } catch (IOException e) {
+      System.err.println("Error reading file: " + e.getMessage());
+    } finally {
+      returnList = Arrays.asList(content.split(",,", -1));
+    }
+    return returnList;
+  }
+
+  String removeSpaces(String input) { return input.replaceAll("[\\s　]", ""); }
 }

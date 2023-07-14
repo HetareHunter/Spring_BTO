@@ -22,7 +22,7 @@ import lombok.Data;
 @Table(name = "BOOK_NAMES")
 public class BookName {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
@@ -59,4 +59,6 @@ public class BookName {
   @NotNull @Column(name = "created_at") private Timestamp created_at;
 
   @NotNull @Column(name = "updated_at") private Timestamp updated_at;
+
+  @NotNull @Column(name = "newname") private boolean newName;
 }

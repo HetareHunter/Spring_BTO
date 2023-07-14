@@ -29,12 +29,11 @@
 					<h2 class="border-bottom my-3">新着</h2>
 					<ul class="slider" style="padding-left: 1rem;">
 						<th:block th:if="${newBook.size() > 0}">
-							<th:block th:each="book: ${newBook}" th:object="${book}" id="newBookList">
+							<th:block th:each="bookName: ${newBook}" th:object="${bookName}" id="newBookNameList">
 								<li>
 									<a href="/bookIndex_setSearchAnotherPage"
-										th:href="@{/bookIndex_setSearchAnotherPage?searchStr={isbn}(isbn=${book.bookNameId.title})}"><img
-											th:src="@{/images/{items} (items=*{bookNameId.img})}"
-											th:alt="*{bookNameId.title}"></a>
+										th:href="@{/bookIndex_setSearchAnotherPage?searchStr={isbn}(isbn=${bookName.title})}"><img
+											th:src="@{/images/{items} (items=*{img})}" th:alt="*{title}"></a>
 								</li>
 							</th:block>
 						</th:block>
