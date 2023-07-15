@@ -12,11 +12,13 @@ import com.example.demo.service.FileLoader;
 import com.example.demo.util.Authority;
 import groovyjarjarantlr4.v4.parse.GrammarTreeVisitor.ruleModifier_return;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -141,12 +143,7 @@ public class DataLoader implements ApplicationRunner {
     try {
       System.out.println("ファイルパス：" + resource.getFile().toPath() +
                          " を参照します");
-
-      try {
-        strArray = CSVLoader(resource);
-      } catch (IOException e) {
-        System.err.println(e.getMessage());
-      }
+      strArray = CSVLoader(resource);
       if (strArray == null)
         return;
       for (String bookNameStr : strArray) {
@@ -216,23 +213,22 @@ public class DataLoader implements ApplicationRunner {
     genreRepository.saveAll(genreList);
   }
 
-  /**
-   * 外部のCSVファイルを読み込むための関数
-   * @param filePath
-   * @return
-   */
-  List<String> CSVLoader(Resource filePath) throws IOException {
+  List<String> CSVLoader(Resource filePath) {
     String content = "";
-    List<String> returnList;
+    List<String> returnList = new ArrayList<>();
     try {
-      content = new String(Files.readAllBytes(filePath.getFile().toPath()));
+      InputStream inputStream = filePath.getInputStream();
+      Scanner scanner = new Scanner(inputStream);
+      scanner.useDelimiter("\\Z"); // ファイルの末尾まで読み込む
+      if (scanner.hasNext()) {
+        content = scanner.next();
+      }
+      scanner.close();
     } catch (IOException e) {
       System.err.println("Error reading file: " + e.getMessage());
-    } finally {
-      returnList = Arrays.asList(content.split(",,", -1));
     }
+    returnList = Arrays.asList(content.split(",,", -1)); // 分割
     return returnList;
   }
-
   String removeSpaces(String input) { return input.replaceAll("[\\s　]", ""); }
 }
