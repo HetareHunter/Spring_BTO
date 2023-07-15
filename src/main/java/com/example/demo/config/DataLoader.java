@@ -140,8 +140,9 @@ public class DataLoader implements ApplicationRunner {
     List<String> strArray = null;
     var resource = fileLoader.load("SpringBTO_data.csv");
     // ファイルを参照できなければそれ以降の処理は行わない
+    strArray = CSVLoader(resource);
     try {
-      strArray = CSVLoader(resource);
+
       if (strArray == null)
         return;
       for (String bookNameStr : strArray) {
