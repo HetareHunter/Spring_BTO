@@ -172,10 +172,13 @@ public class DataLoader implements ApplicationRunner {
           bookName.setAuthor(bookNameElements[2]);
           bookName.setDetail(bookNameElements[3]);
           bookName.setPublisher(bookNameElements[4]);
+          System.out.println("Genre set前");
           bookName.setGenre(
               genreRepository.findByName(bookNameElements[5]).get());
           bookName.setImg(bookNameElements[6]);
+          System.out.println("Active set前");
           bookName.setActive(Boolean.valueOf(bookNameElements[7]));
+          System.out.println("NewName set前");
           bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
         } catch (ArrayIndexOutOfBoundsException e) {
           System.err.println(
@@ -184,7 +187,6 @@ public class DataLoader implements ApplicationRunner {
           continue;
         }
 
-        System.out.println("bookName日付挿入前");
         bookName.setCreated_at(timestamp);
         bookName.setUpdated_at(timestamp);
         System.out.println("bookName登録前");
