@@ -103,10 +103,7 @@ public class DataLoader implements ApplicationRunner {
    */
   void bookInitRun() {
     var books = new ArrayList<Book>();
-    bookNameInitRun();
-    // var bookNames = bookNameInitRun();
-    var bookNames = bookNameRepository.findAll();
-
+    var bookNames = bookNameInitRun();
     for (BookName bookName : bookNames) {
       var book = new Book();
       book.setBookNameId(
@@ -116,10 +113,8 @@ public class DataLoader implements ApplicationRunner {
         System.out.println(bookName.getTitle() + " は同じ本が登録されています");
         continue;
       }
-
       book.setActive(true);
       book.setLendable(true);
-
       book.setCreated_at(timestamp);
       book.setUpdated_at(timestamp);
       books.add(book);
@@ -131,27 +126,21 @@ public class DataLoader implements ApplicationRunner {
    * BookNameデータを初期化する
    * @return
    */
-  void bookNameInitRun() {
+  List<BookName> bookNameInitRun() {
     var bookNames = new ArrayList<BookName>();
     List<String> strArray = null;
     var resource = fileLoader.load("SpringBTO_data.csv");
     // ファイルを参照できなければそれ以降の処理は行わない
     strArray = CSVLoader(resource);
     if (strArray == null)
-      return;
+      return null;
 
     try {
-      for (int i = 0; i < strArray.size(); i++) {
-        System.out.println(i + " : " + strArray.get(i));
-      }
-
       for (String bookNameStr : strArray) {
-
         var bookNameElements = bookNameStr.split(",");
-        for (int i = 0; i < bookNameElements.length; i++) {
-          System.out.println(i + " : " + bookNameElements[i]);
-        }
-
+        // for (int i = 0; i < bookNameElements.length; i++) {
+        //   System.out.println(i + " : " + bookNameElements[i]);
+        // }
         var bookName = new BookName();
 
         // 文字列のデータが正常に切り分けられていなければスキップする
@@ -168,13 +157,10 @@ public class DataLoader implements ApplicationRunner {
           bookName.setAuthor(bookNameElements[2]);
           bookName.setDetail(bookNameElements[3]);
           bookName.setPublisher(bookNameElements[4]);
-          System.out.println("Genre set前");
           bookName.setGenre(
               genreRepository.findByName(bookNameElements[5]).get());
           bookName.setImg(bookNameElements[6]);
-          System.out.println("Active set前");
           bookName.setActive(Boolean.valueOf(bookNameElements[7]));
-          System.out.println("NewName set前");
           bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
         } catch (ArrayIndexOutOfBoundsException e) {
           System.err.println(
@@ -185,7 +171,6 @@ public class DataLoader implements ApplicationRunner {
 
         bookName.setCreated_at(timestamp);
         bookName.setUpdated_at(timestamp);
-        System.out.println("bookName登録前");
         bookNames.add(bookName);
       }
       bookNameRepository.saveAll(bookNames);
@@ -193,14 +178,13 @@ public class DataLoader implements ApplicationRunner {
       System.out.println("ファイルの存在は：" + resource.exists() + "です");
       System.err.println("ファイルを参照できませんでした" + e.getMessage());
     }
-    return;
+    return bookNames;
   }
 
   void genreInitRun() {
     String[] names = {"なし", "技術書", "経済書", "雑誌"};
     // 存在する要素についてはnamesの名前になるように更新する
     for (int i = 0; i < names.length; i++) {
-      System.out.println("i = " + i + "を実行");
       if (genreRepository.existsById(i + 1)) {
         genreRepository.setQueryName(names[i], i + 1);
       } else {
