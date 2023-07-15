@@ -141,7 +141,7 @@ public class DataLoader implements ApplicationRunner {
     try {
       System.out.println("ファイル名：" + resource.getFile().toPath());
     } catch (IOException e) {
-      System.err.println(e.getMessage());
+      System.err.println("ファイルを参照できませんでした" + e.getMessage());
     }
 
     try {
@@ -154,15 +154,31 @@ public class DataLoader implements ApplicationRunner {
     for (String bookNameStr : strArray) {
       var bookNameElements = bookNameStr.split(",");
       var bookName = new BookName();
-      bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
-      bookName.setTitle(bookNameElements[1]);
-      bookName.setAuthor(bookNameElements[2]);
-      bookName.setDetail(bookNameElements[3]);
-      bookName.setPublisher(bookNameElements[4]);
-      bookName.setGenre(genreRepository.findByName(bookNameElements[5]).get());
-      bookName.setImg(bookNameElements[6]);
-      bookName.setActive(Boolean.valueOf(bookNameElements[7]));
-      bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
+
+      try {
+        try {
+          bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
+        } catch (NumberFormatException e) {
+          System.err.println("IDを取得できません。スキップします" +
+                             e.getMessage());
+          continue;
+        }
+        bookName.setTitle(bookNameElements[1]);
+        bookName.setAuthor(bookNameElements[2]);
+        bookName.setDetail(bookNameElements[3]);
+        bookName.setPublisher(bookNameElements[4]);
+        bookName.setGenre(
+            genreRepository.findByName(bookNameElements[5]).get());
+        bookName.setImg(bookNameElements[6]);
+        bookName.setActive(Boolean.valueOf(bookNameElements[7]));
+        bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
+      } catch (ArrayIndexOutOfBoundsException e) {
+        System.err.println(
+            "正常にデータを取得できませんでした。スキップします" +
+            e.getMessage());
+        continue;
+      }
+
       bookName.setCreated_at(timestamp);
       bookName.setUpdated_at(timestamp);
       bookNames.add(bookName);
