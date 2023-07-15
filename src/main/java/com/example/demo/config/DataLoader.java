@@ -156,9 +156,7 @@ public class DataLoader implements ApplicationRunner {
           System.out.println(i + " : " + bookNameElements[i]);
         }
 
-        System.out.println("bookName作成前");
         var bookName = new BookName();
-        System.out.println("bookName作成後");
 
         // 文字列のデータが正常に切り分けられていなければスキップする
         try {
@@ -186,8 +184,10 @@ public class DataLoader implements ApplicationRunner {
           continue;
         }
 
+        System.out.println("bookName日付挿入前");
         bookName.setCreated_at(timestamp);
         bookName.setUpdated_at(timestamp);
+        System.out.println("bookName登録前");
         bookNames.add(bookName);
       }
       bookNameRepository.saveAll(bookNames);
