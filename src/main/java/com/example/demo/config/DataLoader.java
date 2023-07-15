@@ -141,44 +141,44 @@ public class DataLoader implements ApplicationRunner {
     var resource = fileLoader.load("SpringBTO_data.csv");
     // ファイルを参照できなければそれ以降の処理は行わない
     strArray = CSVLoader(resource);
-    try {
+    if (strArray == null)
+      return;
+    for (String bookNameStr : strArray) {
+      var bookNameElements = bookNameStr.split(",");
+      var bookName = new BookName();
 
-      if (strArray == null)
-        return;
-      for (String bookNameStr : strArray) {
-        var bookNameElements = bookNameStr.split(",");
-        var bookName = new BookName();
-
-        // 文字列のデータが正常に切り分けられていなければスキップする
+      // 文字列のデータが正常に切り分けられていなければスキップする
+      try {
+        // IDが数字でなければ以降の処理もスキップする
         try {
-          // IDが数字でなければ以降の処理もスキップする
-          try {
-            bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
-          } catch (NumberFormatException e) {
-            System.err.println("IDを取得できません。スキップします" +
-                               e.getMessage());
-            continue;
-          }
-          bookName.setTitle(bookNameElements[1]);
-          bookName.setAuthor(bookNameElements[2]);
-          bookName.setDetail(bookNameElements[3]);
-          bookName.setPublisher(bookNameElements[4]);
-          bookName.setGenre(
-              genreRepository.findByName(bookNameElements[5]).get());
-          bookName.setImg(bookNameElements[6]);
-          bookName.setActive(Boolean.valueOf(bookNameElements[7]));
-          bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
-        } catch (ArrayIndexOutOfBoundsException e) {
-          System.err.println(
-              "正常にデータを取得できませんでした。スキップします" +
-              e.getMessage());
+          bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
+        } catch (NumberFormatException e) {
+          System.err.println("IDを取得できません。スキップします" +
+                             e.getMessage());
           continue;
         }
-
-        bookName.setCreated_at(timestamp);
-        bookName.setUpdated_at(timestamp);
-        bookNames.add(bookName);
+        bookName.setTitle(bookNameElements[1]);
+        bookName.setAuthor(bookNameElements[2]);
+        bookName.setDetail(bookNameElements[3]);
+        bookName.setPublisher(bookNameElements[4]);
+        bookName.setGenre(
+            genreRepository.findByName(bookNameElements[5]).get());
+        bookName.setImg(bookNameElements[6]);
+        bookName.setActive(Boolean.valueOf(bookNameElements[7]));
+        bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
+      } catch (ArrayIndexOutOfBoundsException e) {
+        System.err.println(
+            "正常にデータを取得できませんでした。スキップします" +
+            e.getMessage());
+        continue;
       }
+
+      bookName.setCreated_at(timestamp);
+      bookName.setUpdated_at(timestamp);
+      bookNames.add(bookName);
+    }
+    try {
+
       bookNameRepository.saveAll(bookNames);
     } catch (Exception e) {
       System.out.println("ファイルの存在は：" + resource.exists() + "です");
