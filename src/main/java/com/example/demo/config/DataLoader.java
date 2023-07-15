@@ -139,9 +139,8 @@ public class DataLoader implements ApplicationRunner {
     var bookNames = new ArrayList<BookName>();
     List<String> strArray = null;
     var resource = fileLoader.load("SpringBTO_data.csv");
+
     // ファイルを参照できなければそれ以降の処理は行わない
-    // System.out.println("ファイルパス：" + resource.getFile().toPath() +
-    //                    " を参照します");
     strArray = CSVLoader(resource);
     if (strArray == null)
       return;
@@ -222,6 +221,7 @@ public class DataLoader implements ApplicationRunner {
     } catch (IOException e) {
       System.out.println("ファイルの存在は：" + filePath.exists() + "です");
       System.err.println("ファイルを参照できませんでした" + e.getMessage());
+      return null;
     }
     returnList = Arrays.asList(content.split(",,", -1)); // 分割
     return returnList;
