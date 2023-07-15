@@ -10,10 +10,8 @@ import com.example.demo.repository.GenreRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.FileLoader;
 import com.example.demo.util.Authority;
-import groovyjarjarantlr4.v4.parse.GrammarTreeVisitor.ruleModifier_return;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,8 +36,6 @@ public class DataLoader implements ApplicationRunner {
   private final BookRepository bookRepository;
   private final BookNameRepository bookNameRepository;
   private final GenreRepository genreRepository;
-  private final String filePath =
-      "src\\main\\resources\\static\\data\\SpringBTO_data.csv";
   private final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
   @Autowired private FileLoader fileLoader;
 
@@ -197,32 +193,25 @@ public class DataLoader implements ApplicationRunner {
       System.out.println("ファイルの存在は：" + resource.exists() + "です");
       System.err.println("ファイルを参照できませんでした" + e.getMessage());
     }
-
     return;
   }
 
   void genreInitRun() {
-    var genre = new Genre();
-    var genreList = new ArrayList<Genre>();
-    genre.setCreated_at(timestamp);
-    genre.setUpdated_at(timestamp);
-    genre.setId(1);
-    genre.setName("なし");
-    genreList.add(genre);
-
-    genre.setId(2);
-    genre.setName("技術書");
-    genreList.add(genre);
-
-    genre.setId(3);
-    genre.setName("経済書");
-    genreList.add(genre);
-
-    genre.setId(4);
-    genre.setName("雑誌");
-    genreList.add(genre);
-
-    genreRepository.saveAll(genreList);
+    String[] names = {"なし", "技術書", "経済書", "雑誌"};
+    // 存在する要素についてはnamesの名前になるように更新する
+    for (int i = 0; i < names.length; i++) {
+      System.out.println("i = " + i + "を実行");
+      if (genreRepository.existsById(i + 1)) {
+        genreRepository.setQueryName(names[i], i + 1);
+      } else {
+        var genre = new Genre();
+        genre.setId(i + 1);
+        genre.setName(names[i]);
+        genre.setCreated_at(timestamp);
+        genre.setUpdated_at(timestamp);
+        genreRepository.save(genre);
+      }
+    }
   }
 
   List<String> CSVLoader(Resource filePath) {
