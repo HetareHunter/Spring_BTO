@@ -136,14 +136,17 @@ public class DataLoader implements ApplicationRunner {
    * @return
    */
   void bookNameInitRun() {
+    System.out.println("a 問題なし");
     var bookNames = new ArrayList<BookName>();
     List<String> strArray = null;
+    System.out.println("b 問題なし");
     var resource = fileLoader.load("SpringBTO_data.csv");
 
     // ファイルを参照できなければそれ以降の処理は行わない
     strArray = CSVLoader(resource);
     if (strArray == null)
       return;
+    System.out.println("h 問題なし");
     for (String bookNameStr : strArray) {
       var bookNameElements = bookNameStr.split(",");
       var bookName = new BookName();
@@ -208,10 +211,13 @@ public class DataLoader implements ApplicationRunner {
   }
 
   List<String> CSVLoader(Resource filePath) {
+    System.out.println("c 問題なし");
     String content = "";
     List<String> returnList = new ArrayList<>();
+    System.out.println("d 問題なし");
     try {
       InputStream inputStream = filePath.getInputStream();
+      System.out.println("e 問題なし");
       Scanner scanner = new Scanner(inputStream);
       scanner.useDelimiter("\\Z"); // ファイルの末尾まで読み込む
       if (scanner.hasNext()) {
@@ -223,7 +229,9 @@ public class DataLoader implements ApplicationRunner {
       System.err.println("ファイルを参照できませんでした" + e.getMessage());
       return null;
     }
+    System.out.println("f 問題なし");
     returnList = Arrays.asList(content.split(",,", -1)); // 分割
+    System.out.println("g 問題なし");
     return returnList;
   }
   String removeSpaces(String input) { return input.replaceAll("[\\s　]", ""); }
