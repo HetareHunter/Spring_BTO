@@ -136,52 +136,53 @@ public class DataLoader implements ApplicationRunner {
    * @return
    */
   void bookNameInitRun() {
-    System.out.println("a 問題なし");
     var bookNames = new ArrayList<BookName>();
     List<String> strArray = null;
-    System.out.println("b 問題なし");
     var resource = fileLoader.load("SpringBTO_data.csv");
-
     // ファイルを参照できなければそれ以降の処理は行わない
-    strArray = CSVLoader(resource);
-    if (strArray == null)
-      return;
-    System.out.println("h 問題なし");
-    for (String bookNameStr : strArray) {
-      var bookNameElements = bookNameStr.split(",");
-      var bookName = new BookName();
+    try {
+      strArray = CSVLoader(resource);
+      if (strArray == null)
+        return;
+      for (String bookNameStr : strArray) {
+        var bookNameElements = bookNameStr.split(",");
+        var bookName = new BookName();
 
-      // 文字列のデータが正常に切り分けられていなければスキップする
-      try {
-        // IDが数字でなければ以降の処理もスキップする
+        // 文字列のデータが正常に切り分けられていなければスキップする
         try {
-          bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
-        } catch (NumberFormatException e) {
-          System.err.println("IDを取得できません。スキップします" +
-                             e.getMessage());
+          // IDが数字でなければ以降の処理もスキップする
+          try {
+            bookName.setId(Integer.parseInt(removeSpaces(bookNameElements[0])));
+          } catch (NumberFormatException e) {
+            System.err.println("IDを取得できません。スキップします" +
+                               e.getMessage());
+            continue;
+          }
+          bookName.setTitle(bookNameElements[1]);
+          bookName.setAuthor(bookNameElements[2]);
+          bookName.setDetail(bookNameElements[3]);
+          bookName.setPublisher(bookNameElements[4]);
+          bookName.setGenre(
+              genreRepository.findByName(bookNameElements[5]).get());
+          bookName.setImg(bookNameElements[6]);
+          bookName.setActive(Boolean.valueOf(bookNameElements[7]));
+          bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
+        } catch (ArrayIndexOutOfBoundsException e) {
+          System.err.println(
+              "正常にデータを取得できませんでした。スキップします" +
+              e.getMessage());
           continue;
         }
-        bookName.setTitle(bookNameElements[1]);
-        bookName.setAuthor(bookNameElements[2]);
-        bookName.setDetail(bookNameElements[3]);
-        bookName.setPublisher(bookNameElements[4]);
-        bookName.setGenre(
-            genreRepository.findByName(bookNameElements[5]).get());
-        bookName.setImg(bookNameElements[6]);
-        bookName.setActive(Boolean.valueOf(bookNameElements[7]));
-        bookName.setNewName(Boolean.valueOf(bookNameElements[8]));
-      } catch (ArrayIndexOutOfBoundsException e) {
-        System.err.println(
-            "正常にデータを取得できませんでした。スキップします" +
-            e.getMessage());
-        continue;
-      }
 
-      bookName.setCreated_at(timestamp);
-      bookName.setUpdated_at(timestamp);
-      bookNames.add(bookName);
+        bookName.setCreated_at(timestamp);
+        bookName.setUpdated_at(timestamp);
+        bookNames.add(bookName);
+      }
+      bookNameRepository.saveAll(bookNames);
+    } catch (Exception e) {
+      System.out.println("ファイルの存在は：" + resource.exists() + "です");
+      System.err.println("ファイルを参照できませんでした" + e.getMessage());
     }
-    bookNameRepository.saveAll(bookNames);
 
     return;
   }
@@ -211,13 +212,10 @@ public class DataLoader implements ApplicationRunner {
   }
 
   List<String> CSVLoader(Resource filePath) {
-    System.out.println("c 問題なし");
     String content = "";
     List<String> returnList = new ArrayList<>();
-    System.out.println("d 問題なし");
     try {
       InputStream inputStream = filePath.getInputStream();
-      System.out.println("e 問題なし");
       Scanner scanner = new Scanner(inputStream);
       scanner.useDelimiter("\\Z"); // ファイルの末尾まで読み込む
       if (scanner.hasNext()) {
@@ -225,13 +223,9 @@ public class DataLoader implements ApplicationRunner {
       }
       scanner.close();
     } catch (IOException e) {
-      System.out.println("ファイルの存在は：" + filePath.exists() + "です");
-      System.err.println("ファイルを参照できませんでした" + e.getMessage());
-      return null;
+      System.err.println("Error reading file: " + e.getMessage());
     }
-    System.out.println("f 問題なし");
     returnList = Arrays.asList(content.split(",,", -1)); // 分割
-    System.out.println("g 問題なし");
     return returnList;
   }
   String removeSpaces(String input) { return input.replaceAll("[\\s　]", ""); }
