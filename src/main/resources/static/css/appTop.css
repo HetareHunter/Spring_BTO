@@ -76,7 +76,7 @@
 
 .menuListContainer{
   padding: 2px 8px 2px 8px;
-  max-height: 60px;
+  max-height: 54px;
 }
 
 .menuList {
@@ -85,8 +85,7 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  margin-right: 8px;
-  margin-left: 8px;
+  margin:0px 8px;
   color: #ffffff;
 }
 
@@ -101,7 +100,7 @@
   justify-content: center;
   text-decoration: none;
   color: #ffffff;
-  padding:18px 0px;
+  padding:15px 0px;
   margin-right: 0;
 }
 
@@ -110,7 +109,7 @@
   text-overflow: ellipsis; /* "..."を表示 */
   white-space: nowrap;
   font-weight: bold;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 4px 0px 4px;
 }
 
 .menua {
@@ -118,7 +117,7 @@
   text-decoration: none;
   font-weight: bold;
   color: #ffffff;
-  padding:5px 0px 6px 0px;
+  padding:3px 0px 3px 0px;
 }
 
 .menua p{
@@ -138,11 +137,11 @@
 .menuUser {
   display: block;
   position: sticky;
-  top: 8px;
+  top: 7px;
   text-decoration: none;
   font-weight: bold;
   color: #ffffff;
-  padding:5px 0px 5px 0px;
+  padding:4px 0px 4px 0px;
   margin: 2px 0;
 }
 
@@ -159,6 +158,11 @@
   text-align: center;
 }
 
+/* 天気アイコンの位置調整 */
+.weatherList div svg{
+  padding-bottom:5px;
+}
+
 /* トグルになるときの各項目の高さ調整用　2カラム */
 /* @media screen and (max-width: 992px) {
 	.media_marginTop {
@@ -167,7 +171,7 @@
 } */
 
 .weatherStyle{
-  margin: 0 10px 0 0;
+  margin: 0 9px 0 0;
   max-width: 20%;
 }
 
@@ -185,7 +189,7 @@
   overflow: hidden;  /* 追加 */
   text-overflow: ellipsis; /* 追加 */
   position: relative;  /* 追加 */
-  padding: 0px 2rem 0px 0.7rem;
+  padding: 0px 1.8rem 0px 0.6rem;
 }
 
 /* 以下追加 */
@@ -197,7 +201,7 @@
 }
 
 .offcanvas.offcanvas-start{
-  width: auto;
+  width: 200px;
 }
 
 /* --------------検索機能のレイアウト-------------- */
@@ -206,17 +210,20 @@
   overflow: hidden;
   border-radius: 3px;
   /* 検索バーの上下の高さ調整 */
-  margin: 10px 0px;
+  margin: 8px 0px;
   width: 600px;
 }
 
-/* 検索ボックスの幅調整用 */
+/* 検索ボックスの幅調整用。折りたたまれた時のサイズは一番下の画面幅768pxのときの
+サイズにまとめてある */
 @media screen and (max-width: 1420px) {
   .search-form-005{
     display: flex;
     overflow: hidden;
     border-radius: 3px;
-    margin: 10px 0px;
+    margin: 9px 0px;
+    /* 画面いっぱいの大きさから一定の大きさを減らした分を維持する
+    画面サイズの変更した分だけサイズが同じように変わるようにしている */
     width: calc(100vw - 820px);
     }
   }
@@ -226,7 +233,7 @@
     display: flex;
     overflow: hidden;
     border-radius: 3px;
-    margin: 10px 0px;
+    margin: 9px 0px;
     width: 80px;
     }
   }
@@ -235,8 +242,8 @@
 
 .search-form-005 input {
   width: 100%;
-  height: 40px;
-  padding: 5px 10px;
+  height: 36px;
+  padding: 4px 10px;
   border: none;
   border-radius: 3px 0 0 3px;
   box-sizing: border-box;
@@ -255,7 +262,7 @@
   align-items: center;
   width: 50px;
   min-width :35px;
-  height: 40px;
+  height: 36px;
   border: none;
   border-radius: 0 3px 3px 0;
   background-color: #2589d0;
@@ -279,7 +286,7 @@
 
 .button-065 span {
   position: absolute;
-  top: -5px; 
+  top: -3px; 
   right: 15%;
   width: 20px;
   height: 20px;
@@ -298,7 +305,7 @@
 
 .button-066 span {
   position: absolute;
-  top: -5px; 
+  top: -3px; 
   right: 15%;
   width: 20px;
   height: 20px;
@@ -363,6 +370,22 @@
   .menuTitlePadding{
     justify-content: center;
   }
+  .menuList {
+    font-weight: bold;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin:5px 8px;
+    color: #ffffff;
+  }
+  .search-form-005{
+    display: flex;
+    overflow: hidden;
+    border-radius: 3px;
+    margin: 9px 0px;
+    width: 150px;
+    }
 }
 
 .is-hide {

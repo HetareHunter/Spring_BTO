@@ -26,11 +26,14 @@ public class Book {
   private int id;
 
   // カスケードは子(このテーブルのデータ)が削除されれば親(参照先)も削除される設定
-  @OneToOne @JoinColumn(name = "book_name_id") private BookName bookNameId;
+  @NotNull
+  @OneToOne
+  @JoinColumn(name = "book_name_id")
+  private BookName bookNameId;
 
   @NotNull @Column(name = "active") private boolean active;
 
-  @Column(name = "lendable") private boolean lendable;
+  @NotNull @Column(name = "lendable") private boolean lendable;
 
   @NotNull @Column(name = "state") private BookState state = BookState.FREE;
 

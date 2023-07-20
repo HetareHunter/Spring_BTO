@@ -2,8 +2,6 @@ package com.example.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -28,13 +26,13 @@ public class BookName {
 
   @NotNull
   @NotBlank
-  @Size(max = 128)
+  @Size(max = 127)
   @Column(name = "title")
   private String title;
 
   @NotNull
   @NotBlank
-  @Size(max = 128)
+  @Size(max = 127)
   @Column(name = "author")
   private String author;
 
@@ -46,7 +44,7 @@ public class BookName {
 
   @NotNull
   @NotBlank
-  @Size(max = 128)
+  @Size(max = 127)
   @Column(name = "publisher")
   private String publisher;
 

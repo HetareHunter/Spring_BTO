@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import lombok.Data;
 
@@ -22,7 +24,11 @@ public class Genre {
   @Column(name = "id")
   private int id;
 
-  @NotNull @Column(name = "name") private String name;
+  @NotBlank
+  @Size(max = 127)
+  @NotNull
+  @Column(name = "name")
+  private String name;
 
   @NotNull @Column(name = "created_at") private Timestamp created_at;
 
