@@ -51,7 +51,7 @@
 							<div class=" card-body">
 								<div class="bl_media_item">
 									<p class="title" th:text="*{bookNameId.title}"></p>
-									<div class="flex">
+									<div class="flex" style="overflow: hidden;">
 
 										<figure class="image"><img th:src="@{/images/{items} (items=*{bookNameId.img})}"
 												th:alt="*{bookNameId.title}">

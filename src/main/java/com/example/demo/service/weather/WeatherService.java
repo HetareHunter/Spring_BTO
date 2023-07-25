@@ -53,6 +53,9 @@ public class WeatherService {
     if (matcher.find()) {
       weatherEntity.setWeatherType(matcher.group(1));
       weatherEntity.setWeatherdescription(matcher.group(2));
+    } else {
+      weatherEntity.setWeatherType("--");
+      weatherEntity.setWeatherdescription("--");
     }
 
     // 湿度を正規表現で切り分ける
@@ -60,27 +63,35 @@ public class WeatherService {
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setHumidity((matcher.group(1)));
+    } else {
+      weatherEntity.setHumidity("--");
     }
 
     // 温度を正規表現で切り分ける
-    pattern = Pattern.compile("\"temp\":(\\d+\\.\\d+)");
+    pattern = Pattern.compile("\"temp\":(\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setTemperature(matcher.group(1));
+    } else {
+      weatherEntity.setTemperature("--");
     }
 
     // 最高気温を正規表現で切り分ける
-    pattern = Pattern.compile("\"temp_max\":(\\d+\\.\\d+)");
+    pattern = Pattern.compile("\"temp_max\":(\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setMaxTemperature(matcher.group(1));
+    } else {
+      weatherEntity.setMaxTemperature("--");
     }
 
     // 最低気温を正規表現で切り分ける
-    pattern = Pattern.compile("\"temp_min\":(\\d+\\.\\d+)");
+    pattern = Pattern.compile("\"temp_min\":(\\d+)");
     matcher = pattern.matcher(weatherStr);
     if (matcher.find()) {
       weatherEntity.setMinTemperature(matcher.group(1));
+    } else {
+      weatherEntity.setMinTemperature("--");
     }
 
     // 現在の日時を取得

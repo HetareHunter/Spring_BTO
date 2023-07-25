@@ -148,6 +148,7 @@ public class BookIndexController {
     var cartLendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.CART);
     model.addAttribute("cartLendingList", cartLendingList);
+    topbarService.setTopbarModel(user, model);
 
     return "BookRental/bookCartConfirm";
   }

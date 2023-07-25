@@ -1,53 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/mainLayout}">
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" th:remove="tag">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+	<script src="/js/book/overlay.js" type="module"></script>
+	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
+	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
+
+	<link th:href="@{/css/main_BookSlicker.css}" rel="stylesheet">
+	<link th:href="@{/css/main_returnBookInfo.css}" rel="stylesheet">
 </head>
 
 <body>
-	<main layout:fragment="content" class="bg-image">
-		<div class="container">
-			<div class="row vh-100 align-items-center justify-content-center">
-				<div class="card shadow" style="max-width: 960px;">
-					<div class="card-body" style="overflow: auto;">
-						<h3 class="card-title text-center text-navy" th:text="カートの内容"></h3>
-						<table class="table">
-							<thead class="tableTitleText">
-								<tr>
-									<th th:text=#{title}></th>
-									<th th:text=#{author}></th>
-									<th th:text=#{genre}></th>
-									<th th:text=#{publisher}></th>
-								</tr>
-							</thead>
-							<tbody class="tableBodyText">
-								<tr th:each="lending : ${cartLendingList}" th:object="${lending}">
-									<td th:text="*{book.bookNameId.title}"></td>
-									<td th:text="*{book.bookNameId.author}"></td>
-									<td th:text="*{book.bookNameId.genre.name}"></td>
-									<td th:text="*{book.bookNameId.publisher}"></td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="tableButtonPosition tableButtonSize">
-							<th:block th:if="${cartLendingList.size()}>0">
-								<form th:action="@{/bookRental}" method="get">
-									<button class="custom-btn btn-CartIn notBack" th:text="借りる"></button>
-								</form>
+
+	<!-- トップバーの表示 -->
+	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+
+	<main layout:fragment="content">
+		<div class="row cartCheckListBase">
+			<div class="cartCheckListPositioning">
+				<div class="col-md-10 col-sm-10 col-xs-12">
+
+					<div class="card shadow cartCheckList">
+						<div class="card-body" style="overflow:hidden;">
+							<h3 class="card-title text-start" th:text="カートの内容"></h3>
+							<hr>
+							<th:block th:if="${cartLendingList.size() > 0}">
+								<th:block th:each="lending : ${cartLendingList}" th:object="${lending}">
+									<div class="flex">
+										<figure class="cartCheckListFigure"><img class="cartCheckListImg"
+												th:src="@{/images/{items} (items=*{book.bookNameId.img})}"
+												th:alt="*{book.bookNameId.title}">
+										</figure>
+										<div class="right ">
+											<p class="title" th:text="*{book.bookNameId.title}"></p>
+											<p class="elementTitle" th:text="#{author} + '
+											'"></p>
+											<p class="text" th:text="*{book.bookNameId.author}"></p>
+											<p class="elementTitle" th:text="'本のジャンル'+'
+											'"></p>
+											<p class="text" th:text="*{book.bookNameId.genre.name}"></p>
+											<p class="elementTitle" th:text="#{publisher} + '
+											'"></p>
+											<p class="text" th:text="*{book.bookNameId.publisher}"></p>
+										</div>
+									</div>
+									<hr>
+								</th:block>
 							</th:block>
-							<div>
-								<button class="custom-btn btn-Back notBack" onclick="history.back()"
-									th:text="戻る"></button>
+							<th:block th:if="${cartLendingList.size() == 0}">
+								<p class="title" th:text="カートに本はありません"></p>
+							</th:block>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2" style="flex-shrink: 0;">
+					<div class="card shadow cartCheckList" style="max-width: 280px;min-width: 160px;">
+						<div class="card-body" style="overflow:hidden;">
+							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'本の借り入れ'"></p>
+							<br>
+							<p class="elementTitle" id="dueDateReturn"></p>
+							<script>
+								var dueDateReturn = new Date();
+								dueDateReturn.setDate(dueDateReturn.getDate() + 14);
+								var yearNum = dueDateReturn.getFullYear();
+								var monthNum = dueDateReturn.getMonth() + 1;
+								var dayNum = dueDateReturn.getDate();
+								var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
+								document.getElementById('dueDateReturn').textContent = `借りたときの返却予定日：${jpDateStr}`;
+							</script>
+							<div class="tableButtonPosition tableButtonSize">
+								<th:block th:if="${cartLendingList.size()} > 0">
+									<form th:action="@{/bookRental}" method="get">
+										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"></button>
+									</form>
+								</th:block>
+								<th:block th:if="${cartLendingList.size()} == 0">
+									<form th:action="@{/bookRental}" method="get">
+										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
+											disabled="disabled"></button>
+									</form>
+								</th:block>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</main>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>
