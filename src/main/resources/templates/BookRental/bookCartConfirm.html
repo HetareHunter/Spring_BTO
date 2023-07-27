@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/mainLayout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/rentalLayout}">
 
 <head>
 	<meta charset="UTF-8" th:remove="tag">
@@ -23,11 +23,43 @@
 	<main layout:fragment="content">
 		<div class="row cartCheckListBase">
 			<div class="cartCheckListPositioning">
-				<div class="col-md-10 col-sm-10 col-xs-12">
+				<div class="col-md-3 col-sm-3 windowHidden" style="margin:0 0 10px 0;">
+					<div class="card shadow cartCheckList">
+						<div class=" card-body" style="overflow:hidden;">
+							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'本の借り入れ'"></p>
+							<p class="elementTitle" th:text="借りたときの返却予定日"></p>
+							<p class="elementTitle" id="dueDateReturn_sumaho"></p>
+							<script>
+								var dueDateReturn = new Date();
+								dueDateReturn.setDate(dueDateReturn.getDate() + 14);
+								var yearNum = dueDateReturn.getFullYear();
+								var monthNum = dueDateReturn.getMonth() + 1;
+								var dayNum = dueDateReturn.getDate();
+								var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
+								document.getElementById('dueDateReturn_sumaho').textContent = `${jpDateStr}`;
+							</script>
+							<div class="tableButtonPosition tableButtonSize">
+								<th:block th:if="${cartLendingList.size()} > 0">
+									<form th:action="@{/bookRental}" method="get">
+										<button class="custom-btn btn-CartIn notBack " th:text="本を借りる"
+											id="cartCheckButton"></button>
+									</form>
+								</th:block>
+								<th:block th:if="${cartLendingList.size()} == 0">
+									<form th:action="@{/bookRental}" method="get">
+										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
+											disabled="disabled"></button>
+									</form>
+								</th:block>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9 col-sm-9">
 
 					<div class="card shadow cartCheckList">
 						<div class="card-body" style="overflow:hidden;">
-							<h3 class="card-title text-start" th:text="カートの内容"></h3>
+							<h3 class="card-title" th:text="カートの内容"></h3>
 							<hr>
 							<th:block th:if="${cartLendingList.size() > 0}">
 								<th:block th:each="lending : ${cartLendingList}" th:object="${lending}">
@@ -59,11 +91,12 @@
 					</div>
 
 				</div>
-				<div class="col-md-2 col-sm-2 col-xs-2" style="flex-shrink: 0;">
-					<div class="card shadow cartCheckList" style="max-width: 280px;min-width: 160px;">
-						<div class="card-body" style="overflow:hidden;">
+				<div class="col-md-3 col-sm-3 sumahoHidden" style="flex-shrink: 0;">
+					<div class="card shadow cartCheckList">
+						<div class=" card-body" style="overflow:hidden;">
 							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'本の借り入れ'"></p>
 							<br>
+							<p class="elementTitle" th:text="借りたときの返却予定日"></p>
 							<p class="elementTitle" id="dueDateReturn"></p>
 							<script>
 								var dueDateReturn = new Date();
@@ -72,12 +105,14 @@
 								var monthNum = dueDateReturn.getMonth() + 1;
 								var dayNum = dueDateReturn.getDate();
 								var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
-								document.getElementById('dueDateReturn').textContent = `借りたときの返却予定日：${jpDateStr}`;
+								document.getElementById('dueDateReturn').textContent = `${jpDateStr}`;
 							</script>
+							<br>
 							<div class="tableButtonPosition tableButtonSize">
 								<th:block th:if="${cartLendingList.size()} > 0">
 									<form th:action="@{/bookRental}" method="get">
-										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"></button>
+										<button class="custom-btn btn-CartIn notBack " th:text="本を借りる"
+											id="cartCheckButton"></button>
 									</form>
 								</th:block>
 								<th:block th:if="${cartLendingList.size()} == 0">
