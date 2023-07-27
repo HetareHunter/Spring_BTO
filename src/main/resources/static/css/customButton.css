@@ -4,10 +4,10 @@
     height: auto;
     color: #fff;
     border-radius: 5px;
-    padding: 8px 12px;
+    padding: 5px 8px;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: 100%;
+    font-size: 80%;
     background: transparent;
     cursor: auto;
     /* transition: all 0.3s ease; */
@@ -25,10 +25,10 @@
     height: auto;
     color: #fff;
     border-radius: 5px;
-    padding: 6px 10px;
+    padding: 5px 6px;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    font-size: small;
+    font-size: 80%;
     background: transparent;
     cursor: auto;
     /* transition: all 0.3s ease; */
