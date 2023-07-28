@@ -22,40 +22,41 @@
 
 	<main layout:fragment="content">
 		<div class="row cartCheckListBase">
-			<div class="cartCheckListPositioning">
-				<div class="col-md-3 col-sm-3 windowHidden" style="margin:0 0 10px 0;">
-					<div class="card shadow cartCheckList">
-						<div class=" card-body" style="overflow:hidden;">
-							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'本の借り入れ'"></p>
-							<p class="elementTitle" th:text="借りたときの返却予定日"></p>
-							<p class="elementTitle" id="dueDateReturn_sumaho"></p>
-							<script>
-								var dueDateReturn = new Date();
-								dueDateReturn.setDate(dueDateReturn.getDate() + 14);
-								var yearNum = dueDateReturn.getFullYear();
-								var monthNum = dueDateReturn.getMonth() + 1;
-								var dayNum = dueDateReturn.getDate();
-								var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
-								document.getElementById('dueDateReturn_sumaho').textContent = `${jpDateStr}`;
-							</script>
-							<div class="tableButtonPosition tableButtonSize">
-								<th:block th:if="${cartLendingList.size()} > 0">
-									<form th:action="@{/bookRental}" method="get">
-										<button class="custom-btn btn-CartIn notBack " th:text="本を借りる"
-											id="cartCheckButton"></button>
-									</form>
-								</th:block>
-								<th:block th:if="${cartLendingList.size()} == 0">
-									<form th:action="@{/bookRental}" method="get">
-										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
-											disabled="disabled"></button>
-									</form>
-								</th:block>
-							</div>
+			<div class="col-md-3 col-sm-3 windowHidden cartCheckListMenuPositioning" style="margin:0 0 10px 0;">
+				<div class="card shadow cartCheckList">
+					<div class=" card-body" style="overflow:hidden;">
+						<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"></p>
+						<p class="elementTitle" th:text="借りたときの返却期限"></p>
+						<p class="elementTitle" id="dueDateReturn_sumaho"></p>
+						<script>
+							var dueDateReturn = new Date();
+							dueDateReturn.setDate(dueDateReturn.getDate() + 14);
+							var yearNum = dueDateReturn.getFullYear();
+							var monthNum = dueDateReturn.getMonth() + 1;
+							var dayNum = dueDateReturn.getDate();
+							var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
+							document.getElementById('dueDateReturn_sumaho').textContent = `${jpDateStr}`;
+						</script>
+						<div class="tableButtonPosition tableButtonSize">
+							<th:block th:if="${cartLendingList.size()} > 0">
+								<form th:action="@{/bookRental}" method="get">
+									<button class="custom-btn btn-CartIn notBack " th:text="本を借りる"
+										id="cartCheckButton"></button>
+								</form>
+							</th:block>
+							<th:block th:if="${cartLendingList.size()} == 0">
+								<form th:action="@{/bookRental}" method="get">
+									<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
+										disabled="disabled"></button>
+								</form>
+							</th:block>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-9 col-sm-9">
+			</div>
+			<div class="cartCheckListPositioning">
+
+				<div class="col-md-9 col-sm-9 cartCheckListBodyPositioning">
 
 					<div class="card shadow cartCheckList">
 						<div class="card-body" style="overflow:hidden;">
@@ -94,9 +95,9 @@
 				<div class="col-md-3 col-sm-3 sumahoHidden" style="flex-shrink: 0;">
 					<div class="card shadow cartCheckList">
 						<div class=" card-body" style="overflow:hidden;">
-							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'本の借り入れ'"></p>
+							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"></p>
 							<br>
-							<p class="elementTitle" th:text="借りたときの返却予定日"></p>
+							<p class="elementTitle" th:text="借りたときの返却期限"></p>
 							<p class="elementTitle" id="dueDateReturn"></p>
 							<script>
 								var dueDateReturn = new Date();

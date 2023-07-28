@@ -116,6 +116,19 @@
     .sumahoHidden{
       display: none;
     }
+    
+    .cartCheckListMenuPositioning{
+      height: 0;
+      position:sticky;
+      top: 50px;
+      left: 27px;
+      right: 27px;
+      z-index: 999;
+    }
+
+    .cartCheckListBodyPositioning{
+      padding-top: 170px;
+    }
   }
   @media screen and (min-width: 576px) {
     .windowHidden{
