@@ -79,4 +79,35 @@ public class BookRentalController {
     }
     return "BookRental/bookRentalComplete";
   }
+
+  /**
+   * 借りる処理を実行する
+   * @param user
+   * @param model
+   * @return
+   */
+  @GetMapping("/bookRentalCompleteAjax")
+  public String getBookRentalCompleteAjax(Authentication user, Model model) {
+    // topbarService.setTopbarModel(user, model);
+    var books = new ArrayList<Book>();
+    books = bookRepository.findByState(BookState.CART);
+    for (Book book : books) {
+      try {
+        // bookの貸し出し状態を更新
+        bookRegisterService.bookRentalSave(book);
+        var userEntity = userRepository.findByEmail(user.getName()).get();
+        var cartLendings = lendingRepository.findListByUserAndState(
+            userEntity, LendingState.CART);
+        // 借りている状態にする
+        var lendings = lendingService.setLendingRental(cartLendings);
+        // ユーザーエンティティの貸し出し状態を更新
+        userEntity =
+            userRegisterService.userSetRentalLending(userEntity, lendings);
+
+      } catch (Exception e) {
+        System.out.println(e + " が postBookIndex() で発生");
+      }
+    }
+    return "BookRental/bookRentalComplete";
+  }
 }
