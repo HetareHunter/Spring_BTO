@@ -13,7 +13,7 @@
             <div class="col-md-3 col-sm-3 windowHidden cartCheckListMenuPositioning" style="margin:0 0 10px 0;">
                 <div class="card shadow cartCheckList">
                     <div class=" card-body" style="overflow:hidden;">
-                        <p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"
+                        <p class="card-title title" th:text="'合計 '+${cartLendingList.size()}+'冊の借り入れ'"
                             id="sumahoBookRentalNum"></p>
                         <p class="elementTitle" th:text="借りたときの返却期限" id="sumahoRentalTerm"></p>
                         <p class="elementTitle" id="dueDateReturn_sumaho"></p>
@@ -56,13 +56,14 @@
                                             <p class="elementTitle" th:text="#{publisher} + '
 											'"></p>
                                             <p class="text" th:text="*{book.bookNameId.publisher}"></p>
-
-                                            <form method="get" th:id="'book_cartDelete_'+*{book.Id}">
-                                                <button class="custom-btn btn-CartIn  book_cartDelete_" type="button"
-                                                    th:name="*{book.id}" th:text="カートから取り出す"
-                                                    th:id="'cartButtonDelete_'+*{book.Id}"
-                                                    th:onclick="changeBookNum(-1);"></button>
-                                            </form>
+                                            <div class="mt-3">
+                                                <form method="get" th:id="'book_cartDelete_'+*{book.Id}">
+                                                    <button class="custom-btn btn-CartIn  book_cartDelete_"
+                                                        type="button" th:name="*{book.id}" th:text="カートから取り出す"
+                                                        th:id="'cartButtonDelete_'+*{book.Id}"
+                                                        th:onclick="changeBookNum(-1);"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -77,7 +78,7 @@
                 <div class="col-md-3 col-sm-3 sumahoHidden" style="flex-shrink: 0;">
                     <div class="card shadow cartCheckList">
                         <div class=" card-body" style="overflow:hidden;">
-                            <p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"
+                            <p class="card-title title" th:text="'合計 '+${cartLendingList.size()}+'冊の借り入れ'"
                                 id="bookRentalNum"></p>
                             <br>
                             <p class="elementTitle" th:text="借りたときの返却期限" id="rentalTerm"></p>

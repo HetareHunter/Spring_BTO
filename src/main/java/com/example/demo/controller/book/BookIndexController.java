@@ -1,5 +1,6 @@
 package com.example.demo.controller.book;
 
+import com.example.demo.model.FormEntity;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -160,11 +162,14 @@ public class BookIndexController {
    * @return
    */
   @GetMapping("/bookRentalCheck")
-  public String getBookRentalConfirm(Authentication user, Model model) {
+  public String getBookRentalConfirm(Authentication user, Model model,
+                                     @ModelAttribute("form") FormEntity form) {
     var rentalList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("rentalList", rentalList);
-
+    topbarService.setTopbarModel(user, model);
+    var checks = form.getChecks();
+    model.addAttribute("checks", checks);
     return "BookRental/bookRentalCheck";
   }
 

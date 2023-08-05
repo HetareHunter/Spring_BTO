@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/rentalLayout}">
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" th:remove="tag">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+	<script src="/js/book/overlay.js" type="module"></script>
+	<script src="/js/book/bookSearchAnotherPage.js" type="module"></script>
+	<script src="/js/book/bookSearchEntryAnotherPage.js" type="module"></script>
+
+
+	<script src="/js/bookCartCheck/returnDueDate.js" type="module"></script>
+	<script src="/js/bookCartCheck/bookRental.js" type="module"></script>
+	<script src="/js/bookCartCheck/bookCartCheckDelete.js" type="module"></script>
+	<script src="/js/bookCartCheck/bookCartCheckEntry.js" type="module"></script>
+
+	<link th:href="@{/css/main_BookSlicker.css}" rel="stylesheet">
+	<link th:href="@{/css/main_returnBookInfo.css}" rel="stylesheet">
+	<link th:href="@{/css/cartRentalCheckLayout/renralLayout.css}" rel="stylesheet">
 </head>
 
 <body>
-	<main layout:fragment="content" class="bg-image">
+	<!-- トップバーの表示 -->
+	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
+
+	<main layout:fragment="content">
+		<!-- ↓非同期処理の待機画面の挿入 -->
+		<div id="overlay">
+			<div class="cv-spinner">
+				<span class="spinner"></span>
+			</div>
+		</div>
+		<div id="ajaxReload">
+			<div th:replace="~{BookRental/bookReturnCheckFragment/bookReturnTable :: returnTableReload}">
+			</div>
+		</div>
+	</main>
+
+	<!-- <main layout:fragment="content" class="bg-image">
 		<div class="container">
 			<div class="row vh-100 align-items-center justify-content-center">
 				<div class="card shadow" style="max-width: 1080px;">
@@ -49,7 +81,7 @@
 			</div>
 		</div>
 	</main>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script> -->
 </body>
 
 </html>
