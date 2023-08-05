@@ -91,7 +91,6 @@ public class BookRentalController {
    */
   @GetMapping("/bookRentalCompleteAjax")
   public String getBookRentalCompleteAjax(Authentication user, Model model) {
-    // topbarService.setTopbarModel(user, model);
     var books = new ArrayList<Book>();
     books = bookRepository.findByState(BookState.CART);
     for (Book book : books) {
@@ -106,12 +105,12 @@ public class BookRentalController {
         // ユーザーエンティティの貸し出し状態を更新
         userEntity =
             userRegisterService.userSetRentalLending(userEntity, lendings);
-
       } catch (Exception e) {
         System.out.println(e + " が postBookIndex() で発生");
       }
+      topbarService.setTopbarModel(user, model);
     }
-    return "BookRental/bookRentalComplete";
+    return "BookRental/bookCartCheckFragment/bookCartCheckTable :: cartTableReload";
   }
 
   /**

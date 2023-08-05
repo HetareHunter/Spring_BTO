@@ -1,6 +1,11 @@
+import { spinnerFadeIn } from '../book/overlay.js';
+import { spinnerFadeOut } from '../book/overlay.js';
+import { calcReturnDueDate } from './returnDueDate.js';
+
 export function bookRental() {
   $(function bookRental() {
     $('.cartCheckButton').click(function (e) {
+      spinnerFadeIn();
       console.log('bookRental');
       // javascriptを外部ファイルにすると/*[[${変数名}]]*/の形でjavaの変数にアクセスできないので
       // htmlファイルにhiddenにしているdivタグを用意してそこから値を取得するようにしている
@@ -9,14 +14,17 @@ export function bookRental() {
       $.ajax({
         url: '/bookRentalCompleteAjax',
         type: 'GET',
-        dataType: 'text',
+        dataType: 'html',
         timeout: 10000, // タイムアウト時間の指定
         data: {
           _csrf: $('*[name=_csrf]').val(), // CSRFトークンを送信
         },
       })
-        .done(function () {
+        .done(function (data) {
           console.log('bookRental成功');
+          $('#ajaxReload').html(data);
+          calcReturnDueDate();
+          spinnerFadeOut();
           document.getElementById('sumahoBookRentalNum').textContent = cartBookNum + '冊の本を借りました';
           document.getElementById('bookRentalNum').textContent = cartBookNum + '冊の本を借りました';
           document.getElementById('sumahoRentalTerm').textContent = '返却期限';

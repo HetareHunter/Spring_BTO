@@ -20,13 +20,13 @@
                         <div class="tableButtonPosition tableButtonSize">
                             <th:block th:if="${cartLendingList.size()} > 0">
                                 <button class="custom-btn btn-CartIn notBack cartCheckButton" th:text="本を借りる"
-                                    id="sumahoCartCheckButton" type="button"></button>
+                                    id="sumahoCartCheckButton" type="button"
+                                    th:onclick="|changeRentalBookNum(${cartLendingList.size()})|"></button>
                             </th:block>
                             <th:block th:if="${cartLendingList.size()} == 0">
                                 <form th:action="@{/bookRental}" method="get">
                                     <button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
-                                        id="sumahoCartCheckButton" disabled="disabled"
-                                        th:onclick="|changeRentalBookNum(${cartLendingList.size()})|"></button>
+                                        id="sumahoCartCheckButton" disabled="disabled"></button>
                                 </form>
                             </th:block>
                         </div>
