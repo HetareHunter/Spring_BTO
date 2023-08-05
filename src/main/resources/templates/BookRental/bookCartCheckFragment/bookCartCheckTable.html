@@ -25,7 +25,8 @@
                             <th:block th:if="${cartLendingList.size()} == 0">
                                 <form th:action="@{/bookRental}" method="get">
                                     <button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
-                                        id="sumahoCartCheckButton" disabled="disabled"></button>
+                                        id="sumahoCartCheckButton" disabled="disabled"
+                                        th:onclick="|changeRentalBookNum(${cartLendingList.size()})|"></button>
                                 </form>
                             </th:block>
                         </div>
@@ -61,7 +62,7 @@
                                                     <button class="custom-btn btn-CartIn  book_cartDelete_"
                                                         type="button" th:name="*{book.id}" th:text="カートから取り出す"
                                                         th:id="'cartButtonDelete_'+*{book.Id}"
-                                                        th:onclick="changeBookNum(-1);"></button>
+                                                        th:onclick="changeCartBookNum(-1);"></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -87,7 +88,8 @@
                             <div class="tableButtonPosition tableButtonSize">
                                 <th:block th:if="${cartLendingList.size()} > 0">
                                     <button class="custom-btn btn-CartIn notBack cartCheckButton" th:text="本を借りる"
-                                        id="cartCheckButton" type="button"></button>
+                                        id="cartCheckButton" type="button"
+                                        th:onclick="|changeRentalBookNum(${cartLendingList.size()})|"></button>
                                     <!-- <form th:action="@{/bookRental}" method="get">
 									
 								</form> -->

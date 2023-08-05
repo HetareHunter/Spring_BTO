@@ -176,7 +176,7 @@
 												<button class="custom-btn btn-CartIn cartButtonSet_" type="button"
 													th:name="${book.id}" th:text="カートに入れる"
 													th:id="'cartButtonSet_'+${book.Id}"
-													th:onclick="changeBookNum(1);"></button>
+													th:onclick="changeCartBookNum(1);"></button>
 											</form>
 										</div>
 									</th:block>
@@ -193,7 +193,7 @@
 													<button class="custom-btn btn-CartIn  book_cartDelete_"
 														type="button" th:name="${book.id}" th:text="カートから取り出す"
 														th:id="'cartButtonDelete_'+${book.Id}"
-														th:onclick="changeBookNum(-1);"></button>
+														th:onclick="changeCartBookNum(-1);"></button>
 												</form>
 											</div>
 										</th:block>

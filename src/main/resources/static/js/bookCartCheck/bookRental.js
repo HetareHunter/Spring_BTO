@@ -21,8 +21,9 @@ export function bookRental() {
           document.getElementById('bookRentalNum').textContent = cartBookNum + '冊の本を借りました';
           document.getElementById('sumahoRentalTerm').textContent = '返却期限';
           document.getElementById('rentalTerm').textContent = '返却期限';
+          // ナビバーのカートの数0に修正する。
+          // 借りている本の数はtopbarのインナーjavascriptをbookCartCheckTable.htmlから呼び出して変化させる
           document.getElementById('cartLendingList').textContent = '0';
-          document.getElementById('topbarRentalBookNum').textContent = cartBookNum;
           document.getElementById('sumahoCartCheckButton').disabled = true;
           document.getElementById('cartCheckButton').disabled = true;
         })

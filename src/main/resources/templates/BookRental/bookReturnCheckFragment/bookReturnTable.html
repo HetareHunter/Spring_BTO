@@ -16,12 +16,12 @@
                             id="sumahoBookRentalNum"></p>
                         <div class="tableButtonPosition tableButtonSize">
                             <th:block th:if="${rentalList.size()} > 0">
-                                <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を借りる"
+                                <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を返却する"
                                     id="sumahorentalCheckButton" type="button"></button>
                             </th:block>
                             <th:block th:if="${rentalList.size()} == 0">
                                 <form th:action="@{/bookRental}" method="get">
-                                    <button class="custom-btn btn-Rental notBack" th:text="本を借りる"
+                                    <button class="custom-btn btn-Rental notBack" th:text="本を返却する"
                                         id="sumahorentalCheckButton" disabled="disabled"></button>
                                 </form>
                             </th:block>
@@ -101,12 +101,12 @@
                             <br>
                             <div class="tableButtonPosition tableButtonSize">
                                 <th:block th:if="${rentalList.size()} > 0">
-                                    <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を借りる"
+                                    <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を返却する"
                                         id="rentalCheckButton" type="button"></button>
                                 </th:block>
                                 <th:block th:if="${rentalList.size()} == 0">
                                     <form th:action="@{/bookRental}" method="get">
-                                        <button class="custom-btn btn-Rental notBack" th:text="本を借りる"
+                                        <button class="custom-btn btn-Rental notBack" th:text="本を返却する"
                                             id="rentalCheckButton" disabled="disabled"></button>
                                     </form>
                                 </th:block>
