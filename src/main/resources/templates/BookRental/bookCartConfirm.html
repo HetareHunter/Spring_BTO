@@ -14,6 +14,7 @@
 
 	<script src="/js/bookCartCheck/returnDueDate.js" type="module"></script>
 	<script src="/js/bookCartCheck/bookRental.js" type="module"></script>
+	<script src="/js/bookCartCheck/bookCartCheckDelete.js" type="module"></script>
 	<script src="/js/bookCartCheck/bookCartCheckEntry.js" type="module"></script>
 
 	<link th:href="@{/css/main_BookSlicker.css}" rel="stylesheet">
@@ -26,109 +27,16 @@
 	<div layout:fragment="topbar" th:replace="~{fragments/topbar :: topbar}"></div>
 
 	<main layout:fragment="content">
-		<div class="row cartCheckListBase">
-			<div class="col-md-3 col-sm-3 windowHidden cartCheckListMenuPositioning" style="margin:0 0 10px 0;">
-				<div class="card shadow cartCheckList">
-					<div class=" card-body" style="overflow:hidden;">
-						<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"
-							id="sumahoBookRentalNum"></p>
-						<p class="elementTitle" th:text="借りたときの返却期限" id="sumahoRentalTerm"></p>
-						<p class="elementTitle" id="dueDateReturn_sumaho"></p>
-						<div class="tableButtonPosition tableButtonSize">
-							<th:block th:if="${cartLendingList.size()} > 0">
-								<button class="custom-btn btn-CartIn notBack cartCheckButton" th:text="本を借りる"
-									id="sumahoCartCheckButton" type="button"></button>
-								<!-- <form th:action="@{/bookRental}" method="get">
-									
-								</form> -->
-							</th:block>
-							<th:block th:if="${cartLendingList.size()} == 0">
-								<form th:action="@{/bookRental}" method="get">
-									<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
-										disabled="disabled"></button>
-								</form>
-							</th:block>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="cartCheckListPositioning">
-				<div class="col-md-9 col-sm-9 cartCheckListBodyPositioning">
-					<div class="card shadow cartCheckList">
-						<div class="card-body" style="overflow:hidden;">
-							<h3 class="card-title" th:text="カートの内容"></h3>
-							<hr>
-							<th:block th:if="${cartLendingList.size() > 0}">
-								<th:block th:each="lending : ${cartLendingList}" th:object="${lending}">
-									<div class="flex">
-										<figure class="cartCheckListFigure"><img class="cartCheckListImg"
-												th:src="@{/images/{items} (items=*{book.bookNameId.img})}"
-												th:alt="*{book.bookNameId.title}">
-										</figure>
-										<div class="right ">
-											<p class="title" th:text="*{book.bookNameId.title}"></p>
-											<p class="elementTitle" th:text="#{author} + '
-											'"></p>
-											<p class="text" th:text="*{book.bookNameId.author}"></p>
-											<p class="elementTitle" th:text="'本のジャンル'+'
-											'"></p>
-											<p class="text" th:text="*{book.bookNameId.genre.name}"></p>
-											<p class="elementTitle" th:text="#{publisher} + '
-											'"></p>
-											<p class="text" th:text="*{book.bookNameId.publisher}"></p>
-										</div>
-									</div>
-									<hr>
-								</th:block>
-							</th:block>
-							<th:block th:if="${cartLendingList.size() == 0}">
-								<p class="title" th:text="カートに本はありません"></p>
-							</th:block>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-3 sumahoHidden" style="flex-shrink: 0;">
-					<div class="card shadow cartCheckList">
-						<div class=" card-body" style="overflow:hidden;">
-							<p class="card-title title" th:text="'合計'+${cartLendingList.size()}+'冊の借り入れ'"
-								id="bookRentalNum"></p>
-							<br>
-							<p class="elementTitle" th:text="借りたときの返却期限" id="rentalTerm"></p>
-							<p class="elementTitle" id="dueDateReturn"></p>
-							<br>
-							<div class="tableButtonPosition tableButtonSize">
-								<th:block th:if="${cartLendingList.size()} > 0">
-									<button class="custom-btn btn-CartIn notBack cartCheckButton" th:text="本を借りる"
-										id="cartCheckButton" type="button"></button>
-									<!-- <form th:action="@{/bookRental}" method="get">
-									
-								</form> -->
-								</th:block>
-								<th:block th:if="${cartLendingList.size()} == 0">
-									<form th:action="@{/bookRental}" method="get">
-										<button class="custom-btn btn-CartIn notBack" th:text="本を借りる"
-											disabled="disabled"></button>
-									</form>
-								</th:block>
-							</div>
-						</div>
-					</div>
-				</div>
+		<!-- ↓非同期処理の待機画面の挿入 -->
+		<div id="overlay">
+			<div class="cv-spinner">
+				<span class="spinner"></span>
 			</div>
 		</div>
-		<!-- <script>
-			var dueDateReturn = new Date();
-			dueDateReturn.setDate(dueDateReturn.getDate() + 14);
-			var yearNum = dueDateReturn.getFullYear();
-			var monthNum = dueDateReturn.getMonth() + 1;
-			var dayNum = dueDateReturn.getDate();
-			var jpDateStr = String(yearNum) + '年 ' + String(monthNum) + '月 ' + String(dayNum) + '日';
-			// スマホ版の画面に返却期限を表示する
-			document.getElementById('dueDateReturn_sumaho').textContent = `${jpDateStr}`;
-			// webタブレット版の画面に返却期限を表示する
-			document.getElementById('dueDateReturn').textContent = `${jpDateStr}`;
-		</script> -->
-		<div hidden th:text="${cartLendingList.size()}" id="cartLendingListSize"></div>
+		<div id="ajaxReload">
+			<div th:replace="~{BookRental/bookCartCheckFragment/bookCartCheckTable :: cartTableReload}">
+			</div>
+		</div>
 	</main>
 </body>
 

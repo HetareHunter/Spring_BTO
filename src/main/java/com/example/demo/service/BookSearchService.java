@@ -86,6 +86,23 @@ public class BookSearchService {
   }
 
   /**
+   * カートに入れるとき、取り出すとき同じモデルを定義しているのでまとめる
+   * @param user
+   * @param model
+   * @param books
+   */
+  public void setCartLendingModel(Authentication user, Model model) {
+    model.addAttribute("bookNameList", bookNameRepository.findAll());
+    var cartLendingList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.CART);
+    model.addAttribute("cartLendingList", cartLendingList);
+    var rentalList = lendingRepository.findListByUserAndState(
+        userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
+    model.addAttribute("rentalList", rentalList);
+    model.addAttribute("bookState_CART", BookState.CART);
+  }
+
+  /**
    * 本をカートに入れる状態にする、
    * lendingエンティティをカートに入れる状態、
    * ユーザーの本の貸し出し状態にlendingエンティティを追加する処理を実施

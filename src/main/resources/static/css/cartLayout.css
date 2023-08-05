@@ -111,6 +111,12 @@
     padding: 5px 12px;
   }
 
+  #sumahoCartCheckButton{
+    width: 100%;
+    font-size: 80%;
+    padding: 5px 12px;
+  }
+
   /* 画面の表示非表示切り替え */
   @media screen and (max-width: 576px) {
     .sumahoHidden{

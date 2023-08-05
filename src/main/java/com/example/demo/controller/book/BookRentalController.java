@@ -5,6 +5,7 @@ import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import com.example.demo.service.BookRegisterService;
+import com.example.demo.service.BookSearchService;
 import com.example.demo.service.LendingService;
 import com.example.demo.service.TopbarService;
 import com.example.demo.service.UserLendingService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 本を借りるときの処理を実装する
@@ -32,6 +34,7 @@ public class BookRentalController {
   @Autowired private TopbarService topbarService;
   @Autowired BookRegisterService bookRegisterService;
   @Autowired UserLendingService userRegisterService;
+  @Autowired private BookSearchService bookSearchService;
 
   /**
    * 借りる内容が正しいか確認する
@@ -109,5 +112,25 @@ public class BookRentalController {
       }
     }
     return "BookRental/bookRentalComplete";
+  }
+
+  /**
+   * 選択した本をカートから取り出すときの処理。ajaxで呼び出される一部更新処理(カートに入っている本のテーブル)
+   * @param user
+   * @param model
+   * @param bookId カートに入れる本のID
+   * @param searchStr 検索した文字列
+   * @return
+   */
+  @GetMapping("/bookCartCheck_deleteLending")
+  public String
+  getDeleteTempLendingBook(Authentication user, Model model,
+                           @RequestParam("bookId") String bookId) {
+    System.out.println("bookIndex_deleteLending");
+    //本を取り出しているのでlending modelを更新
+    bookSearchService.deleteLendingCartBook(user, bookId);
+    //本を取り出した後のデータでuser modelを更新
+    bookSearchService.setCartLendingModel(user, model);
+    return "BookRental/bookCartCheckFragment/bookCartCheckTable :: cartTableReload";
   }
 }

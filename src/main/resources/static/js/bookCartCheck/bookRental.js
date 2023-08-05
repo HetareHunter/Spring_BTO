@@ -2,6 +2,8 @@ export function bookRental() {
   $(function bookRental() {
     $('.cartCheckButton').click(function (e) {
       console.log('bookRental');
+      // javascriptを外部ファイルにすると/*[[${変数名}]]*/の形でjavaの変数にアクセスできないので
+      // htmlファイルにhiddenにしているdivタグを用意してそこから値を取得するようにしている
       var cartBookNum = document.getElementById('cartLendingListSize').textContent;
       e.preventDefault();
       $.ajax({
