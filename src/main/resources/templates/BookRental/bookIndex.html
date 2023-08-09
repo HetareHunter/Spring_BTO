@@ -36,7 +36,7 @@
 						</div>
 					</div>
 
-					<th:block th:if="${rentalList.size() >= 1}">
+					<!-- <th:block th:if="${rentalList.size() >= 1}">
 						<div class="mb-2">
 							<form th:action="@{/bookReturnRegister}" method="get">
 								<button class="custom-btn btn-Return" type="submit" th:text="本の返却"></button>
@@ -50,7 +50,7 @@
 									disabled="disabled"></button>
 							</form>
 						</div>
-					</th:block>
+					</th:block> -->
 					<table class="table">
 						<tr>
 							<td sec:authorize="hasAuthority('ADMIN')" class="nav-item">

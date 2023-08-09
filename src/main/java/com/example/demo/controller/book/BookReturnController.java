@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 返却処理を実装する
@@ -36,13 +37,13 @@ public class BookReturnController {
    */
   @GetMapping("/bookReturnRegister")
   public String getBookReturnRegister(Authentication user,
-                                      @ModelAttribute("form") FormEntity form,
-                                      Model model) {
+                                      @RequestParam("lendingIds")
+                                      String[] lendingIds, Model model) {
     var lendingList = lendingRepository.findListByUserAndState(
         userRepository.findByEmail(user.getName()).get(), LendingState.RENTAL);
     model.addAttribute("lendingList", lendingList);
 
-    var checks = form.getChecks();
+    var checks = lendingIds;
     model.addAttribute("checks", checks);
 
     return "BookRental/bookReturn";

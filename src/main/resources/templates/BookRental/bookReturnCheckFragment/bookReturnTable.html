@@ -12,19 +12,14 @@
             <div class="col-md-3 col-sm-3 windowHidden rentalCheckListMenuPositioning" style="margin:0 0 10px 0;">
                 <div class="card shadow rentalCheckList">
                     <div class=" card-body" style="overflow:hidden;">
-                        <p class="card-title title" th:text="'合計 '+${rentalList.size()}+'冊の返却'"
-                            id="sumahoBookRentalNum"></p>
+                        <p class="card-title title" text="合計 0冊の返却" id="sumahoBookRentalNum"></p>
+                        <br>
                         <div class="tableButtonPosition tableButtonSize">
-                            <th:block th:if="${rentalList.size()} > 0">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <form th:action="@{/bookReturnConfirm}" method="post" th:id="returnBook">
                                 <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を返却する"
-                                    id="sumahorentalCheckButton" type="button"></button>
-                            </th:block>
-                            <th:block th:if="${rentalList.size()} == 0">
-                                <form th:action="@{/bookRental}" method="get">
-                                    <button class="custom-btn btn-Rental notBack" th:text="本を返却する"
-                                        id="sumahorentalCheckButton" disabled="disabled"></button>
-                                </form>
-                            </th:block>
+                                    id="sumahorentalCheckButton" disabled="disabled" type="button"></button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -69,23 +64,6 @@
                                     <hr>
                                 </th:block>
                             </th:block>
-                            <script>
-                                $(function () {
-                                    // 初期状態のボタンは無効
-                                    $("#returnBook").prop("disabled", true);
-                                    // チェックボックスの状態が変わったら（クリックされたら）
-                                    $("input[type='checkbox']").on('change', function () {
-                                        // チェックされているチェックボックスの数
-                                        if ($(".checks:checked").length > 0) {
-                                            // ボタン有効
-                                            $("#returnBook").prop("disabled", false);
-                                        } else {
-                                            // ボタン無効
-                                            $("#returnBook").prop("disabled", true);
-                                        }
-                                    });
-                                });
-                            </script>
                             <th:block th:if="${rentalList.size() == 0}">
                                 <p class="title" th:text="カートに本はありません"></p>
                             </th:block>
@@ -95,21 +73,14 @@
                 <div class="col-md-3 col-sm-3 sumahoHidden" style="flex-shrink: 0;">
                     <div class="card shadow rentalCheckList">
                         <div class=" card-body" style="overflow:hidden;">
-                            <p class="card-title title" th:text="'合計 '+${rentalList.size()}+'冊の返却'" id="bookRentalNum">
-                            </p>
-                            </p>
+                            <p class="card-title title" text="合計 0冊の返却" id="bookRentalNum"></p>
                             <br>
                             <div class="tableButtonPosition tableButtonSize">
-                                <th:block th:if="${rentalList.size()} > 0">
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                <form th:action="@{/bookReturnConfirm}" method="post" th:id="returnBook">
                                     <button class="custom-btn btn-Rental notBack rentalCheckButton" th:text="本を返却する"
-                                        id="rentalCheckButton" type="button"></button>
-                                </th:block>
-                                <th:block th:if="${rentalList.size()} == 0">
-                                    <form th:action="@{/bookRental}" method="get">
-                                        <button class="custom-btn btn-Rental notBack" th:text="本を返却する"
-                                            id="rentalCheckButton" disabled="disabled"></button>
-                                    </form>
-                                </th:block>
+                                        id="rentalCheckButton" disabled="disabled" type="button"></button>
+                                </form>
                             </div>
                         </div>
                     </div>

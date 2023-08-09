@@ -42,9 +42,7 @@
 								<button class="custom-btn btn-Rental notBack" type="submit" th:text="返却"></button>
 							</th:block>
 						</form>
-						<form th:action="@{/bookReturnRegister}" th:object="${form}" method="get">
-							<button class="custom-btn btn-Back notBack mt-3" type="submit" th:text="戻る"></button>
-						</form>
+						<button class="custom-btn btn-Back notBack" onclick="history.back()" th:text="戻る"></button>
 					</div>
 				</div>
 			</div>
