@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
 
 <head>
 	<meta charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+	<script src="/js/bookReturn/bookReturnToComplete.js" type="module"></script>
+	<script src="/js/bookReturn/bookReturnToCompleteEntry.js" type="module"></script>
+
+	<link th:href="@{/css/returnLayout/returnConfirmLayout.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -14,41 +20,48 @@
 					<div class="card-body" style="overflow: auto;">
 						<h3 class="card-title text-center text-navy" th:text="以下の本を返却します" style="margin-bottom: 0px;">
 						</h3>
-						<form th:action="@{/bookReturnComplete}" th:object="${form}" method="post">
-							<table class="table">
-								<thead class="tableTitleText">
-									<tr>
-										<th th:text=#{title}></th>
-										<th th:text=#{author}></th>
-										<th class="tabletNoneElement" th:text=#{genre}></th>
-										<th th:text=#{publisher}></th>
-										<th>返却期限</th>
-									</tr>
-								</thead>
-								<tbody class="tableBodyText">
-									<tr th:each="lending : ${lendingList}" th:object="${lending}">
-										<td th:text="*{book.bookNameId.title}"></td>
-										<td th:text="*{book.bookNameId.author}"></td>
-										<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
-										<td th:text="*{book.bookNameId.publisher}"></td>
-										<td th:text="*{returnDueDate}"></td>
-										<input type="hidden" name="checks" th:id="${lending.id}"
-											th:value="${lending.id}" th:checked="${form.checks.contains(lending.id)}" />
-										<label th:for="${lending.id}" class="checks"></label>
-									</tr>
-								</tbody>
-							</table>
-							<th:block th:if="${lendingList.size() != 0}">
-								<button class="custom-btn btn-Rental notBack" type="submit" th:text="返却"></button>
-							</th:block>
-						</form>
-						<button class="custom-btn btn-Back notBack" onclick="history.back()" th:text="戻る"></button>
+						<table class="table">
+							<thead class="tableTitleText">
+								<tr>
+									<th th:text=#{title}></th>
+									<th th:text=#{author}></th>
+									<th class="tabletNoneElement" th:text=#{genre}></th>
+									<th th:text=#{publisher}></th>
+									<th>返却期限</th>
+								</tr>
+							</thead>
+							<tbody class="tableBodyText">
+								<tr th:each="lending : ${lendingList}" th:object="${lending}">
+									<td th:text="*{book.bookNameId.title}"></td>
+									<td th:text="*{book.bookNameId.author}"></td>
+									<td class="tabletNoneElement" th:text="*{book.bookNameId.genre.name}"></td>
+									<td th:text="*{book.bookNameId.publisher}"></td>
+									<td th:text="*{returnDueDate}"></td>
+									<input type="hidden" name="checks" th:id="${lending.id}" th:value="${lending.id}"
+										th:checked="${form.checks.contains(lending.id)}" />
+									<label th:for="${lending.id}" class="checks"></label>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="returnButtonPosi">
+							<form th:action="@{/bookReturnComplete}" th:object="${form}" method="post">
+								<th:block th:if=" ${lendingList.size() !=0}">
+									<button class="custom-btn btn-Rental notBack buttonLayout" type="button"
+										th:text="返却" id="returnCompleteButton"></button>
+								</th:block>
+
+							</form>
+							<div>
+								<button class="custom-btn btn-Back notBack buttonLayout" onclick="history.back()"
+									th:text="戻る"></button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</main>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>
