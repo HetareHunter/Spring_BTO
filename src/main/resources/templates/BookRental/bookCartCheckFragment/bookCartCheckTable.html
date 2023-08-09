@@ -90,9 +90,6 @@
                                     <button class="custom-btn btn-CartIn notBack cartCheckButton" th:text="本を借りる"
                                         id="cartCheckButton" type="button"
                                         th:onclick="|changeRentalBookNum(${cartLendingList.size()})|"></button>
-                                    <!-- <form th:action="@{/bookRental}" method="get">
-									
-								</form> -->
                                 </th:block>
                                 <th:block th:if="${cartLendingList.size()} == 0">
                                     <form th:action="@{/bookRental}" method="get">

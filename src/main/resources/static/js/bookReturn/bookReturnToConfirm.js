@@ -6,7 +6,6 @@ export function returnToConfirm() {
       console.log('rentalCheckButton_Clicked');
       for (let i = 0; i < checks.length; i++) {
         if (checks[i].checked) {
-          console.log('チェックした本のID：' + checks[i].value);
           lendingIds.push(checks[i].value);
         }
       }
