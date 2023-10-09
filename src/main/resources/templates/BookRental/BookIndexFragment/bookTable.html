@@ -170,7 +170,6 @@
 								</div>
 							</div>
 							<div class="card-footer">
-								<p th:text="${book.id}"></p>
 								<div style="display:flex;gap: 0px 8px; ">
 									<!-- このif文で自身が対象の本を借りていない事かつ本の冊数が0でないことを判定している -->
 									<th:block th:if="${bookCountMap.get(book.title) > 0}">
