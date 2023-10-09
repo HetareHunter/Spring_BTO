@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BookNameRepository extends JpaRepository<BookName, Integer> {
   Optional<BookName> findByTitle(String title);
   //大文字小文字を区別せずに部分一致でタイトル検索をする。降順
-  ArrayList<BookName> findByTitleIgnoreCaseLikeOrderByTitle(String title);
+  ArrayList<BookName> findByTitleIgnoreCaseLikeOrderByTitleDesc(String title);
   ArrayList<BookName> findAllByOrderByTitle();
   ArrayList<BookName> findByNewNameTrue();
 }

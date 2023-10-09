@@ -50,26 +50,27 @@
 						<div class="card shadow bl_media_itemWrapper">
 							<div class=" card-body">
 								<div class="bl_media_item">
-									<p class="title" th:text="*{bookNameId.title}"></p>
+									<p class="title" th:text="*{title}"></p>
 									<div class="flex" style="overflow: hidden;">
 
-										<figure class="image"><img th:src="@{/images/{items} (items=*{bookNameId.img})}"
-												th:alt="*{bookNameId.title}">
+										<figure class="image"><img th:src="@{/images/{items} (items=*{img})}"
+												th:alt="*{title}">
 										</figure>
 										<div class="right">
 
 											<p class="elementTitle" th:text="#{author} + '
 											'"></p>
-											<p class="text" th:text="*{bookNameId.author}"></p>
+											<p class="text" th:text="*{author}"></p>
 											<p class="elementTitle" th:text="'本のジャンル'+'
 											'"></p>
-											<p class="text" th:text="*{bookNameId.genre.name}"></p>
+											<p class="text" th:text="*{genre.name}"></p>
 											<p class="elementTitle" th:text="#{publisher} + '
 											'"></p>
-											<p class="text" th:text="*{bookNameId.publisher}"></p>
+											<p class="text" th:text="*{publisher}"></p>
 											<div>
 												<p class="elementTitle" th:text="#{renralActivate}"></p>
-												<th:block th:if="*{lendable}">
+												<th:block
+													th:if="${bookCountMap.get(book.title) > 0 && lendingMap.get(book.title) == null}">
 													<p class="text" th:text="貸し出し可能"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +107,8 @@
 														</svg>
 													</div>
 												</th:block>
-												<th:block th:if="*{!lendable}">
+												<th:block
+													th:if="${bookCountMap.get(book.title) == 0 || lendingMap.get(book.title) != null}">
 													<p class="text" th:text="貸し出し不可"></p>
 													<div style='margin-left: 10px;'>
 														<svg xmlns="http://www.w3.org/2000/svg"
@@ -164,30 +166,60 @@
 											</div>
 										</div>
 									</div>
-									<p class="tableText" th:text="*{bookNameId.detail}"></p>
+									<p class="tableText" th:text="*{detail}"></p>
 								</div>
 							</div>
 							<div class="card-footer">
+								<p th:text="${book.id}"></p>
 								<div style="display:flex;gap: 0px 8px; ">
-									<th:block th:if="*{lendable}">
-										<div class="mr-10">
-											<div th:id="debug+${book.id}" th:name="*{lendable}"></div>
-											<form method="get" th:id="'book_cart_'+${book.Id}">
-												<button class="custom-btn btn-CartIn cartButtonSet_" type="button"
-													th:name="${book.id}" th:text="カートに入れる"
-													th:id="'cartButtonSet_'+${book.Id}"
-													th:onclick="changeCartBookNum(1);"></button>
-											</form>
-										</div>
+									<!-- このif文で自身が対象の本を借りていない事かつ本の冊数が0でないことを判定している -->
+									<th:block th:if="${bookCountMap.get(book.title) > 0}">
+										<th:block th:if="${lendingMap.get(book.title) == null}">
+											<div class="mr-10">
+												<div th:id="debug+${book.id}"
+													th:name="${bookCountMap.get(book.title) > 0}">
+												</div>
+												<form method="get" th:id="'book_cart_'+${book.Id}">
+													<!-- <label th:name="label+${book.id}" th:value=${bookList.size()}>
+												</label> -->
+													<button class="custom-btn btn-CartIn cartButtonSet_" type="button"
+														th:name="${book.id}" th:text="カートに入れる"
+														th:id="'cartButtonSet_'+${book.Id}"
+														th:onclick="changeCartBookNum(1);"></button>
+												</form>
+											</div>
+										</th:block>
+										<th:block th:if="${lendingMap.get(book.title) != null}">
+											<th:block th:if="${lendingMap.get(book.title).state == lendingState_CLOSE}">
+												<div class="mr-10">
+													<div th:id="debug+${book.id}"
+														th:name="${bookCountMap.get(book.title) > 0}">
+													</div>
+													<form method="get" th:id="'book_cart_'+${book.Id}">
+														<!-- <label th:name="label+${book.id}" th:value=${bookList.size()}>
+											</label> -->
+														<button class="custom-btn btn-CartIn cartButtonSet_"
+															type="button" th:name="${book.id}" th:text="カートに入れる"
+															th:id="'cartButtonSet_'+${book.Id}"
+															th:onclick="changeCartBookNum(1);"></button>
+													</form>
+												</div>
+											</th:block>
+										</th:block>
 									</th:block>
-									<th:block th:unless="*{lendable}">
-										<div class="mr-10">
-											<button class="custom-btn btn-CartIn" type="submit" th:text="カートに入れる"
-												disabled="disabled"></button>
-										</div>
+
+									<th:block
+										th:if="${bookCountMap.get(book.title) == 0 || lendingMap.get(book.title) != null}">
+										<th:block
+											th:if="${lendingMap.get(book.title).state == lendingState_CART || lendingMap.get(book.title).state == lendingState_RENTAL ||lendingMap.get(book.title).state == lendingState_RETURN}">
+											<div class="mr-10">
+												<button class="custom-btn btn-CartIn" type="submit" th:text="カートに入れる"
+													disabled="disabled"></button>
+											</div>
+										</th:block>
 									</th:block>
-									<th:block th:each="lend : ${cartLendingList}">
-										<th:block th:if="${lend.book.id == book.id}">
+									<th:block th:if="${lendingMap.get(book.title) != null}">
+										<th:block th:if="${lendingMap.get(book.title).state == lendingState_CART}">
 											<div class="mr-10">
 												<form method="get" th:id="'book_cartDelete_'+${book.Id}">
 													<button class="custom-btn btn-CartIn  book_cartDelete_"
@@ -197,6 +229,20 @@
 												</form>
 											</div>
 										</th:block>
+										<!-- ここでbook.lendableがtrueになるときは、対象の本について自分が借りていない場合となっているはず -->
+										<th:block
+											th:if="${lendingMap.get(book.title).state == lendingState_RENTAL || lendingMap.get(book.title).state == lendingState_RETURN || lendingMap.get(book.title).state == lendingState_CLOSE}">
+											<div class="mr-10">
+												<button class="custom-btn btn-CartIn" type="submit" th:text="カートから取り出す"
+													disabled="disabled"></button>
+											</div>
+										</th:block>
+									</th:block>
+									<th:block th:if="${lendingMap.get(book.title) == null}">
+										<div class="mr-10">
+											<button class="custom-btn btn-CartIn" type="submit" th:text="カートから取り出す"
+												disabled="disabled"></button>
+										</div>
 									</th:block>
 								</div>
 							</div>

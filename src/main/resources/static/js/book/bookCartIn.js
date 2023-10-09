@@ -8,7 +8,7 @@ export function cartIn() {
       console.log('book_cart_ ');
       e.preventDefault();
       var bookId = $(this).attr('name');
-      //本の貸し出しページから検索を書けた場合、差し替えテーブルのセレクタを使う。
+      //本の貸し出しページから検索をかけた場合、差し替えテーブルのセレクタを使う。
       //テーブルのみの差し替えの場合JavaでもaddAttributeが差し替え部分のみ
       //更新されるため
       var searchStr = $('#searchTableStr').attr('name');

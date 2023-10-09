@@ -32,8 +32,8 @@ public class BookRentalController {
   @Autowired private LendingRepository lendingRepository;
   @Autowired private LendingService lendingService;
   @Autowired private TopbarService topbarService;
-  @Autowired BookRegisterService bookRegisterService;
-  @Autowired UserLendingService userRegisterService;
+  @Autowired private BookRegisterService bookRegisterService;
+  @Autowired private UserLendingService userRegisterService;
   @Autowired private BookSearchService bookSearchService;
 
   /**
@@ -114,7 +114,7 @@ public class BookRentalController {
   }
 
   /**
-   * 選択した本をカートから取り出すときの処理。ajaxで呼び出される一部更新処理(カートに入っている本のテーブル)
+   * 選択した本をカートにいるページからカートから取り出すときの処理。ajaxで呼び出される一部更新処理(カートに入っている本のテーブル)
    * @param user
    * @param model
    * @param bookId カートに入れる本のID

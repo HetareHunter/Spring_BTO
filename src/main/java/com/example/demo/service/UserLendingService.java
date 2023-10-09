@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.Lending;
 import com.example.demo.model.User;
-import com.example.demo.repository.LendingRepository;
 import com.example.demo.repository.UserMngRepository;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,8 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserLendingService {
-  @Autowired UserMngRepository userRepository;
-  @Autowired LendingRepository lendingRepository;
+  @Autowired private UserMngRepository userRepository;
 
   /**
    * カートに入れたときのユーザーの貸し借り状態設定

@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class FormEntity {
-  List<Integer> checks = new ArrayList<Integer>();
+  private List<Integer> checks = new ArrayList<Integer>();
 }

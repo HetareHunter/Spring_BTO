@@ -103,23 +103,29 @@ public class DataLoader implements ApplicationRunner {
    */
   void bookInitRun() {
     var books = new ArrayList<Book>();
+    var bookId = 0;
     var bookNames = bookNameInitRun();
     for (BookName bookName : bookNames) {
       var book = new Book();
       book.setBookNameId(
           bookNameRepository.findByTitle(bookName.getTitle()).get());
-      // 同じ本の名前を参照する本(bookエンティティ)がある場合は飛ばす
-      if (!bookRepository.findByBookNameId(book.getBookNameId()).isEmpty()) {
-        System.out.println(bookName.getTitle() + " は同じ本が登録されています");
-        continue;
+      var bookStock =
+          bookRepository.findByBookNameId(book.getBookNameId()).size();
+      var booknameStock = bookName.getId();
+
+      // とりあえずテスト用に本の個数は本の名前のIDの数字の数だけあることとする
+      for (int i = 0; i < booknameStock - bookStock; i++) {
+        book.setId(bookId);
+        bookId++;
+        book.setActive(true);
+        book.setLendable(true);
+        book.setCreated_at(timestamp);
+        book.setUpdated_at(timestamp);
+        books.add(book);
       }
-      book.setActive(true);
-      book.setLendable(true);
-      book.setCreated_at(timestamp);
-      book.setUpdated_at(timestamp);
-      books.add(book);
+      bookRepository.saveAll(books);
+      books.clear();
     }
-    bookRepository.saveAll(books);
   }
 
   /**

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ScheduledTasks {
-  @Autowired WeatherService weatherService;
-  @Autowired WeatherRepository weatherrepository;
+  @Autowired private WeatherService weatherService;
+  @Autowired private WeatherRepository weatherrepository;
 
   /**
    * 天気情報を定期的に更新するメソッド。現在は10分間隔

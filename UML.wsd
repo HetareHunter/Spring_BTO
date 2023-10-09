@@ -1,0 +1,565 @@
+@startuml
+skinparam Linetype ortho
+top to bottom direction
+
+package "FormEntity" {
+class FormEntity {
+ - checks: List<Integer>
+}
+}
+
+card user {
+together {
+package "User" {
+class User {
+- id: int
+- first_name: String
+- last_name: String
+- email: String
+- password: String
+- role: Authority
+- lendings: List<Lending>
+- created_at: Timestamp
+- updated_at: Timestamp
+- name: String
+- admin: boolean
+}
+}
+
+enum Authority {
+ADMIN
+USER
+}
+}
+
+interface UserMngRepository {
+~ findByEmail(String email): Optional<User>
+}
+
+package "UserController" {
+class UserController {
+- userRepository: UserMngRepository
+- lendingRepository: LendingRepository
+- bookNameRepository: BookNameRepository
+- topbarService: TopbarService
+
++ mainSite(Authentication user, Model model,
+@ModelAttribute WeatherEntity weatherEntity): String
++ showAdminList(Model model): String
++ login(): String
++ logout(): String
++ getindex(Authentication user, Model model,
+@ModelAttribute WeatherEntity weatherEntity): String
++ postindex(Authentication user, Model model): String
+}
+}
+
+package "UserRegisterController" {
+class UserRegisterController {
+- userRepository: UserMngRepository
+- passwordEncoder: PasswordEncoder
+- errorUtil: ErrorUtil
+
++ register(@ModelAttribute User user, Model model): String
++ editUser(@PathVariable int id, Model model): String
++ deleteUser(@PathVariable int id, Authentication loginUser,
+Model model): String
++ confirm(@Validated @ModelAttribute User user,
+BindingResult result, Model model): String
++ alterConfirm(@Validated @ModelAttribute User user,
+BindingResult result, Model model): String
++ complete(@ModelAttribute User user): String
++ alterComplete(@ModelAttribute User user,
+Authentication loginUser, Model model): String
+}
+}
+
+package "SecurityConfig" {
+class SecurityConfig {
+
++ passwordEncoder(): PasswordEncoder
++ filterChain(HttpSecurity http): SecurityFilterChain
+}
+}
+
+together {
+interface UniqueLogin {
+  ~ String message()
+  ~ Class<?>[] groups()
+  ~ Class<?> extends Payload>[] payload()
+}
+
+package "UniqueLoginValidator" {
+class UniqueLoginValidator {
+
++ isValid(String value, ConstraintValidatorContext context): boolean
+}
+}
+}
+
+package "UserLendingService" {
+class UserLendingService {
+- userRepository: UserMngRepository
+
++ userSetCartLending(User user, Lending lend): User
++ userDeleteCartLending(User user, Lending lend): User
++ userSetRentalLending(User user, List<Lending> lendings): User
++ deleteAllLendingRelationship(): void
++ deleteLendingRelationship(User user, Lending lend): void
+}
+}
+
+}
+
+card book {
+package "Book" {
+class Book {
+- id: int
+- bookNameId: BookName
+- active: boolean
+- lendable: boolean
+- state: BookState
+- created_at: Timestamp
+- updated_at: Timestamp
+
+}
+}
+
+interface BookRepository {
+~ findById(int id): Optional<Book>
+~ findByBookNameId(BookName bookNameId): Optional<Book>
+~ findByState(BookState state): ArrayList<Book>
+}
+
+enum BookState {
+FREE
+CART
+RENTAL
+}
+}
+
+card bookName {
+
+package "BookName" {
+class BookName {
+- id: int
+- title: String
+- author: String
+- detail: String
+- publisher: String
+- genre: Genre
+- img: String
+- active: boolean
+- created_at: Timestamp
+- updated_at: Timestamp
+- newName: boolean
+}
+}
+
+interface BookNameRepository {
+~ findByTitle(String title): Optional<BookName>
+~ findByTitleIgnoreCaseLikeOrderByTitle(String title): ArrayList<BookName>
+~ findAllByOrderByTitle(): ArrayList<BookName>
+~ findByNewNameTrue(): ArrayList<BookName>
+}
+}
+
+card lending {
+package "Lending" {
+class Lending {
+- id: int
+- book: Book
+- user: User
+- lendDate: Date
+- returnDueDate: Date
+- returnDate: Date
+- overdueDate: int
+- LendingState: state
+- created_at: Timestamp
+- updated_at: Timestamp
+}
+}
+
+interface LendingRepository {
+~ findById(int id): Optional<Lending>
+~ findByBook(Book book): Optional<Lending>
+~ findByBookAndState(Book book, LendingState state): Optional<Lending>
+~ findByUser(User user): Optional<Lending>
+~ findListByUser(User user): List<Lending>
+~ findListByState(LendingState state): List<Lending>
+~ findListByUserAndState(User user, LendingState state): List<Lending>
+}
+
+package "LendingService" {
+class LendingService {
+- lendingRepository: LendingRepository
+- lendablePeriod: int
+- tempLendablePeriod: int
+- calendar: Calendar
++ setLendingCart(Book book, User user): Lending
++ setLendingRental(List<Lending> lendings): List<Lending>
++ setLendingReturn(List<Lending> lendings): List<Lending>
++ setLendingClose(List<Lending> lendings): List<Lending>
++ setLendingClose(Lending lend): Lending
++ deleteLending(int lendId): void
++ deleteAllLending(): void
+}
+}
+
+enum LendingState {
+CART
+RENTAL
+RETURN
+CLOSE
+}
+}
+
+card genre {
+package "Genre" {
+class Genre {
+- id: int
+- name: String
+- created_at: Timestamp
+- updated_at: Timestamp
+}
+}
+
+interface GenreRepository {
+~ findByName(String name): Optional<Genre>
+~ setQueryName(@Param("name") String name, @Param("id") int id): int
+}
+}
+
+card weather {
+package "WeatherEntity" {
+class WeatherEntity {
+- id: int
+- date: LocalDateTime
+- dateStr: String
+- weatherType: String
+- weatherdescription: String
+- humidity: String
+- temperature: String
+- maxTemperature: String
+- minTemperature: String
+}
+}
+
+package "WeatherService" {
+class WeatherService {
++ setWeatherInfo(WeatherEntity weatherEntity): WeatherEntity
+}
+}
+
+interface WeatherRepository {
+~ findByDate(LocalDateTime date): Optional<WeatherEntity>
+}
+}
+
+
+together {
+package "BookIndexController" {
+class BookIndexController {
+- bookRepository: BookRepository
+- bookNameRepository: BookNameRepository
+- userRepository: UserMngRepository
+- lendingRepository: LendingRepository
+- lendingService: LendingService
+- bookRegisterService: BookRegisterService
+- userRegisterService: UserLendingService
+- bookSearchService: BookSearchService
+- topbarService: TopbarService
+
++ getBookIndex(Authentication user, Model model): String
++ getSearchBook(Authentication user, Model model,
+@RequestParam("searchStr") String searchStr): String
++ getSearchBookAnotherPage(Authentication user, Model model,
+@RequestParam("searchStr") String searchStr): String
++ getTempLendingBook(Authentication user, Model model,
+@RequestParam("bookId") String bookId,
+@RequestParam("searchStr") String searchStr): String
++ getDeleteTempLendingBook(Authentication user, Model model,
+@RequestParam("bookId") String bookId,
+@RequestParam("searchStr") String searchStr): String
++ getBookCartConfirm(Authentication user, Model model): String
++ getBookRentalConfirm(Authentication user, Model model,
+@ModelAttribute("form") FormEntity form): String
++ getDeleteLending(Authentication user, Model model): String
++ getBookAdminMain(Authentication user, Model model): String
+}
+}
+
+package "BookRentalController" {
+class BookRentalController {
+- bookRepository: BookRepository
+- userRepository: UserMngRepository
+- lendingRepository: LendingRepository
+- lendingService: LendingService
+- topbarService: TopbarService
+- bookSearchService: BookSearchService
+- bookRegisterService: BookRegisterService
+- userRegisterService: UserLendingService
+
++ getBookRentalConfirm(Authentication user,
+@ModelAttribute Book book, Model model): String
++ getBookRentalComplete(Authentication user, Model model): String
++ getBookRentalCompleteAjax(Authentication user, Model model): String
++ getDeleteTempLendingBook(Authentication user, Model model,
+@RequestParam("bookId") String bookId): String
+}
+}
+
+package "BookReturnController" {
+class BookReturnController {
+- lendingRepository: LendingRepository
+- userRepository: UserMngRepository
+- lendingService: LendingService
+- userRegisterService: UserLendingService
+
++ getBookReturnRegister(Authentication user,
+@RequestParam("lendingIds")String[] lendingIds, Model model): String
++ postBookReturnConfirm(Authentication user,
+@ModelAttribute("form") FormEntity form,Model model): String
++ postBookReturnComplete(Authentication user,
+@ModelAttribute("form") FormEntity form,Model model): String
+}
+}
+}
+
+package "BookSearchService" {
+class BookSearchService {
+- bookRepository: BookRepository
+- bookNameRepository: BookNameRepository
+- userRepository: UserMngRepository
+- lendingRepository: LendingRepository
+- lendingService: LendingService
+- bookRegisterService: BookRegisterService
+- userRegisterService: UserLendingService
+
++ setSearchBookModel(Model model, String searchStr): void
++ findByTitleBookLike(String searchStr): ArrayList<Book>
++ setLendingModel(Authentication user, Model model,
+ArrayList<Book> books, String searchStr): void
++ setCartLendingModel(Authentication user, Model model): void
++ setLendingCartBook(Authentication user, String bookId): String
++ deleteLendingCartBook(Authentication user, String bookId): void
+}
+
+}
+package "BookRegisterController" {
+class BookRegisterController {
+- bookNameRepository: BookNameRepository
+- genreRepository: GenreRepository
+- bookRegisterService: BookRegisterService
+- errorUtil: ErrorUtil
+
++ getBookRegister(@ModelAttribute BookName bookName,
+@ModelAttribute Book book, Model model): String
++ postBookConfirm(Stri@Validated @ModelAttribute BookName bookName,
+@ModelAttribute Book book, BindingResult result,
+Model modelng): String
++ complete(Authentication user, @ModelAttribute BookName bookName,
+@ModelAttribute Book book, Model model): String
+}
+}
+
+package "AppConfig" {
+class AppConfig {
++ bookSelected(): Map<Integer, Integer>
+}
+}
+
+together {
+package "DataLoader" {
+class DataLoader {
+- fileLoader: FileLoader
+- PasswordEncoder: passwordEncoder
+- UserMngRepository: userMngRepository
+- BookRepository: bookRepository
+- BookNameRepository: bookNameRepository
+- GenreRepository: genreRepository
+- Timestamp: timestamp
+
++ run(ApplicationArguments args): void
+- bookInitRun(): void
+- bookNameInitRun(): List<BookName>
+- genreInitRun(): void
+- CSVLoader(Resource filePath): List<String>
+- removeSpaces(String input): String
+}
+}
+
+package "FileLoader" {
+class FileLoader {
+- resourceLoader: ResourceLoader
++ load(String fileName): Resource
+}
+}
+}
+
+package "BookRegisterService" {
+class BookRegisterService {
+- bookRepository: BookRepository
+- bookNameRepository: BookNameRepository
+
++ bookSave(Book book, BookName bookName): void
++ bookLendableChange(Book book, boolean lendable, BookState state): void
++ bookCartSave(Book book): void
++ bookRentalSave(Book book): void
++ bookReturnSave(Book book): void
++ bookAllLendableChange(boolean lendable): void
+}
+}
+
+package "ErrorUtil" {
+class ErrorUtil {
++ addAllErrors(BindingResult result): String
++ isOnlyEmailError(BindingResult result): boolean
++ printErrorLog(BindingResult result): void
+}
+}
+
+package "BookAdminController" {
+class BookAdminController {
+- bookRepository: BookRepository
+- lendingRepository: LendingRepository
+- lendingService: LendingService
+- bookRegisterService: BookRegisterService
+- userRegisterService: UserLendingService
+- topbarService: TopbarService
+
++ getBookLendingAdmin(Authentication user, Model model): String
++ getLendingClose(@PathVariable int lendId): String
+}
+}
+
+package "TopbarService" {
+class TopbarService {
+- userRepository: UserMngRepository
+- lendingRepository: LendingRepository
+- weatherRepository: WeatherRepository
+
++ setTopbarModel(Authentication user, Model model): void
+}
+}
+
+package "ScheduledTasks" {
+class ScheduledTasks {
+- weatherService: WeatherService
+- weatherrepository: WeatherRepository
+
++ updateWeatherInfo(): void
+}
+}
+
+package "SpringPcBtoApplication" {
+class SpringPcBtoApplication {
++ main(String[] args): void
++ run(ApplicationArguments args): void
+}
+}
+
+
+Book <|- BookRepository
+BookState - Book
+BookState -- BookRepository
+
+Genre <|- GenreRepository
+
+Lending <|- LendingRepository
+LendingState -- LendingRepository
+LendingState - Lending
+LendingState --- LendingService
+
+User <|- UserMngRepository
+
+BookName <|- BookNameRepository
+
+FormEntity <... BookIndexController
+BookNameRepository <.. BookIndexController
+BookRepository <.. BookIndexController
+LendingRepository <... BookIndexController
+UserMngRepository <... BookIndexController
+BookSearchService <.. BookIndexController
+LendingService <.. BookIndexController
+TopbarService <... BookIndexController
+UserLendingService <... BookIndexController
+
+BookNameRepository <... BookRegisterController
+GenreRepository <.... BookRegisterController
+BookRegisterService <.... BookRegisterController
+
+ErrorUtil <... UserRegisterController
+
+BookRepository <... BookRentalController
+LendingRepository <... BookRentalController
+UserMngRepository <... BookRentalController
+BookSearchService <... BookRentalController
+LendingService <... BookRentalController
+TopbarService <.... BookRentalController
+UserLendingService <... BookRentalController
+BookRegisterService <... BookRentalController
+UserLendingService <... BookRentalController
+
+FormEntity <... BookReturnController
+LendingRepository <.... BookReturnController
+UserMngRepository <.... BookReturnController
+LendingService <.... BookReturnController
+
+BookAdminController ....> UserMngRepository
+BookAdminController ...> BookRepository
+BookAdminController ....> LendingRepository
+BookAdminController ....> LendingService
+BookAdminController ...> BookRegisterService
+BookAdminController ....> UserLendingService
+BookAdminController ....> TopbarService
+
+BookNameRepository <..... UserController
+LendingRepository <..... UserController
+UserMngRepository <... UserController
+TopbarService <..... UserController
+
+UserMngRepository <... UserRegisterController
+ErrorUtil <.... UserRegisterController
+
+WeatherEntity <|- WeatherRepository
+WeatherRepository <.. ScheduledTasks
+WeatherRepository <.. WeatherService
+WeatherService <.. ScheduledTasks
+
+FileLoader <. DataLoader
+UserMngRepository <..... DataLoader
+BookRepository <..... DataLoader
+BookNameRepository <..... DataLoader
+GenreRepository <..... DataLoader
+Book <..... DataLoader
+BookName <..... DataLoader
+Genre <..... DataLoader
+User <..... DataLoader
+
+BookNameRepository <.... BookRegisterService
+BookRepository <.... BookRegisterService
+
+BookNameRepository <... BookSearchService
+BookRepository <... BookSearchService
+LendingRepository <.... BookSearchService
+LendingService <.... BookSearchService
+UserMngRepository <.... BookSearchService
+BookRegisterService <.... BookSearchService
+UserLendingService <.... BookSearchService
+
+LendingRepository <.. LendingService
+
+LendingRepository <..... TopbarService
+UserMngRepository <..... TopbarService
+WeatherRepository <..... TopbarService
+
+UserMngRepository <... UserLendingService
+
+UserMngRepository <... UniqueLoginValidator
+UniqueLogin <. UniqueLoginValidator
+
+Authority -- SecurityConfig
+Authority - User
+
+@enduml

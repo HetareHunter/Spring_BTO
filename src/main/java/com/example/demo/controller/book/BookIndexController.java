@@ -1,6 +1,7 @@
 package com.example.demo.controller.book;
 
 import com.example.demo.model.FormEntity;
+import com.example.demo.model.Lending;
 import com.example.demo.repository.BookNameRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.LendingRepository;
@@ -12,11 +13,13 @@ import com.example.demo.service.TopbarService;
 import com.example.demo.service.UserLendingService;
 import com.example.demo.util.BookState;
 import com.example.demo.util.LendingState;
+import java.util.LinkedHashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,8 +47,9 @@ public class BookIndexController {
    * @return
    */
   @GetMapping("/bookIndex")
-  public String getBookIndex(Authentication user, Model model) {
-    bookSearchService.setSearchBookModel(model, "");
+  public String getBookIndex(Authentication user, Model model,
+                             ModelMap modelMap) {
+    bookSearchService.setSearchBookModel(model, modelMap, "");
     topbarService.setTopbarModel(user, model);
 
     return "BookRental/bookIndex";
@@ -60,8 +64,9 @@ public class BookIndexController {
    */
   @GetMapping("/bookIndex_setSearch")
   public String getSearchBook(Authentication user, Model model,
+                              ModelMap modelMap,
                               @RequestParam("searchStr") String searchStr) {
-    bookSearchService.setSearchBookModel(model, searchStr);
+    bookSearchService.setSearchBookModel(model, modelMap, searchStr);
     topbarService.setTopbarModel(user, model);
 
     System.out.println(
@@ -78,9 +83,9 @@ public class BookIndexController {
    */
   @GetMapping("/bookIndex_setSearchAnotherPage")
   public String
-  getSearchBookAnotherPage(Authentication user, Model model,
+  getSearchBookAnotherPage(Authentication user, Model model, ModelMap modelMap,
                            @RequestParam("searchStr") String searchStr) {
-    bookSearchService.setSearchBookModel(model, searchStr);
+    bookSearchService.setSearchBookModel(model, modelMap, searchStr);
     topbarService.setTopbarModel(user, model);
 
     System.out.println(
@@ -99,19 +104,32 @@ public class BookIndexController {
    */
   @GetMapping("/bookIndex_setLending")
   public String
-  getTempLendingBook(Authentication user, Model model,
+  getTempLendingBook(Authentication user, Model model, ModelMap modelmap,
                      @RequestParam("bookId") String bookId,
                      @RequestParam("searchStr") String searchStr) {
     System.out.println("本のID：" + bookId);
 
-    var books = bookSearchService.findByTitleBookLike(searchStr);
+    // 検索情報の保持
+    var bookSearchName = bookSearchService.findByTitleBookLike(searchStr);
+
+    var cartBookName =
+        bookNameRepository.findById(Integer.parseInt(bookId)).get();
+    // 借りる対象の本が0でないとき、カートに追加できるようにする。他人と同時にカートを入れても対応できるように
+    var cartInBook =
+        bookRepository.findTopByBookNameIdAndState(cartBookName, BookState.FREE)
+            .get();
+    Integer bookIntegerId = cartInBook.getId();
+
     // 戻り値が空でない場合は後の処理を行わずそのまま本のテーブルを返す
-    var returnStr = bookSearchService.setLendingCartBook(user, bookId);
+    var returnStr =
+        bookSearchService.setLendingCartBook(user, bookIntegerId.toString());
     if (!returnStr.equals("")) {
       System.out.println("returnStr：" + returnStr);
       return returnStr;
     }
-    bookSearchService.setLendingModel(user, model, books, searchStr);
+
+    bookSearchService.setLendingModel(user, model, modelmap, bookSearchName,
+                                      searchStr);
     System.out.println("bookIndex_setLending の searchStr : " + searchStr);
     System.out.println(
         "javaのcontrollerクラス側は /bookIndex_setLending にて更新完了");
@@ -129,13 +147,24 @@ public class BookIndexController {
    */
   @GetMapping("/bookIndex_deleteLending")
   public String
-  getDeleteTempLendingBook(Authentication user, Model model,
+  getDeleteTempLendingBook(Authentication user, Model model, ModelMap modelmap,
                            @RequestParam("bookId") String bookId,
                            @RequestParam("searchStr") String searchStr) {
     System.out.println("bookIndex_deleteLending");
-    var books = bookSearchService.findByTitleBookLike(searchStr);
-    bookSearchService.deleteLendingCartBook(user, bookId);
-    bookSearchService.setLendingModel(user, model, books, searchStr);
+    // 検索情報の保持
+    var bookSearchName = bookSearchService.findByTitleBookLike(searchStr);
+
+    var cartDeleteBookName =
+        bookNameRepository.findById(Integer.parseInt(bookId)).get();
+    // ユーザーの貸し借り状況を照会して本の名前で借りた本を検索している。非効率なので後で修正したい
+    var lendingList = new LinkedHashMap<String, Lending>();
+    lendingList = bookSearchService.setAllLendingList(lendingList);
+    var cartDeleteBook = lendingList.get(cartDeleteBookName.getTitle());
+    Integer bookIntegerId = cartDeleteBook.getBook().getId();
+
+    bookSearchService.deleteLendingCartBook(user, bookIntegerId.toString());
+    bookSearchService.setLendingModel(user, model, modelmap, bookSearchName,
+                                      searchStr);
     return "BookRental/BookIndexFragment/bookTable :: tableReload";
   }
 
