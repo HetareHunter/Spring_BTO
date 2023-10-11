@@ -56,7 +56,7 @@ public class BookSearchService {
       System.out.println("bookListの本は1つも入ってない");
     }
 
-    // 各本の名前毎に数を数える
+    // 各本の名前毎に在庫を数える
     var bookCount = new LinkedHashMap<String, Integer>();
     bookCount = allBookCounter(bookCount);
 
@@ -85,11 +85,13 @@ public class BookSearchService {
    */
   public LinkedHashMap<String, Integer>
   bookCounter(LinkedHashMap<String, Integer> bookCount, String bookTitle) {
-    bookCount.put(
-        bookTitle,
-        bookRepository
-            .findByBookNameId(bookNameRepository.findByTitle(bookTitle).get())
-            .size());
+    var bookArray = bookRepository.findByBookNameIdAndState(
+        bookNameRepository.findByTitle(bookTitle).get(), BookState.FREE);
+    int bookCountNum = 0;
+    if (bookArray != null)
+      bookCountNum = bookArray.size();
+
+    bookCount.put(bookTitle, bookCountNum);
     return bookCount;
   }
 
@@ -111,7 +113,7 @@ public class BookSearchService {
   }
 
   /**
-   * ユーザーの借りている本のMapを作成する
+   * ログインユーザーの借りている本のMapを作成する
    * @param lendingList
    * @return
    */

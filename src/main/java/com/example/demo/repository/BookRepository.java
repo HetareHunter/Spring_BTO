@@ -17,4 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
   ArrayList<Book> findByState(BookState state);
   Optional<Book> findTopByBookNameIdAndState(BookName bookNameId,
                                              BookState state);
+  ArrayList<Book> findByBookNameIdAndState(BookName bookNameId,
+                                           BookState state);
 }
